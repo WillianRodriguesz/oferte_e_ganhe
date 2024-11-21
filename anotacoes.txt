@@ -9,3 +9,7 @@ npm i nodemon
 Dependências a serem instaladas para conexão com o banco de dados.
 
 npm install pg
+
+npm install express jsonwebtoken body-parser
+
+npm install bcrypt

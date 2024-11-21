@@ -1,10 +1,8 @@
 const express = require('express');
-const path = require('path');
 const router = express.Router();
+const loginController = require('../controllers/loginController');
 
-
-router.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, '../../frontend/public/login.html'));
-});
+// Rota para autenticação
+router.post('/login', loginController.autenticarUsuario);
 
 module.exports = router;

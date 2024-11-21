@@ -1,6 +1,7 @@
 const pool = require('../config/database');
+const bcrypt = require('bcrypt');
 
-// Função para inserir um novo usuário
+// Função para inserir um novo usuário com senha criptografada
 async function inserirUsuario(nome, matricula, email, senha, perfil) {
     const query = `
         INSERT INTO usuarios (nome, matricula, email, senha, perfil)
@@ -8,10 +9,12 @@ async function inserirUsuario(nome, matricula, email, senha, perfil) {
         RETURNING *;
     `;
 
-    const valores = [nome, matricula, email, senha, perfil];
-
     try {
+        // Gera o hash da senha 
+        const senhaCriptografada = await bcrypt.hash(senha, 10);
+        const valores = [nome, matricula, email, senhaCriptografada, perfil];
         const usuario = await pool.query(query, valores);
+
         return usuario.rows[0]; // Retorna o usuário inserido
     } catch (erro) {
         console.error('Erro ao inserir usuário:', erro);
@@ -21,7 +24,7 @@ async function inserirUsuario(nome, matricula, email, senha, perfil) {
 
 async function obterUsuarios(){
     const query = `
-        SELECT * FROM Usuarios
+        SELECT * FROM usuarios
     `;
 
     try {
