@@ -16,7 +16,7 @@ function authenticateToken(req, res, next) {
             if (erro.name == 'TokenExpiredError') {
                 return res.status(401).json({ erro: 'Token expirado!' }); 
             }
-            // Se for qualquer outro erro, trata como um erro de token inválido
+            // Tratamento como um erro de token inválido
             return res.status(403).json({ erro: 'Token inválido!' }); 
         }
 

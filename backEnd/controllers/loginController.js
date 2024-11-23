@@ -34,4 +34,15 @@ const autenticarUsuario = async (req, res) => {
     }
 };
 
-module.exports = { autenticarUsuario };
+const logoutUsuario = (req, res) => {
+    try {
+        // Remove o cookie auth_token
+        res.clearCookie('auth_token');
+        res.status(200).json({ mensagem: 'Logout realizado com sucesso!' });
+    } catch (erro) {
+        console.error('Erro ao realizar logout:', erro);
+        res.status(500).json({ erro: 'Erro no servidor' });
+    }
+};
+
+module.exports = { autenticarUsuario, logoutUsuario };
