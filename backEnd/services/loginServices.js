@@ -1,25 +1,32 @@
-const pool = require('../config/database'); 
-const bcrypt = require('bcrypt'); 
+const Usuario = require('../models/userModel'); // Certifique-se de que o caminho está correto
+const bcrypt = require('bcrypt');
 
 // Função para validar o usuário
 async function validarUsuario(email, senha) {
-    const query = 'SELECT * FROM usuarios WHERE email = $1'; 
     try {
-        const resultado = await pool.query(query, [email]);
-        
-        if (resultado.rows.length == 0) {
+        // Encontrando o usuário pelo email
+        const usuario = await Usuario.findOne({
+            where: { email: email }
+        });
+
+        // Se o usuário não existir, retorna null
+        if (!usuario) {
             return null;
         }
-        const usuario = resultado.rows[0];
+
+        // Compara a senha fornecida com a senha armazenada no banco
         const senhaValida = await bcrypt.compare(senha, usuario.senha);
-        
+
+        // Se a senha for inválida, retorna null
         if (!senhaValida) {
             return null;
         }
+
+        // Retorna os dados do usuário
         return {
             matricula: usuario.matricula,
             nome: usuario.nome,
-            perfil: usuario.perfil, 
+            perfil: usuario.perfil,
         };
     } catch (erro) {
         console.error('Erro ao validar usuário:', erro);
