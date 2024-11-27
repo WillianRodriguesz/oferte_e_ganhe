@@ -17,7 +17,7 @@ const autenticarUsuario = async (req, res) => {
         const token = jwt.sign(
             { matricula: usuario.matricula, nome: usuario.nome, perfil: usuario.perfil },
             JWT_SECRET_KEY,
-            { expiresIn: '1h' }
+            { expiresIn: '12h' }
         );
 
         // Configura o token no cookie

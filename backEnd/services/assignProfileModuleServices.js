@@ -1,17 +1,12 @@
-const pool = require('../config/database');
+const PerfilModulos = require('../models/assignProfileModuleModel');
+const Perfil = require('../models/profileModel');
+const Modulos = require('../models/moduleModel');
 
 // Função para associar um perfil a um módulo
 async function associarPerfilModulo(perfil_id, modulo_id) {
-    const query = `
-        INSERT INTO perfilmodulos (perfil_id, modulo_id)
-        VALUES ($1, $2)
-        RETURNING *;
-    `;
-    const valores = [perfil_id, modulo_id];
-    
     try {
-        const resultado = await pool.query(query, valores);
-        return resultado.rows[0];
+        const associacao = await PerfilModulos.create({ perfil_id, modulo_id });
+        return associacao;
     } catch (erro) {
         console.error('Erro ao associar perfil ao módulo:', erro);
         throw erro;
@@ -20,11 +15,14 @@ async function associarPerfilModulo(perfil_id, modulo_id) {
 
 // Função para obter todas as associações de perfis a módulos
 async function buscaTodosPerfisModulos() {
-    const query = 'SELECT * FROM perfilmodulos';
-    
     try {
-        const resultado = await pool.query(query);
-        return resultado.rows;
+        const associacoes = await PerfilModulos.findAll({
+            include: [
+                { model: Perfil, attributes: ['funcao'] }, 
+                { model: Modulos, attributes: ['nome'] } 
+            ]
+        });
+        return associacoes;
     } catch (erro) {
         console.error('Erro ao obter associações de perfis a módulos:', erro);
         throw erro;
@@ -33,11 +31,15 @@ async function buscaTodosPerfisModulos() {
 
 // Função para obter uma associação de perfil a módulo por ID
 async function buscaPerfilModuloId(id) {
-    const query = 'SELECT * FROM perfilmodulos WHERE id = $1';
-    
     try {
-        const resultado = await pool.query(query, [id]);
-        return resultado.rows.length > 0 ? resultado.rows[0] : null;
+        const associacao = await PerfilModulos.findOne({
+            where: { id },
+            include: [
+                { model: Perfil, attributes: ['funcao'] },
+                { model: Modulos, attributes: ['nome'] }
+            ]
+        });
+        return associacao;
     } catch (erro) {
         console.error('Erro ao obter associação de perfil a módulo por ID:', erro);
         throw erro;
@@ -46,15 +48,24 @@ async function buscaPerfilModuloId(id) {
 
 // Função para excluir uma associação de perfil a módulo
 async function excluirPerfilModulo(id) {
-    const query = 'DELETE FROM perfilmodulos WHERE id = $1 RETURNING *;';
-    
     try {
-        const resultado = await pool.query(query, [id]);
-        return resultado.rows.length > 0 ? resultado.rows[0] : null;
+        const associacao = await PerfilModulos.findOne({
+            where: { id }
+        });
+
+        if (!associacao) return null;
+
+        await associacao.destroy();
+        return associacao;
     } catch (erro) {
         console.error('Erro ao excluir associação de perfil a módulo:', erro);
         throw erro;
     }
 }
 
-module.exports = {associarPerfilModulo, buscaTodosPerfisModulos, buscaPerfilModuloId, excluirPerfilModulo};
+module.exports = {
+    associarPerfilModulo,
+    buscaTodosPerfisModulos,
+    buscaPerfilModuloId,
+    excluirPerfilModulo
+};
