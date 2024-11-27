@@ -1,81 +1,85 @@
-const pool = require('../config/database');
+const Loja = require('../models/storeModel');
 
-//Função para inserir loja
+// Função para inserir uma nova loja
 async function inserirLoja(cod_unidade, id_estoque, logradouro, matriz) {
-    const query = `
-        INSERT INTO loja (cod_unidade, id_estoque, logradouro, matriz)
-        VALUES ($1, $2, $3, $4)
-        RETURNING *;
-    `;
-
-    const valores = [cod_unidade, id_estoque, logradouro, matriz];
-
     try {
-        const loja = await pool.query(query, valores);
-        return loja.rows[0]; // Retorna o usuário inserido
+        const loja = await Loja.create({ cod_unidade, id_estoque, logradouro, matriz });
+        return loja;
     } catch (erro) {
-        console.error('Erro ao inserir usuário:', erro);
+        console.error('Erro ao inserir loja:', erro);
         throw erro;
     }
 }
 
+// Função para obter todas as lojas
 async function obterTodasLojas() {
-    const query = 'SELECT * FROM loja';
-
     try {
-        const lojas = await pool.query(query);
-        return lojas.rows; 
+        const lojas = await Loja.findAll();
+        return lojas;
     } catch (erro) {
         console.error('Erro ao obter lojas:', erro);
         throw erro;
     }
 }
 
+// Função para obter uma loja por código de unidade
 async function obterLojaId(id) {
-    const query = 'SELECT * FROM loja WHERE cod_unidade = $1';
-
     try {
-        const loja = await pool.query(query, [id]);
-        return loja.rows.length > 0 ? loja.rows[0] : null; 
+        const loja = await Loja.findOne({
+            where: { cod_unidade: id }
+        });
+        return loja;
     } catch (erro) {
         console.error('Erro ao obter loja por ID:', erro);
         throw erro;
     }
 }
 
+// Função para atualizar uma loja
 async function atualizarLoja(id, cod_unidade, id_estoque, logradouro, matriz) {
-    const query = `
-        UPDATE loja
-        SET cod_unidade = $2, id_estoque = $3, logradouro = $4, matriz = $5
-        WHERE cod_unidade = $1
-        RETURNING *;
-    `;
-
-    const valores = [id, cod_unidade, id_estoque, logradouro, matriz];
-
     try {
-        const loja = await pool.query(query, valores);
-        return loja.rows.length > 0 ? loja.rows[0] : null;  
+        const loja = await Loja.findOne({
+            where: { cod_unidade: id }
+        });
+
+        if (!loja) return null;
+
+        loja.cod_unidade = cod_unidade;
+        loja.id_estoque = id_estoque;
+        loja.logradouro = logradouro;
+        loja.matriz = matriz;
+
+        await loja.save(); // Salva as alterações no banco
+
+        return loja;
     } catch (erro) {
         console.error('Erro ao atualizar loja:', erro);
         throw erro;
     }
 }
 
+// Função para excluir uma loja
 async function excluirLoja(id) {
-    const query = `
-        DELETE FROM loja WHERE cod_unidade = $1 RETURNING *;
-    `;
-    
     try {
-        const loja = await pool.query(query, [id]);
-        return loja.rows.length > 0 ? loja.rows[0] : null;
+        const loja = await Loja.findOne({
+            where: { cod_unidade: id }
+        });
+
+        if (!loja) return null;
+
+        await loja.destroy(); // Remove a loja do banco
+
+        return loja;
     } catch (erro) {
         console.error('Erro ao excluir loja:', erro);
         throw erro;
     }
 }
 
-
-
-module.exports = {inserirLoja, obterTodasLojas, obterLojaId, atualizarLoja, excluirLoja};
+module.exports = {
+    inserirLoja,
+    obterTodasLojas,
+    obterLojaId,
+    atualizarLoja,
+    excluirLoja
+};

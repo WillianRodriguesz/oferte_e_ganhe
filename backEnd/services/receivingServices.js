@@ -1,16 +1,10 @@
-const pool = require('../config/database');
+const LogRecebimento = require('../models/receivingModel');
 
 // Função para inserir um novo log de recebimento
 async function inserirLogRecebimento(data_recebimento, talao, observacao) {
-    const query = `
-        INSERT INTO logrecebimento (data_recebimento, talao, observacao)
-        VALUES ($1, $2, $3)
-        RETURNING *;
-    `;
-    const valores = [data_recebimento, talao, observacao];
     try {
-        const resultado = await pool.query(query, valores);
-        return resultado.rows[0];
+        const logRecebimento = await LogRecebimento.create({ data_recebimento, talao, observacao });
+        return logRecebimento;
     } catch (erro) {
         console.error('Erro ao inserir log de recebimento:', erro);
         throw erro;
@@ -19,10 +13,9 @@ async function inserirLogRecebimento(data_recebimento, talao, observacao) {
 
 // Função para obter todos os logs de recebimento
 async function obterTodosLogsRecebimento() {
-    const query = 'SELECT * FROM logrecebimento';
     try {
-        const resultado = await pool.query(query);
-        return resultado.rows;
+        const logsRecebimento = await LogRecebimento.findAll();
+        return logsRecebimento;
     } catch (erro) {
         console.error('Erro ao obter logs de recebimento:', erro);
         throw erro;
@@ -31,10 +24,11 @@ async function obterTodosLogsRecebimento() {
 
 // Função para obter um log de recebimento por ID
 async function obterLogRecebimentoPorId(id) {
-    const query = 'SELECT * FROM logrecebimento WHERE id = $1';
     try {
-        const resultado = await pool.query(query, [id]);
-        return resultado.rows.length > 0 ? resultado.rows[0] : null;
+        const logRecebimento = await LogRecebimento.findOne({
+            where: { id }
+        });
+        return logRecebimento;
     } catch (erro) {
         console.error('Erro ao obter log de recebimento por ID:', erro);
         throw erro;
@@ -43,16 +37,19 @@ async function obterLogRecebimentoPorId(id) {
 
 // Função para atualizar um log de recebimento
 async function atualizarLogRecebimento(id, data_recebimento, talao, observacao) {
-    const query = `
-        UPDATE logrecebimento
-        SET data_recebimento = $2, talao = $3, observacao = $4
-        WHERE id = $1
-        RETURNING *;
-    `;
-    const valores = [id, data_recebimento, talao, observacao];
     try {
-        const resultado = await pool.query(query, valores);
-        return resultado.rows.length > 0 ? resultado.rows[0] : null;
+        const logRecebimento = await LogRecebimento.findOne({
+            where: { id }
+        });
+
+        if (!logRecebimento) return null;
+
+        logRecebimento.data_recebimento = data_recebimento;
+        logRecebimento.talao = talao;
+        logRecebimento.observacao = observacao;
+        await logRecebimento.save(); // Salva as alterações no banco
+
+        return logRecebimento;
     } catch (erro) {
         console.error('Erro ao atualizar log de recebimento:', erro);
         throw erro;
@@ -61,14 +58,26 @@ async function atualizarLogRecebimento(id, data_recebimento, talao, observacao) 
 
 // Função para excluir um log de recebimento
 async function excluirLogRecebimento(id) {
-    const query = 'DELETE FROM logrecebimento WHERE id = $1 RETURNING *;';
     try {
-        const resultado = await pool.query(query, [id]);
-        return resultado.rows.length > 0 ? resultado.rows[0] : null;
+        const logRecebimento = await LogRecebimento.findOne({
+            where: { id }
+        });
+
+        if (!logRecebimento) return null;
+
+        await logRecebimento.destroy(); // Remove o registro do banco
+
+        return logRecebimento;
     } catch (erro) {
         console.error('Erro ao excluir log de recebimento:', erro);
         throw erro;
     }
 }
 
-module.exports = {inserirLogRecebimento, obterTodosLogsRecebimento, obterLogRecebimentoPorId, atualizarLogRecebimento, excluirLogRecebimento};
+module.exports = {
+    inserirLogRecebimento,
+    obterTodosLogsRecebimento,
+    obterLogRecebimentoPorId,
+    atualizarLogRecebimento,
+    excluirLogRecebimento
+};

@@ -1,17 +1,10 @@
-const pool = require('../config/database');
+const Modulos = require('../models/moduleModel');
 
 // Função para inserir um novo módulo
 async function inserirModulo(nome) {
-    const query = `
-        INSERT INTO modulos (nome)
-        VALUES ($1)
-        RETURNING *;
-    `;
-    const valores = [nome];
-    
     try {
-        const resultado = await pool.query(query, valores);
-        return resultado.rows[0];
+        const modulo = await Modulos.create({ nome });
+        return modulo;
     } catch (erro) {
         console.error('Erro ao inserir módulo:', erro);
         throw erro;
@@ -20,11 +13,9 @@ async function inserirModulo(nome) {
 
 // Função para obter todos os módulos
 async function buscaTodosModulos() {
-    const query = 'SELECT * FROM modulos';
-    
     try {
-        const resultado = await pool.query(query);
-        return resultado.rows;
+        const modulos = await Modulos.findAll();
+        return modulos;
     } catch (erro) {
         console.error('Erro ao obter módulos:', erro);
         throw erro;
@@ -33,11 +24,11 @@ async function buscaTodosModulos() {
 
 // Função para obter um módulo específico por ID
 async function buscaModuloId(id) {
-    const query = 'SELECT * FROM modulos WHERE id = $1';
-    
     try {
-        const resultado = await pool.query(query, [id]);
-        return resultado.rows.length > 0 ? resultado.rows[0] : null;
+        const modulo = await Modulos.findOne({
+            where: { id }
+        });
+        return modulo;
     } catch (erro) {
         console.error('Erro ao obter módulo por ID:', erro);
         throw erro;
@@ -46,17 +37,17 @@ async function buscaModuloId(id) {
 
 // Função para atualizar um módulo
 async function atualizarModulo(id, nome) {
-    const query = `
-        UPDATE modulos
-        SET nome = $2
-        WHERE id = $1
-        RETURNING *;
-    `;
-    const valores = [id, nome];
-    
     try {
-        const resultado = await pool.query(query, valores);
-        return resultado.rows.length > 0 ? resultado.rows[0] : null;
+        const modulo = await Modulos.findOne({
+            where: { id }
+        });
+
+        if (!modulo) return null;
+
+        modulo.nome = nome;
+        await modulo.save(); // Salva as alterações no banco
+
+        return modulo;
     } catch (erro) {
         console.error('Erro ao atualizar módulo:', erro);
         throw erro;
@@ -65,15 +56,26 @@ async function atualizarModulo(id, nome) {
 
 // Função para excluir um módulo
 async function excluirModulo(id) {
-    const query = 'DELETE FROM modulos WHERE id = $1 RETURNING *;';
-    
     try {
-        const resultado = await pool.query(query, [id]);
-        return resultado.rows.length > 0 ? resultado.rows[0] : null;
+        const modulo = await Modulos.findOne({
+            where: { id }
+        });
+
+        if (!modulo) return null;
+
+        await modulo.destroy(); // Remove o registro do banco
+
+        return modulo;
     } catch (erro) {
         console.error('Erro ao excluir módulo:', erro);
         throw erro;
     }
 }
 
-module.exports = {inserirModulo, buscaTodosModulos, buscaModuloId, atualizarModulo, excluirModulo};
+module.exports = {
+    inserirModulo,
+    buscaTodosModulos,
+    buscaModuloId,
+    atualizarModulo,
+    excluirModulo
+};
