@@ -1,21 +1,46 @@
 const jwt = require('jsonwebtoken');
 const loginService = require('../services/loginServices');
+const Perfil = require('../models/profileModel');
+const Modulos = require('../models/moduleModel');
+const PerfilModulos = require('../models/assignProfileModuleModel');
 const JWT_SECRET_KEY = 'SECRET_KEY'; 
 
 const autenticarUsuario = async (req, res) => {
     const { email, senha } = req.body;
     
     try {
-        // Valida o usuário
         const usuario = await loginService.validarUsuario(email, senha);
 
         if (!usuario) {
             return res.status(401).json({ erro: 'Credenciais inválidas' });
         }
 
-        // Gera o token JWT
+        // Busca o perfil do usuário
+        const perfilUsuario = await Perfil.findOne({
+            where: { id: usuario.perfil }
+        });
+
+        if (!perfilUsuario) {
+            return res.status(404).json({ erro: 'Perfil do usuário não encontrado.' });
+        }
+
+        // Busca os módulos associados ao perfil do usuário
+        const modulos = await PerfilModulos.findAll({
+            where: { perfil_id: perfilUsuario.id },
+            include: [{ model: Modulos, attributes: ['nome'] }]
+        });
+
+        const modulosNome = modulos.map(modulo => modulo.Modulo.nome);  // Extraindo os nomes dos módulos
+
+        // Gera o token JWT com as informações necessárias
         const token = jwt.sign(
-            { matricula: usuario.matricula, nome: usuario.nome, perfil: usuario.perfil },
+            { 
+                matricula: usuario.matricula, 
+                nome: usuario.nome, 
+                perfil: usuario.perfil, 
+                nomePerfil: perfilUsuario.nome, 
+                modulos: modulosNome // Inclui os módulos no token
+            },
             JWT_SECRET_KEY,
             { expiresIn: '12h' }
         );
