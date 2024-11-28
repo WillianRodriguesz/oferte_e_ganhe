@@ -30,7 +30,7 @@ const autenticarUsuario = async (req, res) => {
             include: [{ model: Modulos, attributes: ['nome'] }]
         });
 
-        const modulosNome = modulos.map(modulo => modulo.Modulo.nome);  // Extraindo os nomes dos módulos
+        const modulosNome = modulos.map(modulo => modulo.Modulo.nome);  
 
         // Gera o token JWT com as informações necessárias
         const token = jwt.sign(

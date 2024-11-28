@@ -13,3 +13,7 @@ npm install pg
 npm install express jsonwebtoken body-parser
 
 npm install bcrypt
+
+npm install cors
+
+npm install sequelize
