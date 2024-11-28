@@ -1,0 +1,282 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #ecf0f1;
+}
+
+.content {
+    background-color: #fff;
+    border-radius: 15px;
+    width: 60%;
+    height: 80%;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+
+.first-column, .second-column {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.first-column {
+    background-color: #F6ED08;
+}
+
+.second-column {
+    background: linear-gradient(to right, #1DA752, #0B4120);
+    padding-top: 60px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
+input[type="text"], input[type="password"], input[type="email"]{
+    border: 2px solid #FFCA00;
+    border-radius: 20px; 
+    padding: 10px; 
+    outline: none; /* Remove o contorno padrão ao focar */
+    background-color: transparent; /* Remove o preenchimento de fundo */
+    font-size: 16px; 
+    color: #fffefe; /* Cor do texto */
+    width: 100%; /* Faz com que os inputs ocupem toda a largura disponível */
+    margin-bottom: 20px; /* Espaçamento entre os inputs */
+    padding: 7px 10px; 
+}
+
+input[type="text"]::placeholder,
+input[type="email"]::placeholder,
+input[type="password"]::placeholder {
+    color: rgba(255, 255, 255, 0.4);; 
+}
+
+.btn-login {
+    background-color: #FFCA00;
+    color: #000000; 
+    border: none; /* Remove qualquer borda padrão */
+    border-radius: 20px; 
+    padding: 7px 20px; /* Espaçamento interno: 10px em cima e embaixo, 20px nas laterais */
+    font-size: 16px; 
+    cursor: pointer; 
+    transition: background-color 0.3s; 
+}
+
+.btn-login:hover {
+    background-color: #e0a800; 
+}
+
+.form a {
+    color: #FFFFFF; 
+    font-size: 12px; 
+    text-align: right; /* Alinha o texto à direita */
+    display: block; /* Faz com que o link ocupe toda a largura do contêiner */
+    margin-bottom: 10px; 
+}
+
+.btn-login {
+    background-color: #FFCA00;
+    color: #000000; 
+    border: none; 
+    border-radius: 20px; 
+    padding: 7px 20px; /* Espaçamento interno */
+    font-size: 16px;
+    cursor: pointer; 
+    transition: background-color 0.3s; 
+    margin-bottom: 20px; /* Distância abaixo do botão "Entrar" */
+    margin-top: 10px;
+}
+
+.btn-acess {
+    border: 2px solid #FFCA00; 
+    border-radius: 20px; 
+    background-color: transparent; 
+    color: #FFCA00; 
+    padding: 7px 20px; /* Espaçamento interno */
+    font-size: 12px; 
+    cursor: pointer; 
+    transition: background-color 0.3s; 
+    margin-top: 20px;
+}
+
+.btn-back {
+    border: 2px solid #FFCA00; 
+    border-radius: 20px; 
+    background-color: transparent;
+    color: #FFCA00; 
+    padding: 7px 30px; /* Espaçamento interno */
+    font-size: 12px; 
+    cursor: pointer; 
+    transition: background-color 0.3s; 
+    margin-top: 10px;
+}
+
+.btn-acess:hover, .btn-back:hover {
+    background-color: rgba(226, 226, 212, 0.2); 
+}
+
+.oferta {
+    color: #FF8C00; 
+}
+
+.ganhe {
+    color: #1DA752; 
+}
+
+p{
+    color: #fff;
+    font-size: 12px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.info-text{
+    font-size: 14px; 
+    color: #ffffff; 
+    text-align: center; 
+    margin-bottom: 50px;
+    padding-left: 20px; /* Espaçamento interno à esquerda */
+    padding-right: 20px; 
+    line-height: 1.5; 
+}
+
+
+/* PARTE RESPONSIVA DO LOGIN */
+@media (max-width: 968px) and (min-width: 769px) {
+    /* Reduz o tamanho da logo e do texto do título gradualmente */
+    .first-column img {
+        width: 70%;  
+        max-width: 250px; 
+    }
+
+    /* Diminui a fonte do título */
+    .first-column h1 {
+        font-size: 1.8rem; 
+    }
+
+    /* Ajusta o tamanho do formulário */
+    .form {
+        width: 80%; /* Diminui a largura do formulário */
+        max-width: 350px; /* Limita a largura máxima do formulário */
+        margin: 0 auto; /* Centraliza o formulário */
+    }
+
+    /* Ajusta os inputs */
+    input[type="text"],
+    input[type="password"],
+    input[type="email"] {
+        font-size: 14px; /* Diminui o tamanho da fonte dos inputs */
+        padding: 8px; /* Ajusta o espaçamento interno dos inputs */
+    }
+
+    /* Ajusta o tamanho dos botões */
+    .btn-login,
+    .btn-back {
+        font-size: 14px; /* Diminui o tamanho da fonte dos botões */
+        padding: 6px 15px; /* Ajusta o espaçamento interno dos botões */
+    }
+    p {
+        font-size: 10px; 
+    }
+    .form a {
+        font-size: 10px; 
+    }
+}
+
+@media (max-width: 799px) {
+    /* Ajusta a estrutura geral para telas pequenas */
+    .container {
+        flex-direction: column;
+        height: 100vh; /* Garante que o container ocupe a altura da tela */
+        justify-content: center; /* Centraliza o container verticalmente */
+        align-items: center; /* Centraliza o container horizontalmente */
+        padding: 20px;
+    }
+
+    /* As colunas vão ocupar 100% da largura e ficar empilhadas */
+    .content {
+        width: 100%;
+        height: auto;
+        flex-direction: column;
+    }
+
+    .first-column, .second-column {
+        width: 100%;
+        height: auto;
+        padding: 20px;
+    }
+
+    /* Ajusta o alinhamento do conteúdo das colunas */
+    .first-column {
+        align-items: center;
+        padding-bottom: 10px;
+    }
+
+    .second-column {
+        padding-top: 0;
+        padding-bottom: 20px;
+        align-items: center;
+    }
+
+    /* Ajusta os inputs para ficarem um abaixo do outro */
+    .form {
+        width: 100%;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="email"] {
+        width: 85%; 
+        max-width: 300px;
+        margin-bottom: 20px; 
+    }
+
+    /* Ajusta os botões para ficarem centralizados e responsivos */
+    .btn-login,
+    .btn-acess {
+        width: 85%;
+        max-width: 300px;
+    }
+
+    /* Centraliza o texto entre os botões */
+    p {
+        width: 100%;
+        text-align: center;
+        font-size: 12px;
+    }
+
+    /* Ajusta o tamanho do logotipo */
+    .first-column img {
+        width: 80%;
+        max-width: 200px;
+    }
+
+    /* Ajusta a fonte do título */
+    h1 {
+        font-size: 1.5rem;
+        text-align: center;
+    }
+
+    /* Ajusta o texto do link para centralizar */
+    .form a {
+        text-align: center;
+    }
+}
+
+
