@@ -7,7 +7,7 @@ const btnLogin = document.getElementById('btnLogin');
 
 // Função para lidar com o clique no botão de login
 async function validacaoLogin(e) {
-    e.preventDefault(); // Evita o comportamento padrão do formulário (recarregar a página)
+    e.preventDefault(); 
     const email = emailInput.value;
     const senha = senhaInput.value;
 
@@ -17,7 +17,7 @@ async function validacaoLogin(e) {
 
         if (result.success) {
             console.log('Login bem-sucedido:', result.data);
-            window.location.href = '../../pages/login/home.html';
+            window.location.assign ('/frontEnd/src/pages/index.html');
         } else {
             console.error('Erro no login:', result.message);
             alert(result.message || 'E-mail ou senha incorretos.');

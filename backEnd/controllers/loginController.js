@@ -48,8 +48,10 @@ const autenticarUsuario = async (req, res) => {
         // Configura o token no cookie
         res.cookie('auth_token', token, {
             httpOnly: true, 
-            secure: false,  
-            maxAge: 60 * 60 * 1000 
+            secure: false,
+            sameSite: 'None',
+            path: '/',   
+            maxAge: 60 * 60 * 1000, 
         });
 
         res.status(200).json({ mensagem: 'Autenticado com sucesso!' });

@@ -13,6 +13,7 @@ export async function enviarLogin(email, senha) {
 
         if (response.ok) {
             // Sucesso no login
+            console.log('Token recebido:', document.cookie);
             return { success: true, data };
         } else {
             // Se o retorno da API for um objeto, extraímos a mensagem do erro

@@ -1,5 +1,5 @@
 
-fetch('/front/pages/navigation-menu-page/navigation-menu.html')
+fetch('../pages/auxiliary-page/navigation-menu.html')
     .then(response => response.text())
     .then(data => {
         document.getElementById('navigation-menu-container').innerHTML = data;
@@ -8,7 +8,7 @@ fetch('/front/pages/navigation-menu-page/navigation-menu.html')
     .catch(error => console.error('Erro ao carregar o navigation-menu:', error));
     
 // Carregar o sidebar
-fetch('/front/pages/sidebar-page/sidebar.html')
+fetch('../pages/sidebar-page/sidebar.html')
     .then(response => response.text())
     .then(data => {
         document.getElementById('sidebar-container').innerHTML = data;
