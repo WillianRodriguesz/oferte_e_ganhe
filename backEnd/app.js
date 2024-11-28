@@ -16,17 +16,19 @@ const userRoutes = require('./routes/userRoutes');
 const moduleRoutes = require('./routes/moduleRoutes');
 const andressRoutes = require('./routes/adressRoutes');
 const assignProfileModuleRoutes = require('./routes/assignProfileModuleRoutes');
+const home = require('./routes/homeRoutes');
 const app = express();
 
 // Middleware global de CORS
 app.use(corsMiddleware);
 
 // Middleware para servir arquivos estáticos (CSS e JS)
-app.use(express.static(path.join(__dirname, '../frontend/public')));
+app.use(express.static(path.join(__dirname, '../frontEnd/src')));
 app.use(express.json()); // Necessário para interpretar JSON
 app.use(express.urlencoded({ extended: true })); // Necessário para interpretar dados URL-encoded
 
-// Rotas para as páginas HTML
+app.use('/', home)
+app.use('/', andressRoutes);
 app.use('/', loginRoutes);
 app.use('/', reportingRoutes);
 app.use('/', stockRoutes);
