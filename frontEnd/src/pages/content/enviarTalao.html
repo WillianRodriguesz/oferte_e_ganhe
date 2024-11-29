@@ -1,0 +1,84 @@
+<!-- Formulário de Envio de Talões -->
+<div class="container mt-2">
+    <h3 class="mb-4 text-start">Envio de Talões</h3>
+
+    <form action="processar_talao.html" method="POST">
+        <div class="row mb-8 mb-3">
+            <!-- Campo Loja Destinatário -->
+            <div class="col-md-6">
+                <label for="loja-destinatario" class="form-label">Loja Destinatário:</label>
+                <select id="loja-destinatario" name="loja-destinatario" class="form-select rounded-3" required>
+                    <option value="">Selecione a Loja</option>
+                    <option value="loja1">Loja 1</option>
+                    <option value="loja2">Loja 2</option>
+                    <option value="loja3">Loja 3</option>
+                    <option value="loja4">Loja 4</option>
+                </select>
+            </div>
+
+            <!-- Campo Loja Remetente -->
+            <div class="col-md-6">
+                <label for="loja-remetente" class="form-label">Loja Remetente:</label>
+                <select id="loja-remetente" name="loja-remetente" class="form-select rounded-3" required>
+                    <option value="">Selecione a Loja</option>
+                    <option value="loja1">Loja 1</option>
+                    <option value="loja2">Loja 2</option>
+                    <option value="loja3">Loja 3</option>
+                    <option value="loja4">Loja 4</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row mb-3 mb-3">
+            <!-- Campo Quantidade de Talões -->
+            <div class="col-md-4">
+                <label for="qtd-taloes" class="form-label">Quantidade de Talões:</label>
+                <input type="number" id="qtd-taloes" name="qtd-taloes" class="form-control rounded-3" min="1" required>
+            </div>
+
+            <!-- Campo Número de Remessa -->
+            <div class="col-md-8">
+                <label for="num-remessa" class="form-label">Número de Remessa:</label>
+                <input type="text" id="num-remessa" name="num-remessa" class="form-control rounded-3" required>
+            </div>
+        </div>
+
+        <div class="row mb-3 mb-3">
+            <!-- Campo Data de Envio -->
+            <div class="col-md-4">
+                <label for="data-envio" class="form-label">Data de Envio:</label>
+                <input type="date" id="data-envio" name="data-envio" class="form-control rounded-3" required>
+            </div>
+
+            <!-- Campo Horário do Envio -->
+            <div class="col-md-4">
+                <label for="hora-envio" class="form-label">Horário do Envio:</label>
+                <input type="time" id="hora-envio" name="hora-envio" class="form-control rounded-3" required>
+            </div>
+
+            <!-- Campo Previsão de Entrega -->
+            <div class="col-md-4">
+                <label for="previsao-entrega" class="form-label">Previsão de Entrega:</label>
+                <input type="date" id="previsao-entrega" name="previsao-entrega" class="form-control rounded-3" required>
+            </div>
+        </div>
+
+        <div class="row mb-3 mb-3">
+            <!-- Campo Destinatário Responsável -->
+            <div class="col-md-6">
+                <label for="responsavel-destinatario" class="form-label">Destinatário Responsável:</label>
+                <input type="text" id="responsavel-destinatario" name="responsavel-destinatario" class="form-control rounded-3" required>
+            </div>
+        </div>
+
+        <div class="mb-3 col-md-2">
+            <button type="submit" class="btn w-100 rounded-3" 
+                style="background-color: #188642; border-color: #188642; color: white; transition: background-color 0.3s, border-color 0.3s, color 0.3s;"
+                onmouseover="this.style.backgroundColor='#156d33'; this.style.borderColor='#156d33'; this.style.color='white';"
+                onmouseout="this.style.backgroundColor='#188642'; this.style.borderColor='#188642'; this.style.color='white';">
+                Registrar
+            </button>
+        </div>
+
+    </form>
+</div>

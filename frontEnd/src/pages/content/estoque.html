@@ -1,0 +1,105 @@
+<h2>Estoque</h2>
+<div class="container my-4">
+    <div class="row g-3">
+        <!-- Primeiro Botão -->
+        <div class="col-md-4">
+            <button class="btn btn-outline-success text-center w-100" style="height: 250px; border-width: 2px;">
+                <div class="d-flex flex-column justify-content-center align-items-center h-100 p-0">
+                    <h5 class="card-title text-dark">Solicitar Reposição</h5>
+                    <img src="/frontEnd/src/styles/img/iconEstoque2.svg" alt="Imagem 1" class="img-fluid" style="max-width: 100px;">
+                </div>
+            </button>
+        </div>
+        
+        <!-- Segundo Botão -->
+        <div class="col-md-4">
+            <button class="btn btn-outline-success text-center w-100 disabled-button" style="height: 250px; border-width: 2px;">
+                <div class="d-flex flex-column justify-content-center align-items-center h-100 p-0">
+                    <h5 class="card-title text-dark">Estoque Atual da Loja</h5>
+                    <img src="/frontEnd/src/styles/img/iconEstoqueAtual.svg" alt="Imagem 2" class="img-fluid" style="max-width: 100px;">
+                    <p class="card-text text-success mt-3">8 unidades</p>
+                </div>
+            </button>
+        </div>
+        
+        <!-- Terceiro Botão -->
+        <div class="col-md-4">
+            <button class="btn btn-outline-success text-center w-100" style="height: 250px; border-width: 2px;">
+                <div class="d-flex flex-column justify-content-center align-items-center h-100 p-0">
+                    <h5 class="card-title text-dark">Retirar Talão para Colaborador</h5>
+                    <img src="/frontEnd/src/styles/img/iconRetirarTalao.svg" alt="Imagem 3" class="img-fluid" style="max-width: 100px;">
+                </div>
+            </button>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="row mb-4">
+    <div class="col-md-9"> <!-- Ajustando o tamanho da coluna para o campo de pesquisa -->
+        <label for="filtro-unidade" class="form-label">Unidade</label>
+        <div class="search-bar">
+            <input type="text" id="filtro-unidade" name="filtro-unidade" class="form-control campo-pesquisa" placeholder="Digite o nome da unidade">
+        </div>
+    </div>
+
+    <div class="col-md-3 d-flex align-items-end"> <!-- Ajustando a coluna do botão de pesquisa -->
+        <div class="text-center w-100">
+            <button type="button" class="btn btn-outline-success w-100" id="btn-pesquisar">
+                Pesquisar
+            </button>
+        </div>
+    </div>
+
+</div>
+<!-- Tabela -->
+<div class="table-recebimento-talao">
+    <table class="table table-striped table-bordered rounded shadow-sm">
+        <thead class="table-light">
+            <tr>
+                <th class="text-center">Remessa</th>
+                <th class="text-center">Und. Talão</th>
+                <th class="text-center">Data Recebido</th>
+                <th class="text-center">Status</th>
+            </tr>
+        </thead>
+        <tbody id="status-table-body">
+            <!-- Exemplo de linha -->
+            <tr>
+                <td class="text-center">00123</td>
+                <td class="text-center">50</td>
+                <td class="text-center">2024-11-20</td>
+                <td class="text-center">Completo</td>
+            </tr>
+            <!-- Exemplo de outra linha -->
+            <tr>
+                <td class="text-center">00124</td>
+                <td class="text-center">30</td>
+                <td class="text-center">2024-11-22</td>
+                <td class="text-center">Pendente</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<style>
+    .btn-outline-success:hover {
+    background-color: rgba(40, 167, 69, 0.1); /* Verde suave com transparência */
+    border-color: #28a745; /* Borda verde */
+    }
+
+    /* Botão desabilitado */
+    button:disabled, .disabled-button {
+        pointer-events: none; /* Desabilita o clique */
+        opacity: 1; /* Mantém a opacidade consistente */
+        background-color: transparent; /* Remove fundo adicional */
+        border-color: #28a745; /* Mantém a borda verde */
+    }
+
+    /* Remover hover para botões desabilitados */
+    button:disabled:hover, .disabled-button:hover {
+        background-color: transparent !important;
+        border-color: #28a745 !important;
+    }
+</style>

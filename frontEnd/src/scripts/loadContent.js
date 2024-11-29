@@ -1,6 +1,6 @@
 // Função para carregar o conteúdo de uma página específica dentro do div .content
 function loadContent(page) {
-    fetch(`/front/pages/content-pages/${page}.html`)  
+    fetch(`/frontEnd/src/pages/content/${page}.html`)  
         .then(response => response.text())
         .then(data => {
             document.querySelector('.content').innerHTML = data;

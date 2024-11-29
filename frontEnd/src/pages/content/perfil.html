@@ -1,0 +1,130 @@
+<h3>Cadastrar Perfil</h3>
+<!-- Formulário de Cadastro de Perfis -->
+<div class="container mt-2">
+
+    <form action="processar_perfil.html" method="POST">
+        <div class="row mb-3">
+            <!-- Campo Nome do Perfil -->
+            <div class="col-md-6">
+                <label for="nome-perfil" class="form-label">Nome do Perfil:</label>
+                <input type="text" id="nome-perfil" name="nome-perfil" class="form-control rounded-3" required>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <!-- Seção de Módulos de Acesso -->
+            <div class="col-md-12">
+                <label class="form-label">Módulos de Acesso:</label>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="modulo-estoque" name="modulos[]" value="Estoque">
+                            <label class="form-check-label" for="modulo-estoque">Estoque</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="modulo-envio-talao" name="modulos[]" value="Envio de talão">
+                            <label class="form-check-label" for="modulo-envio-talao">Envio de Talão</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="modulo-recebimento" name="modulos[]" value="Recebimento">
+                            <label class="form-check-label" for="modulo-recebimento">Recebimento</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="modulo-relatorios" name="modulos[]" value="Relatórios">
+                            <label class="form-check-label" for="modulo-relatorios">Relatórios</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="modulo-gerenciamento-perfis" name="modulos[]" value="Gerenciamento de perfis">
+                            <label class="form-check-label" for="modulo-gerenciamento-perfis">Gerenciamento de Perfis</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="modulo-cadastro-lojas" name="modulos[]" value="Cadastro de lojas">
+                            <label class="form-check-label" for="modulo-cadastro-lojas">Cadastro de Lojas</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="modulo-estoque-geral" name="modulos[]" value="Estoque Geral">
+                            <label class="form-check-label" for="modulo-estoque-geral">Estoque Geral</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-3 col-md-2">
+            <button type="submit" class="btn w-100 rounded-3" 
+                style="background-color: #188642; border-color: #188642; color: white; transition: background-color 0.3s, border-color 0.3s, color 0.3s;"
+                onmouseover="this.style.backgroundColor='#156d33'; this.style.borderColor='#156d33'; this.style.color='white';"
+                onmouseout="this.style.backgroundColor='#188642'; this.style.borderColor='#188642'; this.style.color='white';">
+                Registrar
+            </button>
+        </div>
+    </form>
+</div>
+
+<div class="mt-5" style="border-top: 2px solid #188642; margin-bottom: 20px; margin-bottom: 50px;"></div>
+
+<h3>Perfis Cadastrados</h3>
+<!-- Tabela de Perfis Cadastrados -->
+<div class="container mt-2">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Nome do Perfil</th>
+                <th scope="col" class="text-end" style="padding-right: 75px;">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Exemplo de perfil 1 -->
+            <tr>
+                <td>Administrador</td>
+                <td class="text-end">
+                    <!-- Botão Editar -->
+                    <a href="editar_perfil.html" class="btn btn-warning btn-sm mx-1" title="Editar Perfil">
+                        <i class="bi bi-pencil-fill"></i> Editar
+                    </a>
+                    <!-- Botão Excluir -->
+                    <a href="excluir_perfil.html" class="btn btn-danger btn-sm mx-1" title="Excluir Perfil" onclick="return confirm('Tem certeza de que deseja excluir este perfil?');">
+                        <i class="bi bi-trash-fill"></i> Excluir
+                    </a>
+                </td>
+            </tr>
+            <!-- Exemplo de perfil 2 -->
+            <tr>
+                <td>Vendedor</td>
+                <td class="text-end">
+                    <!-- Botão Editar -->
+                    <a href="editar_perfil.html" class="btn btn-warning btn-sm mx-1" title="Editar Perfil">
+                        <i class="bi bi-pencil-fill"></i> Editar
+                    </a>
+                    <!-- Botão Excluir -->
+                    <a href="excluir_perfil.html" class="btn btn-danger btn-sm mx-1" title="Excluir Perfil" onclick="return confirm('Tem certeza de que deseja excluir este perfil?');">
+                        <i class="bi bi-trash-fill"></i> Excluir
+                    </a>
+                </td>
+            </tr>
+            <!-- Exemplo de perfil 3 -->
+            <tr>
+                <td>Operador</td>
+                <td class="text-end">
+                    <!-- Botão Editar -->
+                    <a href="editar_perfil.html" class="btn btn-warning btn-sm mx-1" title="Editar Perfil">
+                        <i class="bi bi-pencil-fill"></i> Editar
+                    </a>
+                    <!-- Botão Excluir -->
+                    <a href="excluir_perfil.html" class="btn btn-danger btn-sm mx-1" title="Excluir Perfil" onclick="return confirm('Tem certeza de que deseja excluir este perfil?');">
+                        <i class="bi bi-trash-fill"></i> Excluir
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Adicionar Bootstrap Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">

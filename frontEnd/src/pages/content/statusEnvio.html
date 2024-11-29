@@ -1,0 +1,71 @@
+<div class="container mt-2">
+    <h3 class="mb-4 text-start">Status de Envio de Talões</h3>
+
+    <!-- Filtro e Botões -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="search-bar">
+                <input type="text" id="filtro-unidade" name="filtro-unidade" placeholder="Digite o nome da unidade" >
+            </div>
+        </div>
+        <div class="col-md-3 d-flex align-items-end">
+            <button 
+                class="btn btn-outline-secondary w-100 rounded-3" 
+                type="button" 
+                id="btn-download-csv" 
+                style="border: 1px solid #ccc; color: #888; display: flex; align-items: center; justify-content: center; padding: 8px 16px; height: 38px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+
+                <!-- Imagem à esquerda do texto -->
+                <img src="/frontEnd/src/styles/img/iconDownload.svg" alt="Imagem do CSV" style="width: 24px; height: 24px; margin-right: 10px;">
+
+                <!-- Texto do botão -->
+                CSV
+            </button>
+        </div>
+        <div class="col-md-3 d-flex align-items-end">
+            <button class="btn btn-success w-100 rounded-3" type="button" id="btn-enviar" style="height: 38px;">
+                Enviar
+            </button>
+        </div>
+    </div>
+
+    <!-- Tabela de Status -->
+    <div class="table-status-envio">
+        <table class="table table-striped table-hover table-bordered shadow-sm rounded">
+            <thead class="table-light">
+                <tr>
+                    <th class="text-center">Status</th>
+                    <th class="text-center">Unidade</th>
+                    <th class="text-center">Data de Envio</th>
+                    <th class="text-center">Detalhes</th>
+                    <th class="text-center">Selecionar</th>
+                </tr>
+            </thead>
+            <tbody id="status-table-body">
+                <!-- Exemplo de linha -->
+                <tr>
+                    <td class="text-center"><span class="badge bg-success">Recebido</span></td>
+                    <td>Loja 1</td>
+                    <td class="text-center">2024-11-21</td>
+                    <td class="text-center">
+                        <button class="btn btn-link" id="btn-detalhes-1">
+                            <img src="/frontEnd/src/styles/img/iconDetalhes.svg" alt="Detalhes" style="width: 24px; height: 24px;">
+                        </button>
+                    </td>
+                    <td class="text-center"><input type="checkbox" class="form-check-input" style="border: 1px solid #000000;"></td>
+                </tr>
+                <tr>
+                    <td class="text-center"><span class="badge bg-warning">Em Trânsito</span></td>
+                    <td>Loja Pelotas</td>
+                    <td class="text-center">2024-11-20</td>
+                    <td class="text-center">
+                        <button class="btn btn-link" id="btn-detalhes-2">
+                            <img src="/frontEnd/src/styles/img/iconDetalhes.svg" alt="Detalhes" style="width: 24px; height: 24px;">
+                        </button>
+                    </td>
+                    <td class="text-center"><input type="checkbox" class="form-check-input" style="border: 1px solid #000000;"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

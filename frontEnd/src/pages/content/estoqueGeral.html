@@ -1,0 +1,61 @@
+<!-- Filtro de Data e Pesquisa -->
+<h3 class="mb-4 text-start">Estoque Geral</h3>
+
+<div class="row mb-4">
+    <div class="col-md-6"> <!-- Ajustando o tamanho da coluna para o campo de pesquisa -->
+        <label for="filtro-unidade" class="form-label">Unidade</label>
+        <div class="search-bar">
+            <input type="text" id="filtro-unidade" name="filtro-unidade" class="form-control campo-pesquisa" placeholder="Digite o nome da unidade">
+        </div>
+    </div>
+
+    <div class="col-md-3 d-flex align-items-end"> <!-- Ajustando a coluna do botão de pesquisa -->
+        <div class="text-center w-100">
+            <button type="button" class="btn btn-outline-success w-100" id="btn-pesquisar">
+                Pesquisar
+            </button>
+        </div>
+    </div>
+
+    <div class="col-md-3 d-flex align-items-end"> <!-- Ajustando a coluna do botão de preparar envio -->
+        <button class="btn btn-success w-100 rounded-3" type="button" id="btn-enviar" style="height: 38px;">
+            Preparar envio
+        </button>
+    </div>
+</div>
+
+<!-- Tabela -->
+<div class="table-recebimento-talao">
+    <table class="table table-striped table-bordered rounded shadow-sm">
+        <thead class="table-light">
+            <tr>
+                <th class="text-center">Cód. Unidade</th>
+                <th class="text-center">Unidade</th>
+                <th class="text-center">Estoque mínimo</th>
+                <th class="text-center">Estoque atual</th>
+                <th class="text-center">Status</th>
+                <th class="text-center">Selecionar Envio</th>
+            </tr>
+        </thead>
+        <tbody id="status-table-body">
+            <!-- Exemplo de linha -->
+            <tr>
+                <td class="text-center">1245</td>
+                <td class="text-center">Pelotas</td>
+                <td class="text-center">10</td>
+                <td class="text-center">34</td>
+                <td class="text-center">Médio</td>
+                <td class="text-center"><input type="checkbox" class="form-check-input" style="border: 1px solid #000000;"></td>
+            </tr>
+            <!-- Exemplo de outra linha -->
+            <tr>
+                <td class="text-center">1245</td>
+                <td class="text-center">Pelotas</td>
+                <td class="text-center">10</td>
+                <td class="text-center">21</td>
+                <td class="text-center">Médio</td>
+                <td class="text-center"><input type="checkbox" class="form-check-input" style="border: 1px solid #000000;"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
