@@ -46,6 +46,15 @@ function configureSidebarNavigation() {
     sidebarButtons.forEach(button => {
         const spanText = button.querySelector('span').innerText.trim();
 
+       
+        if (spanText === 'Sair do sistema') {
+            button.addEventListener('click', () => {
+                localStorage.clear();
+                window.location.href = '/pages/login/login.html';
+            });
+            return; 
+        }
+
         button.addEventListener('click', () => {
             navMenuButtons.forEach(btn => btn.classList.remove('selected'))
             let firstButtonActivated = false;
