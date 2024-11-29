@@ -16,11 +16,7 @@ async function validacaoLogin(e) {
         const result = await enviarLogin(email, senha);
 
         if (result.success) {
-            const token = localStorage.getItem('auth_token');
-            console.log('Token recuperado no redirecionamento:', token);
-            
-            console.log('Login bem-sucedido:', result.data);
-            window.location.assign ('/frontEnd/src/pages/index.html');
+            window.location.assign ('/pages/index.html');
         } else {
             console.error('Erro no login:', result.message);
             alert(result.message || 'E-mail ou senha incorretos.');
