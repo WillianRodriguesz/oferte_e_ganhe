@@ -54,7 +54,7 @@ const autenticarUsuario = async (req, res) => {
             maxAge: 60 * 60 * 1000, 
         });
 
-        res.status(200).json({ mensagem: 'Autenticado com sucesso!' });
+        res.status(200).json({ mensagem: 'Autenticado com sucesso!', token: token });
     } catch (erro) {
         console.error(erro);
         res.status(500).json({ erro: 'Erro no servidor' });

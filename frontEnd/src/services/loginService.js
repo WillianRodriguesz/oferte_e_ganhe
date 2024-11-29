@@ -12,8 +12,7 @@ export async function enviarLogin(email, senha) {
         const data = await response.json();
 
         if (response.ok) {
-            // Sucesso no login
-            console.log('Token recebido:', document.cookie);
+            localStorage.setItem('auth_token', data.token);
             return { success: true, data };
         } else {
             // Se o retorno da API for um objeto, extraímos a mensagem do erro
