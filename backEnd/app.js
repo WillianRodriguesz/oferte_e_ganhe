@@ -14,7 +14,7 @@ const storesRoutes = require('./routes/storesRoutes');
 const talaoRoutes = require('./routes/talaoRoutes');
 const userRoutes = require('./routes/userRoutes');
 const moduleRoutes = require('./routes/moduleRoutes');
-const andressRoutes = require('./routes/adressRoutes');
+const anddressRoutes = require('./routes/adressRoutes');
 const assignProfileModuleRoutes = require('./routes/assignProfileModuleRoutes');
 const authenticateTokenRoutes = require('./routes/authenticateTokenRoutes');
 const app = express();
@@ -28,7 +28,7 @@ app.use(express.json()); // Necessário para interpretar JSON
 app.use(express.urlencoded({ extended: true })); // Necessário para interpretar dados URL-encoded
 
 app.use('/', authenticateTokenRoutes)
-app.use('/', andressRoutes);
+app.use('/', anddressRoutes);
 app.use('/', loginRoutes);
 app.use('/', reportingRoutes);
 app.use('/', stockRoutes);
@@ -39,7 +39,7 @@ app.use('/', profileRoutes);
 app.use('/', sendingRoutes);
 app.use('/', receivingRoutes);
 app.use('/', moduleRoutes);
-app.use('/', andressRoutes);
+app.use('/', anddressRoutes);
 app.use('/', assignProfileModuleRoutes);
 
 
