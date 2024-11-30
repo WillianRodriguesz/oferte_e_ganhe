@@ -47,13 +47,18 @@ async function carregarLojas() {
 
         // Itera sobre as lojas e cria uma linha para cada uma
         lojas.forEach(loja => {
+            const cidade = loja.Address?.cidade || 'Não informado'; // Verifica se há cidade disponível
+            const enderecoCompleto = loja.Address
+                ? `${loja.Address.endereco || 'Sem endereço'} - ${loja.Address.numero || 'S/N'}`
+                : 'Endereço não disponível'; // Concatena endereço com número, tratando ausências
+
             const linha = document.createElement('tr'); // Cria uma nova linha para a tabela
 
             // Adiciona as células da linha com os dados da loja
             linha.innerHTML = `
                 <td>${loja.cod_unidade}</td>
-                <td>${loja.logradouro}</td>
-                <td>${loja.matriz ? 'Sim' : 'Não'}</td>
+                <td>${cidade}</td>
+                <td>${enderecoCompleto}</td>
                 <td class="text-end">
                     <a href="editar_loja.html" class="btn btn-warning btn-sm mx-1" title="Editar Loja">
                         <i class="bi bi-pencil-fill"></i> Editar
@@ -63,7 +68,7 @@ async function carregarLojas() {
                     </a>
                 </td>
             `;
-            
+
             // Adiciona a linha na tabela
             tabelaCorpo.appendChild(linha);
         });

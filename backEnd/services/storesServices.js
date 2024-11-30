@@ -1,4 +1,6 @@
 const Loja = require('../models/storeModel');
+const Estoque = require('../models/stockModel');
+const Address = require('../models/addressModel');
 
 // Função para inserir uma nova loja
 async function inserirLoja(cod_unidade, id_estoque, logradouro, matriz) {
@@ -14,7 +16,18 @@ async function inserirLoja(cod_unidade, id_estoque, logradouro, matriz) {
 // Função para obter todas as lojas
 async function obterTodasLojas() {
     try {
-        const lojas = await Loja.findAll();
+        const lojas = await Loja.findAll({
+            include: [
+                {
+                    model: Estoque,
+                    attributes: ['qtd_atual', 'qtd_minima', 'qtd_maxima', 'status'], // Inclui apenas os campos desejados
+                },
+                {
+                    model: Address,
+                    attributes: ['estado', 'cidade', 'cep', 'bairro', 'endereco', 'numero'], // Inclui apenas os campos desejados
+                }
+            ],
+        });
         return lojas;
     } catch (erro) {
         console.error('Erro ao obter lojas:', erro);
