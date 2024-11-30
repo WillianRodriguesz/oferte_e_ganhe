@@ -32,21 +32,19 @@ export async function cadastrarLoja(lojaData) {
     }
 }
 
-
 export async function buscarLojas() {
     try {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('auth_token');
 
         if (!token) {
             throw new Error('Token não encontrado. Faça login novamente.');
         }
 
-        // Fazendo a requisição para a rota que retorna todas as lojas
         const response = await fetch('http://localhost:3000/lojas', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`, // Adiciona o token aqui
+                'Authorization': `Bearer ${token}`, 
             },
         });
 

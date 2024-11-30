@@ -1,38 +1,4 @@
-console.log('entrou no script');
-// Função para buscar todas as lojas
-async function buscarLojas() {
-    try {
-        const token = localStorage.getItem('auth_token');
-
-        if (!token) {
-            throw new Error('Token não encontrado. Faça login novamente.');
-        }
-
-        // Fazendo a requisição para a rota que retorna todas as lojas
-        const response = await fetch('http://localhost:3000/lojas', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`, // Adiciona o token aqui
-            },
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-            return { success: true, data }; // Retorna os dados das lojas
-        } else {
-            let message = 'Erro ao buscar as lojas.';
-            if (data && data.message) {
-                message = data.message;
-            }
-            return { success: false, message }; // Retorna a mensagem de erro se não for bem-sucedido
-        }
-    } catch (error) {
-        console.error('Erro ao buscar as lojas:', error);
-        return { success: false, message: error.message || 'Erro ao tentar buscar as lojas. Tente novamente.' };
-    }
-}
+import { buscarLojas } from '../services/lojaService.js';
 
 // Função para carregar as lojas e preencher a tabela HTML
 async function carregarLojas() {
