@@ -13,11 +13,16 @@ const exibirPaginaEstoque = (req, res) => {
 };
 
 // Controlador para cadastrar um novo item no estoque
-const criarItemEstoque = async (req, res) => {
+const criarEstoque = async (req, res) => {
     const { qtd_atual, qtd_minima, qtd_maxima, status } = req.body;
     try {
         const novoEstoque = await inserirEstoque(qtd_atual, qtd_minima, qtd_maxima, status);
-        res.status(201).json({ message: 'Item cadastrado no estoque com sucesso!', estoque: novoEstoque });
+
+        res.status(201).json({ 
+            message: 'Estoque cadastrado com sucesso!', 
+            estoqueId: novoEstoque.id 
+        });
+
     } catch (erro) {
         res.status(500).json({ message: 'Erro ao cadastrar item no estoque', error: erro.message });
     }
@@ -78,7 +83,7 @@ const excluirItemEstoque = async (req, res) => {
 
 module.exports = {
     exibirPaginaEstoque,
-    criarItemEstoque,
+    criarEstoque,
     listarItensEstoque,
     obterItemEstoque,
     atualizarItemEstoque,

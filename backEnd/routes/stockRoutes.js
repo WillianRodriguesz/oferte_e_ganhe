@@ -9,7 +9,7 @@ const  verificarPermissao = require('../middlewares/checkAccessMiddleware');
 router.get('/estoques/view', authenticateToken, verificarPermissao, stockController.exibirPaginaEstoque);
 
 // Rota para cadastrar um novo item no estoque
-router.post('/estoques', authenticateToken, verificarPermissao, stockController.criarItemEstoque);
+router.post('/estoques', authenticateToken, verificarPermissao, stockController.criarEstoque);
 
 // Rota para obter todos os itens do estoque
 router.get('/estoques', authenticateToken, verificarPermissao, stockController.listarItensEstoque);

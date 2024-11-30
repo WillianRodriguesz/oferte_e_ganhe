@@ -1,12 +1,12 @@
 <h2>Cadastrar Loja</h2>
 <!-- Formulário de Cadastro de Loja -->
 <div class="container mt-2">
-    <form action="processar_loja.html" method="POST">
+    <form id="form-cadastro-loja">
         <div class="row mb-3">
-            <!-- Unidade -->
+            <!-- Bairro -->
             <div class="col-md-4">
-                <label for="unidade" class="form-label">Unidade:</label>
-                <input type="text" id="unidade" name="unidade" class="form-control rounded-3" required>
+                <label for="bairro" class="form-label">Bairro:</label>
+                <input type="text" id="bairro" name="bairro" class="form-control rounded-3" required>
             </div>
 
             <!-- Código da Unidade -->
@@ -100,7 +100,7 @@
         </div>
 
         <div class="mb-3 col-md-2">
-            <button type="submit" class="btn w-100 rounded-3" 
+            <button type="submit" class="btn w-100 rounded-3" id="btnRegistrar"
                 style="background-color: #188642; border-color: #188642; color: white; transition: background-color 0.3s, border-color 0.3s, color 0.3s;"
                 onmouseover="this.style.backgroundColor='#156d33'; this.style.borderColor='#156d33'; this.style.color='white';"
                 onmouseout="this.style.backgroundColor='#188642'; this.style.borderColor='#188642'; this.style.color='white';">

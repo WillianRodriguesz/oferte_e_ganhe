@@ -33,7 +33,7 @@ const criarEndereco = async (req, res) => {
     const { estado, cidade, cep, bairro, endereco, numero } = req.body;
     try {
         const novoEndereco = await inserirEndereco(estado, cidade, cep, bairro, endereco, numero);
-        res.status(201).json({ mensagem: 'Endereço cadastrado com sucesso', endereco: novoEndereco });
+        res.status(201).json({ mensagem: 'Endereço cadastrado com sucesso', enderecoId: novoEndereco.id });
     } catch (error) {
         res.status(500).json({ mensagem: 'Erro ao cadastrar endereço', erro: error.message });
     }
