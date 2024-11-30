@@ -17,6 +17,7 @@ const moduleRoutes = require('./routes/moduleRoutes');
 const anddressRoutes = require('./routes/adressRoutes');
 const assignProfileModuleRoutes = require('./routes/assignProfileModuleRoutes');
 const authenticateTokenRoutes = require('./routes/authenticateTokenRoutes');
+const homeRoutes = require('./routes/homeRoutes');
 const app = express();
 
 // Middleware global de CORS
@@ -27,6 +28,7 @@ app.use(express.static(path.join(__dirname, '../frontEnd/src')));
 app.use(express.json()); // Necessário para interpretar JSON
 app.use(express.urlencoded({ extended: true })); // Necessário para interpretar dados URL-encoded
 
+app.use('/', homeRoutes)
 app.use('/', authenticateTokenRoutes)
 app.use('/', anddressRoutes);
 app.use('/', loginRoutes);

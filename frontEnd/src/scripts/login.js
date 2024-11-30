@@ -16,7 +16,7 @@ async function validacaoLogin(e) {
         const result = await enviarLogin(email, senha);
 
         if (result.success) {
-            window.location.assign ('/pages/index.html');
+            window.location.assign ('/home');
         } else {
             console.error('Erro no login:', result.message);
             alert(result.message || 'E-mail ou senha incorretos.');
