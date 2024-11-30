@@ -1,5 +1,5 @@
 export async function cadastrarEstoque(estoqueData) {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('auth_token');
     
     const response = await fetch('http://localhost:3000/estoques', {
         method: 'POST',

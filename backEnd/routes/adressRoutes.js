@@ -5,18 +5,18 @@ const authenticateToken = require('../middlewares/authMiddleware');
 const verificarPermissao = require('../middlewares/checkAccessMiddleware');
 
 // Rota para obter todos os endereços
-router.get('/endereco', authenticateToken, verificarPermissao, enderecoController.obterTodosEnderecos);
+router.get('/endereco', authenticateToken, enderecoController.obterTodosEnderecos);
 
 // Rota para obter um endereço específico por ID
-router.get('/endereco/:id', authenticateToken, verificarPermissao, enderecoController.obterEnderecoId);
+router.get('/endereco/:id', authenticateToken, enderecoController.obterEnderecoId);
 
 // Rota para cadastrar um novo endereço
-router.post('/endereco', authenticateToken, verificarPermissao, enderecoController.criarEndereco);
+router.post('/endereco', authenticateToken, enderecoController.criarEndereco);
 
 // Rota para atualizar um endereço
-router.put('/endereco/:id', authenticateToken, verificarPermissao, enderecoController.atualizarEnderecoId);
+router.put('/endereco/:id', authenticateToken, enderecoController.atualizarEnderecoId);
 
 // Rota para excluir um endereço
-router.delete('/endereco/:id', authenticateToken, verificarPermissao, enderecoController.excluirEnderecoId);
+router.delete('/endereco/:id', authenticateToken, enderecoController.excluirEnderecoId);
 
 module.exports = router;

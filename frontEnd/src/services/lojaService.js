@@ -1,6 +1,6 @@
 export async function cadastrarLoja(lojaData) {
     try {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('auth_token');
 
         if (!token) {
             throw new Error('Token não encontrado. Faça login novamente.');

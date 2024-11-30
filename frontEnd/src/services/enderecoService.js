@@ -1,5 +1,5 @@
 export async function cadastrarLogradouro(logradouroData) {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('auth_token');
     
     const response = await fetch('http://localhost:3000/endereco', {
         method: 'POST',
