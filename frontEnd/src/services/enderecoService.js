@@ -18,3 +18,69 @@ export async function cadastrarLogradouro(logradouroData) {
         throw new Error(data.mensagem || 'Erro ao cadastrar o endereco.');
     }
 }
+
+
+export async function atualizarLogradouro(id, logradouroData) {
+    try {
+        const response = await fetch(`/api/logradouro/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(logradouroData),
+        });
+
+        const result = await response.json();
+        if (!response.ok) {
+            throw new Error(result.message || 'Erro ao atualizar logradouro.');
+        }
+
+        return result.id; // Retorna o ID atualizado do logradouro
+    } catch (error) {
+        throw new Error('Erro ao atualizar logradouro: ' + error.message);
+    }
+}
+
+export async function listarLogradouroPorId(id) {
+    const token = localStorage.getItem('auth_token');
+
+    try {
+        const response = await fetch(`http://localhost:3000/endereco/${id}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`  // Envia o token no cabeçalho
+            }
+        });
+
+        const result = await response.json();
+        if (!response.ok) {
+            throw new Error(result.message || 'Erro ao buscar o logradouro.');
+        }
+
+        return result; // Retorna o logradouro encontrado
+    } catch (error) {
+        throw new Error('Erro ao buscar o logradouro: ' + error.message);
+    }
+}
+
+export async function excluirLogradouro(id) {
+    const token = localStorage.getItem('auth_token');
+
+    try {
+        const response = await fetch(`http://localhost:3000/endereco/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`  // Envia o token no cabeçalho
+            }
+        });
+
+        const result = await response.json();
+        if (!response.ok) {
+            throw new Error(result.message || 'Erro ao excluir o logradouro.');
+        }
+
+        return result.message || 'Logradouro excluído com sucesso.';
+    } catch (error) {
+        throw new Error('Erro ao excluir o logradouro: ' + error.message);
+    }
+}

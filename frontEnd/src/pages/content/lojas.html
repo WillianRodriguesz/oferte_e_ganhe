@@ -30,7 +30,73 @@
         </tbody>
     </table>
 </div>
-<script src="../../scripts/listarLojas.js" data-module></script>
 
+<!-- Modal de Edição -->
+<div class="modal fade" id="modalEditarLoja" tabindex="-1" aria-labelledby="modalEditarLojaLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEditarLojaLabel">Editar Loja</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="form-editar-loja">
+                    <div class="mb-3">
+                        <label for="editar-unidade" class="form-label">Unidade</label>
+                        <input type="text" class="form-control" id="editar-unidade" name="unidade" required>
+                    </div>
+                    <!-- Campo Endereço -->
+                    <div class="mb-3">
+                        <label for="editar-endereco" class="form-label">Endereço</label>
+                        <input type="text" class="form-control" id="editar-endereco" name="endereco" required>
+                    </div>
+                    <!-- Campo Cidade -->
+                    <div class="mb-3">
+                        <label for="editar-cidade" class="form-label">Cidade</label>
+                        <input type="text" class="form-control" id="editar-cidade" name="cidade" required>
+                    </div>
+                    <!-- Campo Bairro -->
+                    <div class="mb-3">
+                        <label for="editar-bairro" class="form-label">Bairro</label>
+                        <input type="text" class="form-control" id="editar-bairro" name="bairro" required>
+                    </div>
+                    <!-- Campo Estado -->
+                    <div class="mb-3">
+                        <label for="editar-estado" class="form-label">Estado</label>
+                        <input type="text" class="form-control" id="editar-estado" name="estado" required>
+                    </div>
+                    <!-- Campo CEP -->
+                    <div class="mb-3">
+                        <label for="editar-cep" class="form-label">CEP</label>
+                        <input type="text" class="form-control" id="editar-cep" name="cep" required>
+                    </div>
+                    <!-- Campo Número -->
+                    <div class="mb-3">
+                        <label for="editar-numero" class="form-label">Número</label>
+                        <input type="text" class="form-control" id="editar-numero" name="numero" required>
+                    </div>
+                    <!-- Campo Estoque Mínimo -->
+                    <div class="mb-3">
+                        <label for="editar-estoque-minimo" class="form-label">Estoque Mínimo</label>
+                        <input type="number" class="form-control" id="editar-estoque-minimo" name="estoque-minimo" required>
+                    </div>
+                    <!-- Campo Estoque Máximo -->
+                    <div class="mb-3">
+                        <label for="editar-estoque-maximo" class="form-label">Estoque Máximo</label>
+                        <input type="number" class="form-control" id="editar-estoque-maximo" name="estoque-maximo" required>
+                    </div>
+                    <!-- Botão Salvar -->
+                    <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- Adicionar Bootstrap Icons -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+<!-- Script para carregar as lojas e adicionar funcionalidade de pesquisa -->
+<script src="../../scripts/listarLojas.js" data-module></script>
+
+<!-- Adicionar o Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

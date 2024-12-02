@@ -39,8 +39,19 @@ async function obterTodasLojas() {
 async function obterLojaId(id) {
     try {
         const loja = await Loja.findOne({
-            where: { cod_unidade: id }
+            where: { cod_unidade: id },
+            include: [
+                {
+                    model: Estoque,
+                    attributes: ['qtd_atual', 'qtd_minima', 'qtd_maxima', 'status'], // Inclui apenas os campos desejados
+                },
+                {
+                    model: Address,
+                    attributes: ['estado', 'cidade', 'cep', 'bairro', 'endereco', 'numero'], // Inclui apenas os campos desejados
+                }
+            ],
         });
+
         return loja;
     } catch (erro) {
         console.error('Erro ao obter loja por ID:', erro);
