@@ -3,6 +3,9 @@ import { cadastrarEstoque } from '../services/estoqueService.js';
 import { cadastrarLogradouro } from '../services/enderecoService.js';
 import { cadastrarLoja } from '../services/lojaService.js';
 
+const btnRegistrar = document.getElementById('btnRegistrar');
+btnRegistrar.addEventListener('click', handleCadastroLoja);
+
 async function handleCadastroLoja(e) {
     e.preventDefault();
 
@@ -40,7 +43,7 @@ async function handleCadastroLoja(e) {
 
         if (result.success) {
             alert('Loja cadastrada com sucesso!');
-            window.location.assign('/pages/lojas.html'); 
+            clearFormFields();
         } else {
             alert(result.message || 'Erro ao tentar cadastrar a loja.');
         }
@@ -50,6 +53,20 @@ async function handleCadastroLoja(e) {
         alert(error.message || 'Erro ao tentar cadastrar loja, estoque ou logradouro.');
     }
 }
+function clearFormFields() {
+    // Lista de IDs dos campos do formulário que precisam ser limpos
+    const formFields = [
+        'estoque-minimo', 'estoque-maximo', 'bairro', 'cidade', 'estado', 
+        'cep', 'endereco', 'numero', 'codigo-unidade'
+    ];
 
-const btnRegistrar = document.getElementById('btnRegistrar');
-btnRegistrar.addEventListener('click', handleCadastroLoja);
+    // Limpa o valor de cada campo
+    formFields.forEach(fieldId => {
+        const field = document.getElementById(fieldId);
+        if (field) {
+            field.value = '';  // Limpa o campo de texto
+        }
+    });
+}
+
+
