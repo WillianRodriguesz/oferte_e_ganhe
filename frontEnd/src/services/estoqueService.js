@@ -20,11 +20,14 @@ export async function cadastrarEstoque(estoqueData) {
 }
 
 export async function atualizarEstoque(id, estoqueData) {
+    const token = localStorage.getItem('auth_token'); // Recupera o token de autenticação
+
     try {
-        const response = await fetch(`/api/estoque/${id}`, {
+        const response = await fetch(`http://localhost:3000/estoques/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,  // Adiciona o token de autenticação no cabeçalho
             },
             body: JSON.stringify(estoqueData),
         });

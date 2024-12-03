@@ -21,11 +21,18 @@ export async function cadastrarLogradouro(logradouroData) {
 
 
 export async function atualizarLogradouro(id, logradouroData) {
+    const token = localStorage.getItem('auth_token'); 
+
+    if (!token) {
+        throw new Error('Token de autenticação não encontrado.');
+    }
+
     try {
-        const response = await fetch(`/api/logradouro/${id}`, {
+        const response = await fetch(`http://localhost:3000/endereco/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`, 
             },
             body: JSON.stringify(logradouroData),
         });
@@ -35,7 +42,7 @@ export async function atualizarLogradouro(id, logradouroData) {
             throw new Error(result.message || 'Erro ao atualizar logradouro.');
         }
 
-        return result.id; // Retorna o ID atualizado do logradouro
+        return result.id; 
     } catch (error) {
         throw new Error('Erro ao atualizar logradouro: ' + error.message);
     }

@@ -61,11 +61,12 @@ async function carregarLojas() {
     }
 }
 
+let loja = null;
+
 async function abrirModalEditarLoja(codUnidade) {
     const resultado = await buscarLojaPorId(codUnidade); // Busca os dados da loja pelo cod_unidade
     if (resultado.success) {
-        const loja = resultado.data;
-
+        loja = resultado.data;
         // Verificar se os elementos do modal existem antes de tentar preenchê-los
         const unidadeInput = document.getElementById('editar-unidade');
         const enderecoInput = document.getElementById('editar-endereco');
@@ -130,12 +131,12 @@ async function salvarAlteracoesLoja(event) {
         endereco,
         numero,
     };
-
+    
     try {
-        // Atualiza o estoque e endereço
-        const estoqueId = await atualizarEstoque(loja.Estoque.id, estoqueData); // Atualiza o estoque
-        const enderecoId = await atualizarLogradouro(loja.Address.id, logradouroData); // Atualiza o logradouro
-
+      
+        const estoqueId = await atualizarEstoque(loja.id_estoque, estoqueData); 
+        const enderecoId = await atualizarLogradouro(loja.logradouro, logradouroData); 
+        
         const lojaData = {
             cod_unidade: codUnidade,
             id_estoque: estoqueId,
@@ -143,12 +144,13 @@ async function salvarAlteracoesLoja(event) {
             matriz: false, 
         };
 
-        console.log(dadosLoja);
-        const result = await atualizarLoja(lojaData);
+        const result = await atualizarLoja(loja.cod_unidade,lojaData);
 
         if (result.success) {
             alert('Loja atualizada com sucesso!');
-            $('#modalEditarLoja').modal('hide'); // Fecha o modal
+            const modalElement = document.getElementById('modalEditarLoja');
+            const modalInstance = bootstrap.Modal.getInstance(modalElement);
+            modalInstance.hide(); // Fecha o modal
             carregarLojas(); // Recarrega a lista de lojas
         } else {
             alert('Erro ao atualizar loja: ' + result.message);
@@ -163,6 +165,7 @@ async function salvarAlteracoesLoja(event) {
 async function excluirLojaComConfirmacao(codUnidade) {
     if (confirm('Tem certeza que deseja excluir esta loja, seu endereço e estoque?')) {
         try {
+            console.log(loja)
             const loja = await buscarLojaPorId(codUnidade);
             const idEstoque = loja.data.id_estoque; 
             const logradouro = loja.data.logradouro; 
@@ -192,8 +195,5 @@ async function excluirLojaComConfirmacao(codUnidade) {
     }
 }
 
-// Adiciona o evento de envio do formulário de edição
 document.getElementById('form-editar-loja').addEventListener('submit', salvarAlteracoesLoja);
-
-// Carrega as lojas quando a página é carregada
 carregarLojas(); 
