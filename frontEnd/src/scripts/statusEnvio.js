@@ -46,6 +46,7 @@ async function carregarStatusEnvio() {
                 </td>
             `;
 
+           
             tabelaCorpo.appendChild(linha);
 
             // Adiciona o evento de exibição de detalhes após a renderização
@@ -59,26 +60,12 @@ async function carregarStatusEnvio() {
     }
 }
 
-// Função para exibir os detalhes do envio e abrir o modal
+// Função para exibir os detalhes do envio
 async function exibirDetalhesEnvio(id) {
     const resultado = await buscarTalaoPorId(id); 
     if (resultado.success) {
-        const envio = resultado.data; 
-        
-        const modalConteudo = document.getElementById('modal-detalhes-conteudo');
-        modalConteudo.innerHTML = ` 
-            <p><strong>Número da Remessa:</strong> ${envio.numero_remessa}</p>
-            <p><strong>Quantidade de Talões:</strong> ${envio.qtd_talao}</p>
-            <p><strong>Destinatário:</strong> ${envio.destinatario}</p>
-            <p><strong>Remetente:</strong> ${envio.remetente}</p>
-            <p><strong>Data de Envio:</strong> ${envio.data_envio}</p>
-            <p><strong>Data Prevista:</strong> ${envio.data_prevista}</p>
-            <p><strong>Status:</strong> ${envio.status}</p>
-        `;
-        
-        // Exibe o modal
-        const modal = new bootstrap.Modal(document.getElementById('modalDetalhes'));
-        modal.show();
+        const envio = resultado.data;
+        alert(`Detalhes do envio: ${JSON.stringify(envio)}`);
     } else {
         alert('Erro ao carregar detalhes do envio.');
     }
@@ -115,6 +102,38 @@ document.getElementById('btn-download-csv').addEventListener('click', function (
     link.setAttribute('download', 'status_envio.csv');
     link.click();
 });
+
+document.getElementById('btn-enviar').addEventListener('click', async function () {
+    const selectedCheckboxes = document.querySelectorAll('.form-check-input:checked:not(:disabled)');
+    const ids = [];
+
+    selectedCheckboxes.forEach(checkbox => {
+        ids.push(checkbox.getAttribute('data-id'));
+    });
+
+    if (ids.length > 0) {
+        let sucessoTotal = true;
+
+        for (const id of ids) {
+            const resultado = await atualizarStatusTalao(id, 'Enviado'); 
+            if (!resultado.success) {
+                sucessoTotal = false;
+                console.error(`Erro ao atualizar status para o talão com ID ${id}:`, resultado.message);
+            }
+        }
+
+        if (sucessoTotal) {
+            alert('Remessa de talão enviada com sucesso!');
+            carregarStatusEnvio(); 
+        } else {
+            alert('Houve erros ao atualizar alguns talões. Verifique o console para mais detalhes.');
+        }
+    } else {
+        alert('Selecione ao menos um envio com status "Aguardando".');
+    }
+});
+
+
 
 // Carregar os status de envio quando a página for carregada
 carregarStatusEnvio();
