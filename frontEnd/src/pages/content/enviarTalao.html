@@ -1,4 +1,5 @@
 <!-- Formulário de Envio de Talões -->
+ 
 <div class="container mt-2">
     <h3 class="mb-4 text-start">Envio de Talões</h3>
 
@@ -8,11 +9,7 @@
             <div class="col-md-6">
                 <label for="loja-destinatario" class="form-label">Loja Destinatário:</label>
                 <select id="loja-destinatario" name="loja-destinatario" class="form-select rounded-3" required>
-                    <option value="">Selecione a Loja</option>
-                    <option value="loja1">Loja 1</option>
-                    <option value="loja2">Loja 2</option>
-                    <option value="loja3">Loja 3</option>
-                    <option value="loja4">Loja 4</option>
+                    <option value="">Selecione a Loja</option> <!-- Opção padrão -->
                 </select>
             </div>
 
@@ -20,11 +17,7 @@
             <div class="col-md-6">
                 <label for="loja-remetente" class="form-label">Loja Remetente:</label>
                 <select id="loja-remetente" name="loja-remetente" class="form-select rounded-3" required>
-                    <option value="">Selecione a Loja</option>
-                    <option value="loja1">Loja 1</option>
-                    <option value="loja2">Loja 2</option>
-                    <option value="loja3">Loja 3</option>
-                    <option value="loja4">Loja 4</option>
+                    <option value="">Selecione a Loja</option> <!-- Opção padrão -->
                 </select>
             </div>
         </div>
@@ -45,29 +38,15 @@
 
         <div class="row mb-3 mb-3">
             <!-- Campo Data de Envio -->
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <label for="data-envio" class="form-label">Data de Envio:</label>
                 <input type="date" id="data-envio" name="data-envio" class="form-control rounded-3" required>
             </div>
 
-            <!-- Campo Horário do Envio -->
-            <div class="col-md-4">
-                <label for="hora-envio" class="form-label">Horário do Envio:</label>
-                <input type="time" id="hora-envio" name="hora-envio" class="form-control rounded-3" required>
-            </div>
-
             <!-- Campo Previsão de Entrega -->
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <label for="previsao-entrega" class="form-label">Previsão de Entrega:</label>
                 <input type="date" id="previsao-entrega" name="previsao-entrega" class="form-control rounded-3" required>
-            </div>
-        </div>
-
-        <div class="row mb-3 mb-3">
-            <!-- Campo Destinatário Responsável -->
-            <div class="col-md-6">
-                <label for="responsavel-destinatario" class="form-label">Destinatário Responsável:</label>
-                <input type="text" id="responsavel-destinatario" name="responsavel-destinatario" class="form-control rounded-3" required>
             </div>
         </div>
 
@@ -82,3 +61,5 @@
 
     </form>
 </div>
+
+<script src="../../scripts/enviarTalao.js" data-module></script>

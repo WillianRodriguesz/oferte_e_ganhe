@@ -1,10 +1,10 @@
-const { inserirBooklet, obterTodosTaloes, obterTalaoPorId, atualizarTalao, excluirTalao } = require('../services/talaoServices');
+const { inserirTalao, obterTodosTaloes, obterTalaoPorId, atualizarTalao, excluirTalao } = require('../services/talaoServices');
 
 // Controlador para cadastrar um novo talão
 const cadastrarTalao = async (req, res) => {
-    const { numero_remessa, qtd_talao, destinatario, remetente, status } = req.body;
+    const { numero_remessa, qtd_talao, destinatario, remetente, status, data_envio, data_prevista, data_recebimento, observacao } = req.body;
     try {
-        const novoTalao = await inserirBooklet(numero_remessa, qtd_talao, destinatario, remetente, status);
+        const novoTalao = await inserirTalao(numero_remessa, qtd_talao, destinatario, remetente, status, data_envio, data_prevista, data_recebimento, observacao);
         res.status(201).json({ message: 'Talão cadastrado com sucesso!', talao: novoTalao });
     } catch (erro) {
         res.status(500).json({ message: 'Erro ao cadastrar talão', error: erro.message });
@@ -40,7 +40,7 @@ const atualizarTalaoInfo = async (req, res) => {
     const { id } = req.params;
     const { numero_remessa, qtd_talao, destinatario, remetente, status } = req.body;
     try {
-        const talaoAtualizado = await atualizarTalao(id, numero_remessa, qtd_talao, destinatario, remetente, status);
+        const talaoAtualizado = await atualizarTalao(numero_remessa, qtd_talao, destinatario, remetente, status, data_envio, data_prevista, data_recebimento, observacao);
         if (!talaoAtualizado) {
             return res.status(404).json({ message: 'Talão não encontrado' });
         }
