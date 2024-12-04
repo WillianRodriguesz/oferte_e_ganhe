@@ -45,7 +45,7 @@ async function handleEnvioTalao(e) {
         numero_remessa: document.getElementById('num-remessa').value,
         data_envio: document.getElementById('data-envio').value,
         data_prevista: document.getElementById('previsao-entrega').value,
-        status: "aguardando",
+        status: "Aguardando",
     };
     try {
         console.log('dados enviados pro banco')

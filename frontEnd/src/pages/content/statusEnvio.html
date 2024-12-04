@@ -5,7 +5,7 @@
     <div class="row mb-4">
         <div class="col-md-6">
             <div class="search-bar">
-                <input type="text" id="filtro-unidade" name="filtro-unidade" placeholder="Digite o nome da unidade" >
+                <input type="text" id="filtro-unidade" name="filtro-unidade" placeholder="Digite o codigo da unidade" >
             </div>
         </div>
         <div class="col-md-3 d-flex align-items-end">
@@ -35,7 +35,7 @@
             <thead class="table-light">
                 <tr>
                     <th class="text-center">Status</th>
-                    <th class="text-center">Unidade</th>
+                    <th class="text-center">Cod. Unidade</th>
                     <th class="text-center">Data de Envio</th>
                     <th class="text-center">Detalhes</th>
                     <th class="text-center">Selecionar</th>
@@ -44,9 +44,9 @@
             <tbody id="status-table-body">
                 <!-- Exemplo de linha -->
                 <tr>
-                    <td class="text-center"><span class="badge bg-success">Recebido</span></td>
-                    <td>Loja 1</td>
-                    <td class="text-center">2024-11-21</td>
+                    <td class="text-center"><span class="badge bg-warning">enviado</span></td>
+                    <td class="text-center">2020</td>
+                    <td class="text-center">2024-12-05</td>
                     <td class="text-center">
                         <button class="btn btn-link" id="btn-detalhes-1">
                             <img src="/styles/img/iconDetalhes.svg" alt="Detalhes" style="width: 24px; height: 24px;">
@@ -55,9 +55,9 @@
                     <td class="text-center"><input type="checkbox" class="form-check-input" style="border: 1px solid #000000;"></td>
                 </tr>
                 <tr>
-                    <td class="text-center"><span class="badge bg-warning">Em Trânsito</span></td>
-                    <td>Loja Pelotas</td>
-                    <td class="text-center">2024-11-20</td>
+                    <td class="text-center"><span class="badge bg-secondary">aguardando</span></td>
+                    <td class="text-center">1002</td>
+                    <td class="text-center">2024-12-05</td>
                     <td class="text-center">
                         <button class="btn btn-link" id="btn-detalhes-2">
                             <img src="/styles/img/iconDetalhes.svg" alt="Detalhes" style="width: 24px; height: 24px;">
@@ -69,3 +69,5 @@
         </table>
     </div>
 </div>
+
+<script src="../../scripts/statusEnvio.js" data-module></script>
