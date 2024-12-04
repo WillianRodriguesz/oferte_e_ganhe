@@ -5,21 +5,23 @@
 
     <form action="processar_talao.html" method="POST">
         <div class="row mb-8 mb-3">
-            <!-- Campo Loja Destinatário -->
-            <div class="col-md-6">
-                <label for="loja-destinatario" class="form-label">Loja Destinatário:</label>
-                <select id="loja-destinatario" name="loja-destinatario" class="form-select rounded-3" required>
-                    <option value="">Selecione a Loja</option> <!-- Opção padrão -->
-                </select>
-            </div>
-
+            
             <!-- Campo Loja Remetente -->
             <div class="col-md-6">
                 <label for="loja-remetente" class="form-label">Loja Remetente:</label>
                 <select id="loja-remetente" name="loja-remetente" class="form-select rounded-3" required>
-                    <option value="">Selecione a Loja</option> <!-- Opção padrão -->
+                    <option value="">Selecione o cod. da Loja</option> <!-- Opção padrão -->
                 </select>
             </div>
+
+            <!-- Campo Loja Destinatário -->
+            <div class="col-md-6">
+                <label for="loja-destinatario" class="form-label">Loja Destinatário:</label>
+                <select id="loja-destinatario" name="loja-destinatario" class="form-select rounded-3" required>
+                    <option value="">Selecione o cod. da Loja</option> <!-- Opção padrão -->
+                </select>
+            </div>
+
         </div>
 
         <div class="row mb-3 mb-3">
