@@ -77,10 +77,29 @@ async function excluirTalao(id) {
     }
 }
 
+async function atualizarStatusTalao(id, novoStatus) {
+    try {
+        const talao = await Talao.findOne({
+            where: { id: id }
+        });
+
+        if (!talao) return null; // Retorna null se o talão não for encontrado
+
+        talao.status = novoStatus; // Atualiza apenas o status
+        await talao.save(); // Salva a alteração no banco
+
+        return talao; // Retorna o talão atualizado
+    } catch (erro) {
+        console.error('Erro ao atualizar status do talão:', erro);
+        throw erro;
+    }
+}
+
 module.exports = {
     inserirTalao,
     obterTodosTaloes,
     obterTalaoPorId,
     atualizarTalao,
-    excluirTalao
+    excluirTalao,
+    atualizarStatusTalao
 };

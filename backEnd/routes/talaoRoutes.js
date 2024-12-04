@@ -17,6 +17,9 @@ router.get('/talao/:id', authenticateToken, verificarPermissao, talaoController.
 // Rota para atualizar um talão pelo ID
 router.put('/talao/:id', authenticateToken, verificarPermissao, talaoController.atualizarTalaoInfo);
 
+// Rota para atualizar apenas o status de um talão pelo ID
+router.put('/talao/:id/status', authenticateToken, verificarPermissao, talaoController.atualizarStatus);
+
 // Rota para excluir um talão pelo ID
 router.delete('/talao/:id', authenticateToken, verificarPermissao, talaoController.excluirTalaoInfo);
 

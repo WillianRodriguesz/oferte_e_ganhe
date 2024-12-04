@@ -1,4 +1,4 @@
-const { inserirTalao, obterTodosTaloes, obterTalaoPorId, atualizarTalao, excluirTalao } = require('../services/talaoServices');
+const { inserirTalao, obterTodosTaloes, obterTalaoPorId, atualizarTalao, excluirTalao, atualizarStatusTalao } = require('../services/talaoServices');
 
 // Controlador para cadastrar um novo talão
 const cadastrarTalao = async (req, res) => {
@@ -64,10 +64,40 @@ const excluirTalaoInfo = async (req, res) => {
     }
 };
 
+// Controlador para atualizar o status de um talão pelo ID
+const atualizarStatus = async (req, res) => {
+    const { id } = req.params; // ID do talão na URL
+    const { status } = req.body; // Novo status no corpo da requisição
+
+    if (!status) {
+        return res.status(400).json({ message: 'O campo status é obrigatório.' });
+    }
+
+    try {
+        const talaoAtualizado = await atualizarStatusTalao(id, status); // Chama o serviço para atualizar o status
+
+        if (!talaoAtualizado) {
+            return res.status(404).json({ message: 'Talão não encontrado' });
+        }
+
+        res.status(200).json({ 
+            message: 'Status do talão atualizado com sucesso!', 
+            talao: talaoAtualizado 
+        });
+    } catch (erro) {
+        console.error('Erro ao atualizar status do talão:', erro);
+        res.status(500).json({ 
+            message: 'Erro ao atualizar status do talão.', 
+            error: erro.message 
+        });
+    }
+};
+
 module.exports = {
     cadastrarTalao,
     listarTaloes,
     obterTalao,
     atualizarTalaoInfo,
-    excluirTalaoInfo
+    excluirTalaoInfo,
+    atualizarStatus
 };

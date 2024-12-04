@@ -1,10 +1,21 @@
-import { buscarTaloes, atualizarTalao, buscarTalaoPorId } from '../services/talaoService.js';
+import { buscarTaloes, atualizarTalao, buscarTalaoPorId, atualizarStatusTalao } from '../services/talaoService.js';
 
 // Função para carregar os status de envio e preencher a tabela HTML
 async function carregarStatusEnvio() {
     const resultado = await buscarTaloes(); // Chama o serviço para buscar os status de envio
     if (resultado.success) {
-        const statusEnvio = resultado.data; // Dados dos status de envio recebidos da API
+        let statusEnvio = resultado.data; // Dados dos status de envio recebidos da API
+
+        // Ordenar os dados com "Aguardando" primeiro, depois "Enviado" e por último "Recebido"
+        statusEnvio = statusEnvio.sort((a, b) => {
+            const statusOrder = {
+                'Aguardando': 1,
+                'Enviado': 2,
+                'Recebido': 3
+            };
+            return statusOrder[a.status] - statusOrder[b.status];
+        });
+
         const tabelaCorpo = document.querySelector('#status-table-body'); // Referência para o corpo da tabela
 
         // Limpa a tabela antes de adicionar os dados
@@ -55,10 +66,9 @@ async function carregarStatusEnvio() {
 
 // Função para exibir os detalhes do envio
 async function exibirDetalhesEnvio(id) {
-    const resultado = await buscarTalaoPorId(id); // Chama o serviço para buscar os detalhes do envio
+    const resultado = await buscarTalaoPorId(id); 
     if (resultado.success) {
         const envio = resultado.data;
-        // Exibe os detalhes do envio (essa parte pode abrir um modal, por exemplo)
         alert(`Detalhes do envio: ${JSON.stringify(envio)}`);
     } else {
         alert('Erro ao carregar detalhes do envio.');
@@ -75,30 +85,8 @@ document.getElementById('filtro-unidade').addEventListener('input', function () 
     });
 });
 
-// Função para enviar os dados selecionados
-document.getElementById('btn-enviar').addEventListener('click', async function () {
-    const selectedCheckboxes = document.querySelectorAll('.form-check-input:checked');
-    const ids = [];
-    selectedCheckboxes.forEach(checkbox => {
-        ids.push(checkbox.getAttribute('data-id')); // Coleta os IDs dos envios selecionados
-    });
-
-    if (ids.length > 0) {
-        const resultado = await atualizarTalao(ids); // Atualiza os status de envio
-        if (resultado.success) {
-            alert('Status de envio atualizado com sucesso!');
-            carregarStatusEnvio(); // Recarrega a tabela após atualização
-        } else {
-            alert('Erro ao atualizar os status de envio.');
-        }
-    } else {
-        alert('Selecione ao menos um envio para atualizar.');
-    }
-});
-
 // Função para exportar os dados para CSV
 document.getElementById('btn-download-csv').addEventListener('click', function () {
-    // Função para gerar e baixar o CSV com os dados da tabela
     const tabela = document.querySelector('.table-status-envio');
     const rows = tabela.querySelectorAll('tr');
     const csvData = [];
@@ -118,6 +106,38 @@ document.getElementById('btn-download-csv').addEventListener('click', function (
     link.setAttribute('download', 'status_envio.csv');
     link.click();
 });
+
+document.getElementById('btn-enviar').addEventListener('click', async function () {
+    const selectedCheckboxes = document.querySelectorAll('.form-check-input:checked:not(:disabled)');
+    const ids = [];
+
+    selectedCheckboxes.forEach(checkbox => {
+        ids.push(checkbox.getAttribute('data-id'));
+    });
+
+    if (ids.length > 0) {
+        let sucessoTotal = true;
+
+        for (const id of ids) {
+            const resultado = await atualizarStatusTalao(id, 'Enviado'); 
+            if (!resultado.success) {
+                sucessoTotal = false;
+                console.error(`Erro ao atualizar status para o talão com ID ${id}:`, resultado.message);
+            }
+        }
+
+        if (sucessoTotal) {
+            alert('Remessa de talão enviada com sucesso!');
+            carregarStatusEnvio(); // Recarrega a tabela para refletir as alterações
+        } else {
+            alert('Houve erros ao atualizar alguns talões. Verifique o console para mais detalhes.');
+        }
+    } else {
+        alert('Selecione ao menos um envio com status "Aguardando".');
+    }
+});
+
+
 
 // Carregar os status de envio quando a página for carregada
 carregarStatusEnvio();

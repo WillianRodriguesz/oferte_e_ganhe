@@ -164,3 +164,38 @@ export async function atualizarTalao(id, talaoData) {
         return { success: false, message: error.message || 'Erro ao tentar atualizar o talão. Tente novamente.' };
     }
 }
+
+export async function atualizarStatusTalao(id, status) {
+    try {
+        const token = localStorage.getItem('auth_token');
+
+        if (!token) {
+            throw new Error('Token não encontrado. Faça login novamente.');
+        }
+
+        const response = await fetch(`http://localhost:3000/talao/${id}/status`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify({ status }), // Apenas o status será enviado
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            return { success: true, data }; // Retorna o talão atualizado
+        } else {
+            let message = 'Erro ao atualizar o status do talão.';
+            if (data && data.message) {
+                message = data.message;
+            }
+            return { success: false, message };
+        }
+    } catch (error) {
+        console.error(`Erro ao atualizar o status do talão com ID ${id}:`, error);
+        return { success: false, message: error.message || 'Erro ao tentar atualizar o status do talão. Tente novamente.' };
+    }
+}
+
