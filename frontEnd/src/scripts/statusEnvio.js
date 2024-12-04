@@ -32,7 +32,10 @@ async function carregarStatusEnvio() {
                     </button>
                 </td>
                 <td class="text-center">
-                    <input type="checkbox" class="form-check-input" style="border: 1px solid #000000;" data-id="${envio.id}">
+                    <input type="checkbox" class="form-check-input" 
+                        style="border: 1px solid #000000;" 
+                        data-id="${envio.id}" 
+                        ${envio.status !== 'Aguardando' ? 'disabled' : ''}>
                 </td>
             `;
 
