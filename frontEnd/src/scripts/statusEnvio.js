@@ -1,4 +1,4 @@
-import { buscarTaloes, atualizarTalao, buscarTalaoPorId, atualizarStatusTalao } from '../services/talaoService.js';
+import { buscarTaloes, excluirTalao, buscarTalaoPorId, atualizarStatusTalao } from '../services/talaoService.js';
 
 async function carregarStatusEnvio() {
     const resultado = await buscarTaloes(); 
@@ -46,10 +46,9 @@ async function carregarStatusEnvio() {
                 </td>
             `;
 
-           
             tabelaCorpo.appendChild(linha);
 
-            // Adiciona o evento de exibição de detalhes após a renderização
+            // Adiciona o evento de clique para exibir os detalhes após a renderização
             const btnDetalhes = document.querySelector(`#btn-detalhes-${envio.id}`);
             btnDetalhes.addEventListener('click', () => {
                 exibirDetalhesEnvio(envio.id); // Chama a função para exibir detalhes do envio
@@ -65,7 +64,21 @@ async function exibirDetalhesEnvio(id) {
     const resultado = await buscarTalaoPorId(id); 
     if (resultado.success) {
         const envio = resultado.data;
-        alert(`Detalhes do envio: ${JSON.stringify(envio)}`);
+        // Exibe os detalhes em um modal ou de alguma outra forma
+        const modalConteudo = document.getElementById('modal-detalhes-conteudo');
+        modalConteudo.innerHTML = ` 
+            <p><strong>Número da Remessa:</strong> ${envio.numero_remessa}</p>
+            <p><strong>Quantidade de Talões:</strong> ${envio.qtd_talao}</p>
+            <p><strong>Destinatário:</strong> ${envio.destinatario}</p>
+            <p><strong>Remetente:</strong> ${envio.remetente}</p>
+            <p><strong>Data de Envio:</strong> ${envio.data_envio}</p>
+            <p><strong>Data Prevista:</strong> ${envio.data_prevista}</p>
+            <p><strong>Status:</strong> ${envio.status}</p>
+        `;
+
+        // Exibe o modal
+        const modal = new bootstrap.Modal(document.getElementById('modalDetalhes'));
+        modal.show();
     } else {
         alert('Erro ao carregar detalhes do envio.');
     }
@@ -133,7 +146,36 @@ document.getElementById('btn-enviar').addEventListener('click', async function (
     }
 });
 
+// Função para excluir talões
+document.getElementById('btn-excluir').addEventListener('click', async function () {
+    const selectedCheckboxes = document.querySelectorAll('.form-check-input:checked:not(:disabled)');
+    const ids = [];
 
+    selectedCheckboxes.forEach(checkbox => {
+        ids.push(checkbox.getAttribute('data-id'));
+    });
+
+    if (ids.length > 0) {
+        let sucessoTotal = true;
+
+        for (const id of ids) {
+            const resultado = await excluirTalao(id); // Chama o método de exclusão do seu talaoService
+            if (!resultado.success) {
+                sucessoTotal = false;
+                console.error(`Erro ao excluir talão com ID ${id}:`, resultado.message);
+            }
+        }
+
+        if (sucessoTotal) {
+            alert('Talões excluídos com sucesso!');
+            carregarStatusEnvio(); // Recarrega a tabela após a exclusão
+        } else {
+            alert('Houve erros ao excluir alguns talões. Verifique o console para mais detalhes.');
+        }
+    } else {
+        alert('Selecione ao menos um talão para exclusão.');
+    }
+});
 
 // Carregar os status de envio quando a página for carregada
 carregarStatusEnvio();
