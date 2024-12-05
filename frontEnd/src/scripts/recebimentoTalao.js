@@ -45,20 +45,28 @@ async function carregarStatusRecebimento() {
     }
 }
 
+// Função para aplicar o filtro de pesquisa automático
+document.getElementById('filtro-remessa').addEventListener('input', function () {
+    const filtroRemessa = document.getElementById('filtro-remessa').value.toLowerCase();
+    const linhas = document.querySelectorAll('#status-table-body tr');
+    
+    linhas.forEach(linha => {
+        const remessa = linha.querySelector('td:nth-child(1)').textContent.toLowerCase();
+        linha.style.display = remessa.includes(filtroRemessa) ? '' : 'none';
+    });
+});
+
 // Função para aplicar o filtro de pesquisa
 document.getElementById('btn-pesquisar').addEventListener('click', function () {
-    const filtroRemessa = document.getElementById('filtro-remessa').value.toLowerCase();
     const filtroDataEnvio = document.getElementById('filtro-data-envio').value;
     const filtroDataRecebida = document.getElementById('filtro-data-recebida').value;
 
     const linhas = document.querySelectorAll('#status-table-body tr');
     linhas.forEach(linha => {
-        const remessa = linha.querySelector('td:nth-child(1)').textContent.toLowerCase();
         const dataEnvio = linha.querySelector('td:nth-child(3)').textContent;
         const dataRecebida = linha.querySelector('td:nth-child(4)').textContent;
 
-        const exibeLinha = remessa.includes(filtroRemessa) &&
-                           (filtroDataEnvio === '' || dataEnvio.includes(filtroDataEnvio)) &&
+        const exibeLinha = (filtroDataEnvio === '' || dataEnvio.includes(filtroDataEnvio)) &&
                            (filtroDataRecebida === '' || dataRecebida.includes(filtroDataRecebida));
 
         linha.style.display = exibeLinha ? '' : 'none';
