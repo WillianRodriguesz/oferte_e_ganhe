@@ -15,10 +15,9 @@
         <div class="col-md-4">
             <button class="btn btn-outline-success text-center w-100 disabled-button" style="height: 250px; border-width: 2px;">
                 <div class="d-flex flex-column justify-content-center align-items-center h-100 p-0">
-                    <h5 class="card-title text-dark">Estoque Atual da Loja</h5>
-                    <img src="/styles/img/iconEstoqueAtual.svg" alt="Imagem 2" class="img-fluid" style="max-width: 100px;">
-                    <p class="card-text text-success mt-3">Carregando...</p>
-
+                    <h5 class="card-title text-dark" id="estoqueAtual">Estoque Atual da Loja</h5>
+                    <img id="imgEstoqueAtual" src="/styles/img/iconEstoqueAtual.svg" alt="Imagem 2" class="img-fluid" style="max-width: 100px;">
+                    <p id="textoEstoque" class="card-text text-success mt-3">Carregando...</p>
                 </div>
             </button>
         </div>
@@ -93,6 +92,20 @@
     button:disabled:hover, .disabled-button:hover {
         background-color: transparent !important;
         border-color: #28a745 !important;
+    }
+
+    /* Estilo para botão em estado de alerta */
+    .alerta-estoque {
+        border-color: #dc3545; /* Vermelho */
+        background-color: rgba(220, 53, 69, 0.1); /* Vermelho suave com transparência */
+    }
+
+    .alerta-estoque h5 {
+        color: #dc3545; /* Vermelho para o texto */
+    }
+
+    .alerta-estoque img {
+        filter: hue-rotate(180deg); /* Alteração de cor no ícone, se necessário */
     }
 </style>
 
