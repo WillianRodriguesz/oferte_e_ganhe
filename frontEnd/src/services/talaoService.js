@@ -173,7 +173,7 @@ export async function atualizarStatusTalao(id, status) {
             throw new Error('Token não encontrado. Faça login novamente.');
         }
 
-        const response = await fetch(`http://localhost:3000/talao/${id}/status`, {
+        const response = await fetch(`http://localhost:3000/talao/status/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -196,6 +196,43 @@ export async function atualizarStatusTalao(id, status) {
     } catch (error) {
         console.error(`Erro ao atualizar o status do talão com ID ${id}:`, error);
         return { success: false, message: error.message || 'Erro ao tentar atualizar o status do talão. Tente novamente.' };
+    }
+}
+
+export async function atualizarRecebimentoPorRemessa(numeroRemessa, dataRecebimento) {
+    try {
+        const token = localStorage.getItem('auth_token');
+
+        if (!token) {
+            throw new Error('Token não encontrado. Faça login novamente.');
+        }
+
+        const response = await fetch('http://localhost:3000/talao/recebimento', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`, // Adiciona o token aqui
+            },
+            body: JSON.stringify({
+                numero_remessa: numeroRemessa,
+                data_recebimento: dataRecebimento,
+            }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            return { success: true, data }; // Retorna os dados atualizados
+        } else {
+            let message = 'Erro ao atualizar o recebimento do talão.';
+            if (data && data.message) {
+                message = data.message;
+            }
+            return { success: false, message };
+        }
+    } catch (error) {
+        console.error('Erro ao atualizar o recebimento do talão:', error);
+        return { success: false, message: error.message || 'Erro ao tentar atualizar o recebimento do talão. Tente novamente.' };
     }
 }
 

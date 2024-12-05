@@ -14,13 +14,19 @@ router.get('/talao', authenticateToken, verificarPermissao, talaoController.list
 // Rota para obter um talão por ID
 router.get('/talao/:id', authenticateToken, verificarPermissao, talaoController.obterTalao);
 
+// Rota para obter um talão pelo número de remessa
+router.get('/talao/numeroRemessa/:numero_remessa', authenticateToken, verificarPermissao, talaoController.obterTalaoPorRemessa);
+
 // Rota para atualizar um talão pelo ID
 router.put('/talao/:id', authenticateToken, verificarPermissao, talaoController.atualizarTalaoInfo);
 
 // Rota para atualizar apenas o status de um talão pelo ID
-router.put('/talao/:id/status', authenticateToken, verificarPermissao, talaoController.atualizarStatus);
+router.put('/talao/status/:id', authenticateToken, verificarPermissao, talaoController.atualizarStatus);
 
 // Rota para excluir um talão pelo ID
 router.delete('/talao/:id', authenticateToken, verificarPermissao, talaoController.excluirTalaoInfo);
+
+// Rota para editar data_recebimento e status de um talão pelo ID
+router.put('/talao/editarRecebimento/:id', authenticateToken, verificarPermissao, talaoController.editarRecebimentoTalao);
 
 module.exports = router;

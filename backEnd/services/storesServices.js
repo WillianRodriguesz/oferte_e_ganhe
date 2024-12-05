@@ -20,11 +20,11 @@ async function obterTodasLojas() {
             include: [
                 {
                     model: Estoque,
-                    attributes: ['qtd_atual', 'qtd_minima', 'qtd_maxima', 'status'], // Inclui apenas os campos desejados
+                    attributes: ['qtd_atual', 'qtd_minima', 'qtd_maxima', 'status'], 
                 },
                 {
                     model: Address,
-                    attributes: ['estado', 'cidade', 'cep', 'bairro', 'endereco', 'numero'], // Inclui apenas os campos desejados
+                    attributes: ['estado', 'cidade', 'cep', 'bairro', 'endereco', 'numero'], 
                 }
             ],
         });
@@ -43,11 +43,11 @@ async function obterLojaId(id) {
             include: [
                 {
                     model: Estoque,
-                    attributes: ['qtd_atual', 'qtd_minima', 'qtd_maxima', 'status'], // Inclui apenas os campos desejados
+                    attributes: ['qtd_atual', 'qtd_minima', 'qtd_maxima', 'status'], 
                 },
                 {
                     model: Address,
-                    attributes: ['estado', 'cidade', 'cep', 'bairro', 'endereco', 'numero'], // Inclui apenas os campos desejados
+                    attributes: ['estado', 'cidade', 'cep', 'bairro', 'endereco', 'numero'], 
                 }
             ],
         });
@@ -73,7 +73,7 @@ async function atualizarLoja(id, cod_unidade, id_estoque, logradouro, matriz) {
         loja.logradouro = logradouro;
         loja.matriz = matriz;
 
-        await loja.save(); // Salva as alterações no banco
+        await loja.save(); 
 
         return loja;
     } catch (erro) {
@@ -91,7 +91,7 @@ async function excluirLoja(id) {
 
         if (!loja) return null;
 
-        await loja.destroy(); // Remove a loja do banco
+        await loja.destroy(); 
 
         return loja;
     } catch (erro) {

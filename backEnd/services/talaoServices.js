@@ -95,11 +95,46 @@ async function atualizarStatusTalao(id, novoStatus) {
     }
 }
 
+async function obterTalaoPorNumeroRemessa(numero_remessa) {
+    try {
+        const talao = await Talao.findOne({
+            where: { numero_remessa: numero_remessa }
+        });
+        return talao ? talao : null; 
+    } catch (erro) {
+        console.error('Erro ao obter talão por número da remessa:', erro);
+        throw erro;
+    }
+}
+
+async function editarRecebimento(id, data_recebimento, status) {
+    try {
+        const talao = await Talao.findOne({
+            where: { id: id }
+        });
+
+        if (!talao) return null; // Retorna null caso o talão não seja encontrado
+
+        // Atualiza apenas os campos necessários
+        talao.data_recebimento = data_recebimento;
+        talao.status = status;
+
+        await talao.save(); // Salva as alterações no banco de dados
+
+        return talao; // Retorna o talão atualizado
+    } catch (erro) {
+        console.error('Erro ao editar data_recebimento e status:', erro);
+        throw erro;
+    }
+}
+
 module.exports = {
     inserirTalao,
     obterTodosTaloes,
     obterTalaoPorId,
     atualizarTalao,
     excluirTalao,
-    atualizarStatusTalao
+    atualizarStatusTalao,
+    obterTalaoPorNumeroRemessa,
+    editarRecebimento
 };

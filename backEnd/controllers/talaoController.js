@@ -1,4 +1,5 @@
-const { inserirTalao, obterTodosTaloes, obterTalaoPorId, atualizarTalao, excluirTalao, atualizarStatusTalao } = require('../services/talaoServices');
+const { inserirTalao, obterTodosTaloes, obterTalaoPorId, atualizarTalao, excluirTalao, 
+        atualizarStatusTalao, obterTalaoPorNumeroRemessa, editarRecebimento } = require('../services/talaoServices');
 
 // Controlador para cadastrar um novo talão
 const cadastrarTalao = async (req, res) => {
@@ -93,11 +94,63 @@ const atualizarStatus = async (req, res) => {
     }
 };
 
+const obterTalaoPorRemessa = async (req, res) => {
+    const { numero_remessa } = req.params; // Número de remessa na URL
+
+    try {
+        const talao = await obterTalaoPorNumeroRemessa(numero_remessa); // Chama o serviço
+
+        if (!talao) {
+            return res.status(404).json({ message: 'Talão não encontrado para o número de remessa fornecido.' });
+        }
+
+        res.status(200).json(talao);
+    } catch (erro) {
+        console.error('Erro ao obter talão por número de remessa:', erro);
+        res.status(500).json({ 
+            message: 'Erro ao buscar talão pelo número de remessa.', 
+            error: erro.message 
+        });
+    }
+};
+
+const editarRecebimentoTalao = async (req, res) => {
+    const { id } = req.params; 
+    const { data_recebimento, status } = req.body; 
+
+    if (!data_recebimento || !status) {
+        return res.status(400).json({ 
+            message: 'Os campos data_recebimento e status são obrigatórios.' 
+        });
+    }
+
+    try {
+        const talaoAtualizado = await editarRecebimento(id, data_recebimento, status); 
+
+        if (!talaoAtualizado) {
+            return res.status(404).json({ message: 'Talão não encontrado.' });
+        }
+
+        res.status(200).json({ 
+            message: 'Data de recebimento e status atualizados com sucesso!', 
+            talao: talaoAtualizado 
+        });
+    } catch (erro) {
+        console.error('Erro ao atualizar data_recebimento e status:', erro);
+        res.status(500).json({ 
+            message: 'Erro ao atualizar data_recebimento e status do talão.', 
+            error: erro.message 
+        });
+    }
+};
+
 module.exports = {
     cadastrarTalao,
     listarTaloes,
     obterTalao,
     atualizarTalaoInfo,
     excluirTalaoInfo,
-    atualizarStatus
+    atualizarStatus,
+    obterTalaoPorRemessa,
+    editarRecebimentoTalao
 };
