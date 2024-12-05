@@ -32,14 +32,22 @@ const autenticarUsuario = async (req, res) => {
 
         const modulosNome = modulos.map(modulo => modulo.Modulo.nome);  
 
+        // Informações do usuario
+        const user = {
+            matricula: usuario.matricula, 
+            nome: usuario.nome, 
+            id_loja: usuario.id_loja,
+            perfil: usuario.perfil, 
+            nomePerfil: perfilUsuario.nome, 
+            modulos: modulosNome,
+            status: usuario.status, 
+        }
         // Gera o token JWT com as informações necessárias
         const token = jwt.sign(
-            { 
-                matricula: usuario.matricula, 
-                nome: usuario.nome, 
+            {  
                 perfil: usuario.perfil, 
                 nomePerfil: perfilUsuario.nome, 
-                modulos: modulosNome // Inclui os módulos no token
+                modulos: modulosNome 
             },
             JWT_SECRET_KEY,
             { expiresIn: '12h' }
@@ -53,7 +61,7 @@ const autenticarUsuario = async (req, res) => {
             maxAge: 60 * 60 * 1000, 
         });
 
-        res.status(200).json({ mensagem: 'Autenticado com sucesso!', token: token });
+        res.status(200).json({ mensagem: 'Autenticado com sucesso!', token: token, usuario: user });
     } catch (erro) {
         console.error(erro);
         res.status(500).json({ erro: 'Erro no servidor' });

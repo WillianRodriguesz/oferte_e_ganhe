@@ -50,6 +50,7 @@ function configureSidebarNavigation() {
         if (spanText === 'Sair do sistema') {
             button.addEventListener('click', () => {
                 localStorage.clear();
+                sessionStorage.clear();
                 window.location.href = '/pages/login/login.html';
             });
             return; 

@@ -20,11 +20,7 @@ async function validarUsuario(email, senha) {
         }
 
         // Retorna os dados do usuário
-        return {
-            matricula: usuario.matricula,
-            nome: usuario.nome,
-            perfil: usuario.perfil,
-        };
+        return usuario;
     } catch (erro) {
         console.error('Erro ao validar usuário:', erro);
         throw erro;
