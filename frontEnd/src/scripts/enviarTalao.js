@@ -48,8 +48,6 @@ async function handleEnvioTalao(e) {
         status: "Aguardando",
     };
     try {
-        console.log('dados enviados pro banco')
-        console.log(talaoData)
         const result = await enviarTalao(talaoData);
 
         if (result.success) {
