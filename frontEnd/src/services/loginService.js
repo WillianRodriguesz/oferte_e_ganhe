@@ -6,7 +6,7 @@ export async function enviarLogin(email, senha) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ email, senha }),
-            credentials: 'include',  // Se precisar enviar cookies
+            credentials: 'include', 
         });
 
         const data = await response.json();

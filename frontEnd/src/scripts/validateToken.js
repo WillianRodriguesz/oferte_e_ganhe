@@ -6,7 +6,7 @@ async function validarToken() {
 
         if (!token) {
             alert('Sessão inválida. Faça login novamente.');
-            window.location.href = '/pages/login/login.html'; // Redireciona para login
+            window.location.href = '/login'; // Redireciona para login
             return;
         }
 
@@ -22,7 +22,8 @@ async function validarToken() {
             const erro = await response.json();
             console.error('Erro na validação:', erro);
             alert('Sessão inválida. Faça login novamente.');
-            window.location.href = '/pages/login/login.html'; // Redireciona para login
+           // window.location.href = '/login'; // Redireciona para login
+            window.location.href = '/login'
             return;
         }
 
@@ -30,7 +31,7 @@ async function validarToken() {
     } catch (error) {
         console.error('Erro ao validar o token:', error);
         alert('Erro ao validar sua sessão. Faça login novamente.');
-        window.location.href = '/pages/login/login.html'; // Redireciona para login
+        window.location.href = '/login'; // Redireciona para login
     }
 }
 

@@ -26,6 +26,10 @@ const Talao = sequelize.define('Talao', {
     },
   },
   status: DataTypes.STRING(55),
+  data_envio: DataTypes.DATE,
+  data_prevista: DataTypes.DATE,
+  data_recebimento: DataTypes.DATE,
+  observacao: DataTypes.STRING,
 }, {
   tableName: 'talao',
   timestamps: false,

@@ -3,28 +3,33 @@
 
     <!-- Filtro e Botões -->
     <div class="row mb-4">
+        <!-- Filtro -->
         <div class="col-md-6">
             <div class="search-bar">
-                <input type="text" id="filtro-unidade" name="filtro-unidade" placeholder="Digite o nome da unidade" >
+                <input type="text" id="filtro-unidade" name="filtro-unidade" placeholder="Digite o código da unidade" class="form-control">
             </div>
         </div>
-        <div class="col-md-3 d-flex align-items-end">
+
+        <!-- Botões CSV, Enviar e Excluir -->
+        <div class="col-md-6 d-flex gap-3 align-items-end">
+            <!-- Botão CSV -->
             <button 
                 class="btn btn-outline-secondary w-100 rounded-3" 
                 type="button" 
                 id="btn-download-csv" 
-                style="border: 1px solid #ccc; color: #888; display: flex; align-items: center; justify-content: center; padding: 8px 16px; height: 38px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-
-                <!-- Imagem à esquerda do texto -->
+                style="border: 1px solid #ccc; color: #888; display: flex; align-items: center; justify-content: center; height: 38px;">
                 <img src="/styles/img/iconDownload.svg" alt="Imagem do CSV" style="width: 24px; height: 24px; margin-right: 10px;">
-
-                <!-- Texto do botão -->
                 CSV
             </button>
-        </div>
-        <div class="col-md-3 d-flex align-items-end">
+
+            <!-- Botão Enviar -->
             <button class="btn btn-success w-100 rounded-3" type="button" id="btn-enviar" style="height: 38px;">
                 Enviar
+            </button>
+
+            <!-- Botão Excluir com ícone de lixeira -->
+            <button class="btn btn-danger w-100 rounded-3" type="button" id="btn-excluir" style="height: 38px;">
+                Excluir
             </button>
         </div>
     </div>
@@ -35,7 +40,7 @@
             <thead class="table-light">
                 <tr>
                     <th class="text-center">Status</th>
-                    <th class="text-center">Unidade</th>
+                    <th class="text-center">Cod. Destinatário</th>
                     <th class="text-center">Data de Envio</th>
                     <th class="text-center">Detalhes</th>
                     <th class="text-center">Selecionar</th>
@@ -44,9 +49,9 @@
             <tbody id="status-table-body">
                 <!-- Exemplo de linha -->
                 <tr>
-                    <td class="text-center"><span class="badge bg-success">Recebido</span></td>
-                    <td>Loja 1</td>
-                    <td class="text-center">2024-11-21</td>
+                    <td class="text-center"><span class="badge bg-warning">enviado</span></td>
+                    <td class="text-center">2020</td>
+                    <td class="text-center">2024-12-05</td>
                     <td class="text-center">
                         <button class="btn btn-link" id="btn-detalhes-1">
                             <img src="/styles/img/iconDetalhes.svg" alt="Detalhes" style="width: 24px; height: 24px;">
@@ -55,9 +60,9 @@
                     <td class="text-center"><input type="checkbox" class="form-check-input" style="border: 1px solid #000000;"></td>
                 </tr>
                 <tr>
-                    <td class="text-center"><span class="badge bg-warning">Em Trânsito</span></td>
-                    <td>Loja Pelotas</td>
-                    <td class="text-center">2024-11-20</td>
+                    <td class="text-center"><span class="badge bg-secondary">aguardando</span></td>
+                    <td class="text-center">1002</td>
+                    <td class="text-center">2024-12-05</td>
                     <td class="text-center">
                         <button class="btn btn-link" id="btn-detalhes-2">
                             <img src="/styles/img/iconDetalhes.svg" alt="Detalhes" style="width: 24px; height: 24px;">
@@ -67,5 +72,25 @@
                 </tr>
             </tbody>
         </table>
+    </div>
+</div>
+
+<script src="../../scripts/statusEnvio.js" data-module></script>
+
+<!-- Modal -->
+<div class="modal fade" id="modalDetalhes" tabindex="-1" aria-labelledby="modalDetalhesLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalDetalhesLabel">Detalhes do Envio</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modal-detalhes-conteudo">
+                <!-- O conteúdo do modal será inserido aqui -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+            </div>
+        </div>
     </div>
 </div>

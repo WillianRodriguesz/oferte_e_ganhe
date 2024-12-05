@@ -14,7 +14,7 @@
     height: 38px; /* Ajusta a altura do campo de entrada para corresponder ao tamanho dos botões */
     border: 1px solid #ccc; /* Bordas suaves */
     border-radius: 9px; /* Bordas arredondadas */
-    background-image: url('/front/css/img/iconLupaPesquisa.svg');
+    background-image: url('../styles/img/iconLupaPesquisa.svg');
     background-repeat: no-repeat;
     background-position: right 10px center;
     background-size: 22px 22px; /* Redimensiona o ícone da lupa */
