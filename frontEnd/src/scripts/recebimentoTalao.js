@@ -1,4 +1,4 @@
-import { buscarTaloes, atualizarStatusTalao } from '../services/talaoService.js';
+import { buscarTaloes, obterTalaoPorNumeroRemessa, editarRecebimentoTalao } from '../services/talaoService.js';
 
 async function carregarStatusRecebimento() {
     const resultado = await buscarTaloes(); 
@@ -65,7 +65,6 @@ document.getElementById('btn-pesquisar').addEventListener('click', function () {
     });
 });
 
-// Função para registrar o recebimento de talões
 document.getElementById('btn-receber').addEventListener('click', async function () {
     const dataRecebimento = document.getElementById('data-recebimento').value;
     const numeroRemessa = document.getElementById('numero-remessa').value;
@@ -75,13 +74,31 @@ document.getElementById('btn-receber').addEventListener('click', async function 
         return;
     }
 
-    const resultado = await atualizarStatusTalao(numeroRemessa, dataRecebimento);
-
-    if (resultado.success) {
-        alert('Talão recebido com sucesso!');
-        carregarStatusRecebimento();  // Recarrega a tabela após o recebimento
-    } else {
-        alert('Erro ao registrar o recebimento do talão.');
+    try {
+        const talao = await obterTalaoPorNumeroRemessa(numeroRemessa);
+        if (!talao) {
+            alert('Talão não encontrado!');
+            return;
+        }
+        
+        const resultado = await editarRecebimentoTalao(talao.data.id, dataRecebimento, 'Recebido');
+        console.log(resultado);
+        
+        if (resultado) {
+            if(resultado.message){
+                alert(resultado.message);
+                carregarStatusRecebimento();
+            }else{
+                alert(resultado.data.message);
+                carregarStatusRecebimento();
+            }  
+        } else {
+            alert('Erro ao registrar o recebimento do talão.');
+        }
+        
+    } catch (erro) {
+        alert('Erro ao tentar atualizar o talão.');
+        console.error(erro);
     }
 });
 

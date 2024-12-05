@@ -118,6 +118,7 @@ const editarRecebimentoTalao = async (req, res) => {
     const { id } = req.params; 
     const { data_recebimento, status } = req.body; 
 
+    // Verifica se os campos data_recebimento e status foram fornecidos
     if (!data_recebimento || !status) {
         return res.status(400).json({ 
             message: 'Os campos data_recebimento e status são obrigatórios.' 
@@ -125,14 +126,38 @@ const editarRecebimentoTalao = async (req, res) => {
     }
 
     try {
+        const talao = await obterTalaoPorId(id);
+        
+        if (!talao) {
+            return res.status(404).json({ message: 'Talão não encontrado' });
+        }
+
+        if (talao.status == 'Recebido') {
+            return res.status(400).json({
+                message: 'Não é possível atualizar o recebimento. A remessa ja foi recebida.'
+            });
+        }
+
+        if (talao.status !== 'Enviado') {
+            return res.status(400).json({
+                message: 'Não é possível atualizar o recebimento. A remessa não foi Enviada.'
+            });
+        }
+
+        if (talao.data_recebimento !== null) {
+            return res.status(400).json({
+                message: 'Não é possível atualizar o recebimento. A remessa ja foi recebida.'
+            });
+        }
+
         const talaoAtualizado = await editarRecebimento(id, data_recebimento, status); 
 
         if (!talaoAtualizado) {
-            return res.status(404).json({ message: 'Talão não encontrado.' });
+            return res.status(404).json({ message: 'Erro ao atualizar o talão.' });
         }
 
         res.status(200).json({ 
-            message: 'Data de recebimento e status atualizados com sucesso!', 
+            message: 'Remessa recebida com sucesso!', 
             talao: talaoAtualizado 
         });
     } catch (erro) {
