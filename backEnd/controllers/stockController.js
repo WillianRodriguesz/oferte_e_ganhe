@@ -3,7 +3,8 @@ const {
     obterTodosEstoques,
     obterEstoqueId,
     atualizarEstoque,
-    excluirEstoque
+    excluirEstoque, 
+    atualizarEstoquePorId
 } = require('../services/stockServices');
 const path = require('path');
 
@@ -81,6 +82,26 @@ const excluirItemEstoque = async (req, res) => {
     }
 };
 
+const atualizarQtdEstoque = async (req, res) => {
+    const { id } = req.params;
+    const { qtd_atual } = req.body;
+
+    if (qtd_atual === undefined) {
+        return res.status(400).json({ message: 'O campo "qtd_atual" é obrigatório.' });
+    }
+
+    try {
+        const estoqueAtualizado = await atualizarEstoquePorId(id, qtd_atual);
+        if (!estoqueAtualizado) {
+            return res.status(404).json({ message: 'Item não encontrado no estoque' });
+        }
+        res.status(200).json({ message: 'Quantidade atualizada com sucesso!', estoque: estoqueAtualizado });
+    } catch (erro) {
+        res.status(500).json({ message: 'Erro ao atualizar quantidade do estoque', error: erro.message });
+    }
+};
+
+
 module.exports = {
     exibirPaginaEstoque,
     criarEstoque,
@@ -88,4 +109,5 @@ module.exports = {
     obterItemEstoque,
     atualizarItemEstoque,
     excluirItemEstoque,
+    atualizarQtdEstoque,
 };

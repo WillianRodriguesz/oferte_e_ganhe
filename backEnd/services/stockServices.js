@@ -76,10 +76,29 @@ async function excluirEstoque(id) {
     }
 }
 
+async function atualizarEstoquePorId(id, qtd_atual) {
+    try {
+        const estoque = await Estoque.findOne({
+            where: { id }
+        });
+
+        if (!estoque) return null;
+
+        estoque.qtd_atual = qtd_atual;
+        await estoque.save(); // Salva as alterações no banco
+
+        return estoque;
+    } catch (erro) {
+        console.error('Erro ao atualizar item de estoque:', erro);
+        throw erro;
+    }
+}
+
 module.exports = {
     inserirEstoque,
     obterTodosEstoques,
     obterEstoqueId,
     atualizarEstoque,
-    excluirEstoque
+    excluirEstoque,
+    atualizarEstoquePorId
 };

@@ -95,3 +95,28 @@ export async function buscarEstoquePorId(idEstoque) {
         throw new Error('Erro ao buscar o estoque: ' + error.message);
     }
 }
+
+export async function atualizarQtdEstoque(id, qtd_atual) {
+    const token = localStorage.getItem('auth_token'); // Recupera o token de autenticação
+
+    try {
+        const response = await fetch(`http://localhost:3000/estoques/retirarTalao/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`, // Adiciona o token de autenticação no cabeçalho
+            },
+            body: JSON.stringify({ qtd_atual }), // Envia a nova quantidade no corpo da requisição
+        });
+
+        const result = await response.json();
+        if (!response.ok) {
+            throw new Error(result.message || 'Erro ao atualizar a quantidade atual do estoque.');
+        }
+
+        return result; // Retorna o resultado da atualização
+    } catch (error) {
+        throw new Error('Erro ao atualizar a quantidade atual: ' + error.message);
+    }
+}
+

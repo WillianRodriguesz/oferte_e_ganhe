@@ -1,11 +1,8 @@
 import { buscarLojaPorId } from '../services/lojaService.js';
-import { buscarEstoquePorId } from '../services/estoqueService.js';
+import { buscarEstoquePorId, atualizarQtdEstoque } from '../services/estoqueService.js';
 
-async function iniciarEstoque() {
-    console.log('ENTROU NO SCRIPT');
-    
+async function mostraEstoque() {    
     try {
-        // Passo 1: Recuperar o id_loja da sessionStorage
         const usuario = JSON.parse(sessionStorage.getItem('user_data'));
         if (!usuario || !usuario.id_loja) {
             throw new Error('Usuário não autenticado ou id_loja ausente.');
@@ -22,8 +19,6 @@ async function iniciarEstoque() {
 
     } catch (error) {
         console.error('Erro ao carregar os dados do estoque:', error.message);
-
-        // Mostrar mensagem de erro no HTML
         const erroContainer = document.createElement('div');
         erroContainer.className = 'alert alert-danger';
         erroContainer.textContent = 'Erro ao carregar os dados do estoque. Tente novamente.';
@@ -31,5 +26,42 @@ async function iniciarEstoque() {
     }
 }
 
-// Chamar a função para iniciar o processo, por exemplo, quando a página carregar ou após algum evento específico.
-iniciarEstoque();  // Chama a função diretamente
+async function retirarTalao() {
+    console.log('entrou no retirarTalao')
+    const btnRetirarTalao = document.getElementById('btn-retirar-talao');
+    
+    if (btnRetirarTalao) {
+        btnRetirarTalao.addEventListener('click', async () => {
+            console.log('Botão "Retirar Talão" clicado!');
+
+            try {
+                const usuario = JSON.parse(sessionStorage.getItem('user_data'));
+                if (!usuario || !usuario.id_loja) {
+                    throw new Error('Usuário não autenticado ou id_loja ausente.');
+                }
+                
+                const loja = await buscarLojaPorId(usuario.id_loja);
+                const estoque = await buscarEstoquePorId(loja.data.id_estoque);
+                const qtdAtualizada = estoque.qtd_atual - 1;
+                await atualizarQtdEstoque(estoque.id, qtdAtualizada);
+                
+                console.log('Estoque atualizado com sucesso!');
+                
+                // Atualizar o estoque na interface
+                mostraEstoque();
+            } catch (error) {
+                console.error('Erro ao atualizar o estoque:', error.message);
+
+                // Mostrar mensagem de erro no HTML
+                const erroContainer = document.createElement('div');
+                erroContainer.className = 'alert alert-danger';
+                erroContainer.textContent = 'Erro ao atualizar o estoque. Tente novamente.';
+                document.querySelector('.container').prepend(erroContainer);
+            }
+        });
+    }
+}
+
+mostraEstoque();  
+retirarTalao();
+

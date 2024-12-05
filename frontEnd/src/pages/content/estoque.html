@@ -25,7 +25,7 @@
         
         <!-- Terceiro Botão -->
         <div class="col-md-4">
-            <button class="btn btn-outline-success text-center w-100" style="height: 250px; border-width: 2px;">
+            <button id="btn-retirar-talao" class="btn btn-outline-success text-center w-100" style="height: 250px; border-width: 2px;">
                 <div class="d-flex flex-column justify-content-center align-items-center h-100 p-0">
                     <h5 class="card-title text-dark">Retirar Talão para Colaborador</h5>
                     <img src="/styles/img/iconRetirarTalao.svg" alt="Imagem 3" class="img-fluid" style="max-width: 100px;">
@@ -38,21 +38,12 @@
 
 
 <div class="row mb-4">
-    <div class="col-md-9"> <!-- Ajustando o tamanho da coluna para o campo de pesquisa -->
+    <div class="col-md-12"> <!-- Ajustando o tamanho da coluna para o campo de pesquisa -->
         <label for="filtro-unidade" class="form-label">Unidade</label>
         <div class="search-bar">
             <input type="text" id="filtro-unidade" name="filtro-unidade" class="form-control campo-pesquisa" placeholder="Digite o nome da unidade">
         </div>
     </div>
-
-    <div class="col-md-3 d-flex align-items-end"> <!-- Ajustando a coluna do botão de pesquisa -->
-        <div class="text-center w-100">
-            <button type="button" class="btn btn-outline-success w-100" id="btn-pesquisar">
-                Pesquisar
-            </button>
-        </div>
-    </div>
-
 </div>
 <!-- Tabela -->
 <div class="table-recebimento-talao">
@@ -61,24 +52,24 @@
             <tr>
                 <th class="text-center">Remessa</th>
                 <th class="text-center">Und. Talão</th>
+                <th class="text-center">Data Enviado</th>
                 <th class="text-center">Data Recebido</th>
-                <th class="text-center">Status</th>
             </tr>
         </thead>
         <tbody id="status-table-body">
             <!-- Exemplo de linha -->
             <tr>
-                <td class="text-center">00123</td>
+                <td class="text-center">222</td>
                 <td class="text-center">50</td>
-                <td class="text-center">2024-11-20</td>
-                <td class="text-center">Completo</td>
+                <td class="text-center">2024-12-05</td>
+                <td class="text-center">2024-12-07</td>
             </tr>
             <!-- Exemplo de outra linha -->
             <tr>
-                <td class="text-center">00124</td>
-                <td class="text-center">30</td>
-                <td class="text-center">2024-11-22</td>
-                <td class="text-center">Pendente</td>
+                <td class="text-center">123</td>
+                <td class="text-center">100</td>
+                <td class="text-center">2024-12-05</td>
+                <td class="text-center">2024-12-07</td>
             </tr>
         </tbody>
     </table>
@@ -105,4 +96,4 @@
     }
 </style>
 
-<script src="../../scripts/estoque.js" data-module></script>
+<script src="../../scripts/estoque.js" data-module defer></script>
