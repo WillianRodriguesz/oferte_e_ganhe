@@ -27,13 +27,15 @@ async function mostraEstoque() {
 }
 
 async function retirarTalao() {
-    console.log('entrou no retirarTalao');
     const btnRetirarTalao = document.getElementById('btn-retirar-talao');
 
     if (btnRetirarTalao) {
         btnRetirarTalao.addEventListener('click', async () => {
             console.log('Botão "Retirar Talão" clicado!');
-
+            const confirmacao = confirm('Tem certeza de que deseja retirar um talão?');
+            if (!confirmacao) {
+                return; // Cancela a ação se o usuário clicar em "Cancelar"
+            }
             try {
                 const usuario = JSON.parse(sessionStorage.getItem('user_data'));
                 if (!usuario || !usuario.id_loja) {
@@ -112,6 +114,10 @@ function atualizaInterfaceEstoque(qtdAtual, qtdMinima) {
 
 document.getElementById('solicitarTalao').addEventListener('click', async function () {
     try {
+        const confirmacao = confirm('Tem certeza de que deseja solicitar um talão?');
+        if (!confirmacao) {
+            return; 
+        }
         const usuario = JSON.parse(sessionStorage.getItem('user_data'));
 
         if (!usuario || !usuario.id_loja) {
