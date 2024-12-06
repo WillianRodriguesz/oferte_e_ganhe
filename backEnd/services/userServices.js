@@ -5,7 +5,7 @@ const Loja = require('../models/storeModel');
 const bcrypt = require('bcrypt');
 
 // Função para inserir um novo usuário com senha criptografada
-async function inserirUsuario(nome, matricula, email, senha, perfil, id_loja) {
+async function inserirUsuario(nome, matricula, email, senha, perfil, status, id_loja) {
     try {
         const senhaCriptografada = await bcrypt.hash(senha, 10);
         const usuario = await Usuario.create({
@@ -14,7 +14,8 @@ async function inserirUsuario(nome, matricula, email, senha, perfil, id_loja) {
             email,
             senha: senhaCriptografada,
             perfil,
-            id_loja
+            id_loja,
+            status
         });
 
         return usuario; 
