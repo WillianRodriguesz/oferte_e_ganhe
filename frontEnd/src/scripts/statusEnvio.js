@@ -22,14 +22,22 @@ async function carregarStatusEnvio() {
 
             linha.innerHTML = `
                 <td class="text-center">
-                    <span class="badge ${envio.status === 'Aguardando' ? 'bg-secondary' : 
-                                        envio.status === 'Enviado' ? 'bg-warning' : 
-                                        envio.status === 'Recebido' ? 'bg-success' : ''}">
-                        ${envio.status}
+                    <span class="badge ${
+                        envio.status === 'Aguardando' && envio.data_envio === null
+                            ? 'bg-danger' : envio.status === 'Aguardando'
+                            ? 'bg-secondary': envio.status === 'Enviado'
+                            ? 'bg-warning' : envio.status === 'Recebido'
+                            ? 'bg-success': ''
+                    }">
+                        ${
+                            envio.status === 'Aguardando' && envio.data_envio === null
+                                ? 'Solicitado'
+                                : envio.status
+                        }
                     </span>
                 </td>
                 <td class="text-center">${envio.destinatario}</td>
-                <td class="text-center">${envio.data_envio}</td>
+                <td class="text-center">${envio.data_envio ? envio.data_envio : '-'}</td>
                 <td class="text-center">
                     <button class="btn btn-link" id="btn-detalhes-${envio.id}">
                         <img src="/styles/img/iconDetalhes.svg" alt="Detalhes" style="width: 24px; height: 24px;">
@@ -39,7 +47,11 @@ async function carregarStatusEnvio() {
                     <input type="checkbox" class="form-check-input" 
                         style="border: 1px solid #000000;" 
                         data-id="${envio.id}" 
-                        ${envio.status !== 'Aguardando' || envio.numero_remessa === null ? 'disabled' : ''}>
+                        ${
+                            envio.status !== 'Aguardando' || envio.numero_remessa === null
+                                ? 'disabled'
+                                : ''
+                        }>
                 </td>
             `;
 

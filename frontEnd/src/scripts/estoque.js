@@ -1,5 +1,6 @@
 import { buscarLojaPorId } from '../services/lojaService.js';
 import { buscarEstoquePorId, atualizarQtdEstoque } from '../services/estoqueService.js';
+import { enviarTalao } from '../services/talaoService.js';
 
 async function mostraEstoque() {
     try {
@@ -108,6 +109,43 @@ function atualizaInterfaceEstoque(qtdAtual, qtdMinima) {
         imagemEstoque.style.margin = '0 auto'; // Centraliza a imagem
     }
 }
+
+document.getElementById('solicitarTalao').addEventListener('click', async function () {
+    try {
+        const usuario = JSON.parse(sessionStorage.getItem('user_data'));
+
+        if (!usuario || !usuario.id_loja) {
+            throw new Error('Usuário não autenticado ou id_loja ausente.');
+        }
+
+        const loja = await buscarLojaPorId(usuario.id_loja);
+        const estoque = await buscarEstoquePorId(loja.data.id_estoque);
+
+        if (!estoque || !estoque.qtd_maxima) {
+            throw new Error('Estoque não encontrado ou quantidade máxima inválida.');
+        }
+
+        const solicitacaoData = {
+            destinatario: usuario.id_loja,
+            remetente: 1, // trocar para buscar no banco pela matriz
+            qtd_talao: estoque.qtd_maxima - estoque.qtd_atual,
+            status: 'Aguardando'
+        };
+
+        console.log("Data da solicitacao", solicitacaoData);
+
+        const result = await enviarTalao(solicitacaoData);
+
+        if (result.success) {
+            alert('Talão solicitado com sucesso!');
+        } else {
+            alert(result.message || 'Erro ao solicitar o talão.');
+        }
+    } catch (error) {
+        console.error('Erro ao processar solicitação de talões:', error);
+        alert(error.message || 'Erro ao enviar o talão.');
+    }
+});
 
 
 // Inicializar as funções principais
