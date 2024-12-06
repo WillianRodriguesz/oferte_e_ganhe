@@ -17,9 +17,6 @@ async function carregarStatusEnvio() {
 
         // Limpa a tabela antes de adicionar os dados
         tabelaCorpo.innerHTML = '';
-        console.log(statusEnvio);
-        
-        // Itera sobre os status de envio e cria uma linha para cada um
         statusEnvio.forEach(envio => {
             const linha = document.createElement('tr');
 
@@ -42,7 +39,7 @@ async function carregarStatusEnvio() {
                     <input type="checkbox" class="form-check-input" 
                         style="border: 1px solid #000000;" 
                         data-id="${envio.id}" 
-                        ${envio.status !== 'Aguardando' ? 'disabled' : ''}>
+                        ${envio.status !== 'Aguardando' || envio.numero_remessa === null ? 'disabled' : ''}>
                 </td>
             `;
 
@@ -51,7 +48,7 @@ async function carregarStatusEnvio() {
             // Adiciona o evento de clique para exibir os detalhes após a renderização
             const btnDetalhes = document.querySelector(`#btn-detalhes-${envio.id}`);
             btnDetalhes.addEventListener('click', () => {
-                exibirDetalhesEnvio(envio.id); // Chama a função para exibir detalhes do envio
+                exibirDetalhesEnvio(envio.id); 
             });
         });
     } else {
@@ -65,15 +62,13 @@ async function exibirDetalhesEnvio(id) {
     if (resultado.success) {
         const envio = resultado.data;
         const modalConteudo = document.getElementById('modal-detalhes-conteudo');
-        
-        // Verifica se o status é "Aguardando" e permite edição
         const editavel = envio.status === 'Aguardando';
 
         modalConteudo.innerHTML = `
             <form id="form-detalhes-envio">
                 <div class="mb-3">
                     <label for="numero-remessa" class="form-label"><strong>Número da Remessa:</strong></label>
-                    <input type="text" class="form-control" id="numero-remessa" value="${envio.numero_remessa}" ${!editavel ? 'disabled' : ''}>
+                    <input type="text" class="form-control" id="numero-remessa" value="${envio.numero_remessa !== null ? envio.numero_remessa : ''}" ${!editavel ? 'disabled' : ''}>
                 </div>
                 <div class="mb-3">
                     <label for="qtd-talao" class="form-label"><strong>Quantidade de Talões:</strong></label>
