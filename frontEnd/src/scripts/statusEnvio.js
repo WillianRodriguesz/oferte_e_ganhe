@@ -81,11 +81,11 @@ async function exibirDetalhesEnvio(id) {
                 </div>
                 <div class="mb-3">
                     <label for="destinatario" class="form-label"><strong>Destinatário:</strong></label>
-                    <input type="text" class="form-control" id="destinatario" value="${envio.destinatario}" ${!editavel ? 'disabled' : ''}>
+                    <input type="text" class="form-control" id="destinatario" value="${envio.destinatario}" ${!editavel ? 'disabled' : 'disabled'}>
                 </div>
                 <div class="mb-3">
                     <label for="remetente" class="form-label"><strong>Remetente:</strong></label>
-                    <input type="text" class="form-control" id="remetente" value="${envio.remetente}" ${!editavel ? 'disabled' : ''}>
+                    <input type="text" class="form-control" id="remetente" value="${envio.remetente}" ${!editavel ? 'disabled' : 'disabled'}>
                 </div>
                 <div class="mb-3">
                     <label for="data-envio" class="form-label"><strong>Data de Envio:</strong></label>
