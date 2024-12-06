@@ -1,14 +1,14 @@
 <h2>Usuários Cadastrados</h2>
 
 <div class="row mb-4">
-    <div class="col-md-9"> <!-- Ajustando o tamanho da coluna para o campo de pesquisa -->
+    <div class="col-md-9">
         <label for="filtro-unidade" class="form-label">Nome</label>
         <div class="search-bar">
             <input type="text" id="filtro-unidade" name="filtro-unidade" class="form-control campo-pesquisa" placeholder="Digite o nome do colaborador">
         </div>
     </div>
 
-    <div class="col-md-3 d-flex align-items-end"> <!-- Ajustando a coluna do botão de pesquisa -->
+    <div class="col-md-3 d-flex align-items-end">
         <div class="text-center w-100">
             <button type="button" class="btn btn-outline-success w-100" id="btn-pesquisar">
                 Pesquisar
@@ -17,8 +17,8 @@
     </div>
 </div>
 
-<div class="container-fluid mt-4"> <!-- Alterado para container-fluid para largura total -->
-    <table class="table table-striped">
+<div class="container-fluid mt-4">
+    <table class="table table-striped" id="usuarios-table"> <!-- Adicionamos o id 'usuarios-table' aqui -->
         <thead>
             <tr>
                 <th scope="col">Nome</th>
@@ -29,39 +29,11 @@
             </tr>
         </thead>
         <tbody>
-            <!-- Exemplo de usuário 1 -->
-            <tr>
-                <td>Carregando...</td>
-                <td>Carregando...</td>
-                <td>Carregando...</td>
-                <td>Carregando...</td>
-                <td class="text-end">
-                    <a href="editar_usuario.html" class="btn btn-warning btn-sm mx-1" title="Editar Usuário">
-                        <i class="bi bi-pencil-fill"></i> Editar
-                    </a>
-                    <a href="excluir_usuario.html" class="btn btn-danger btn-sm mx-1" title="Excluir Usuário" onclick="return confirm('Tem certeza de que deseja excluir este usuário?');">
-                        <i class="bi bi-trash-fill"></i> Excluir
-                    </a>
-                </td>
-            </tr>
-            <!-- Exemplo de usuário 2 -->
-            <tr>
-                <td>Carregando...</td>
-                <td>Carregando...</td>
-                <td>Carregando...</td>
-                <td>Carregando...</td>
-                <td class="text-end">
-                    <a href="editar_usuario.html" class="btn btn-warning btn-sm mx-1" title="Editar Usuário">
-                        <i class="bi bi-pencil-fill"></i> Editar
-                    </a>
-                    <a href="excluir_usuario.html" class="btn btn-danger btn-sm mx-1" title="Excluir Usuário" onclick="return confirm('Tem certeza de que deseja excluir este usuário?');">
-                        <i class="bi bi-trash-fill"></i> Excluir
-                    </a>
-                </td>
-            </tr>
+            <!-- As linhas serão preenchidas pelo JavaScript -->
         </tbody>
     </table>
 </div>
 
 <!-- Adicionar Bootstrap Icons -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<script src="../../scripts/listarUsuarios.js" data-module></script>
