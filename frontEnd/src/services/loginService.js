@@ -13,6 +13,7 @@ export async function enviarLogin(email, senha) {
 
         if (response.ok) {
             localStorage.setItem('auth_token', data.token);
+            sessionStorage.setItem('user_data', JSON.stringify(data.usuario));
             return { success: true, data };
         } else {
             // Se o retorno da API for um objeto, extraímos a mensagem do erro

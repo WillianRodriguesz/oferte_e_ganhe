@@ -1,4 +1,6 @@
 import { buscarTaloes, obterTalaoPorNumeroRemessa, editarRecebimentoTalao } from '../services/talaoService.js';
+import { buscarLojaPorId } from '../services/lojaService.js';
+import { buscarEstoquePorId, atualizarQtdEstoque } from '../services/estoqueService.js';
 
 async function carregarStatusRecebimento() {
     const resultado = await buscarTaloes(); 
@@ -14,11 +16,8 @@ async function carregarStatusRecebimento() {
         });
 
         const tabelaCorpo = document.querySelector('#status-table-body'); 
-
-        // Limpa a tabela antes de adicionar os dados
         tabelaCorpo.innerHTML = '';
        
-        // Itera sobre os status de recebimento e cria uma linha para cada um
         statusRecebimento.forEach(talao => {
             const linha = document.createElement('tr');
             if(talao.data_recebimento == null){
@@ -88,18 +87,36 @@ document.getElementById('btn-receber').addEventListener('click', async function 
             alert('Talão não encontrado!');
             return;
         }
-        
+    
         const resultado = await editarRecebimentoTalao(talao.data.id, dataRecebimento, 'Recebido');
         console.log(resultado);
         
         if (resultado) {
+            const usuario = JSON.parse(sessionStorage.getItem('user_data'));
+            if (!usuario || !usuario.id_loja) {
+                throw new Error('Usuário não autenticado ou id_loja ausente.');
+            }
+
+            const loja = await buscarLojaPorId(usuario.id_loja);
+            if (!loja || !loja.data.id_estoque) {
+                throw new Error('Loja ou estoque não encontrado.');
+            }
+
+            const estoque = await buscarEstoquePorId(loja.data.id_estoque);
+            if (!estoque) {
+                throw new Error('Estoque não encontrado.');
+            }
+
+            const qtdAtualizada = estoque.qtd_atual + talao.data.qtd_talao;
+            await atualizarQtdEstoque(estoque.id, qtdAtualizada);
+
             if(resultado.message){
                 alert(resultado.message);
                 carregarStatusRecebimento();
-            }else{
+            } else {
                 alert(resultado.data.message);
                 carregarStatusRecebimento();
-            }  
+            }
         } else {
             alert('Erro ao registrar o recebimento do talão.');
         }
@@ -109,6 +126,7 @@ document.getElementById('btn-receber').addEventListener('click', async function 
         console.error(erro);
     }
 });
+
 
 // Carregar os status de recebimento quando a página for carregada
 carregarStatusRecebimento();

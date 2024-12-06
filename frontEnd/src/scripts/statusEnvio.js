@@ -1,4 +1,4 @@
-import { buscarTaloes, excluirTalao, buscarTalaoPorId, atualizarStatusTalao } from '../services/talaoService.js';
+import { buscarTaloes, excluirTalao, buscarTalaoPorId, atualizarStatusTalao, atualizarTalao } from '../services/talaoService.js';
 
 async function carregarStatusEnvio() {
     const resultado = await buscarTaloes(); 
@@ -17,22 +17,27 @@ async function carregarStatusEnvio() {
 
         // Limpa a tabela antes de adicionar os dados
         tabelaCorpo.innerHTML = '';
-        console.log(statusEnvio);
-        
-        // Itera sobre os status de envio e cria uma linha para cada um
         statusEnvio.forEach(envio => {
             const linha = document.createElement('tr');
 
             linha.innerHTML = `
                 <td class="text-center">
-                    <span class="badge ${envio.status === 'Aguardando' ? 'bg-secondary' : 
-                                        envio.status === 'Enviado' ? 'bg-warning' : 
-                                        envio.status === 'Recebido' ? 'bg-success' : ''}">
-                        ${envio.status}
+                    <span class="badge ${
+                        envio.status === 'Aguardando' && envio.data_envio === null
+                            ? 'bg-danger' : envio.status === 'Aguardando'
+                            ? 'bg-secondary': envio.status === 'Enviado'
+                            ? 'bg-warning' : envio.status === 'Recebido'
+                            ? 'bg-success': ''
+                    }">
+                        ${
+                            envio.status === 'Aguardando' && envio.data_envio === null
+                                ? 'Solicitado'
+                                : envio.status
+                        }
                     </span>
                 </td>
                 <td class="text-center">${envio.destinatario}</td>
-                <td class="text-center">${envio.data_envio}</td>
+                <td class="text-center">${envio.data_envio ? envio.data_envio : '-'}</td>
                 <td class="text-center">
                     <button class="btn btn-link" id="btn-detalhes-${envio.id}">
                         <img src="/styles/img/iconDetalhes.svg" alt="Detalhes" style="width: 24px; height: 24px;">
@@ -42,7 +47,11 @@ async function carregarStatusEnvio() {
                     <input type="checkbox" class="form-check-input" 
                         style="border: 1px solid #000000;" 
                         data-id="${envio.id}" 
-                        ${envio.status !== 'Aguardando' ? 'disabled' : ''}>
+                        ${
+                            envio.status !== 'Aguardando' || envio.numero_remessa === null
+                                ? 'disabled'
+                                : ''
+                        }>
                 </td>
             `;
 
@@ -51,7 +60,7 @@ async function carregarStatusEnvio() {
             // Adiciona o evento de clique para exibir os detalhes após a renderização
             const btnDetalhes = document.querySelector(`#btn-detalhes-${envio.id}`);
             btnDetalhes.addEventListener('click', () => {
-                exibirDetalhesEnvio(envio.id); // Chama a função para exibir detalhes do envio
+                exibirDetalhesEnvio(envio.id); 
             });
         });
     } else {
@@ -64,25 +73,78 @@ async function exibirDetalhesEnvio(id) {
     const resultado = await buscarTalaoPorId(id); 
     if (resultado.success) {
         const envio = resultado.data;
-        // Exibe os detalhes em um modal ou de alguma outra forma
         const modalConteudo = document.getElementById('modal-detalhes-conteudo');
-        modalConteudo.innerHTML = ` 
-            <p><strong>Número da Remessa:</strong> ${envio.numero_remessa}</p>
-            <p><strong>Quantidade de Talões:</strong> ${envio.qtd_talao}</p>
-            <p><strong>Destinatário:</strong> ${envio.destinatario}</p>
-            <p><strong>Remetente:</strong> ${envio.remetente}</p>
-            <p><strong>Data de Envio:</strong> ${envio.data_envio}</p>
-            <p><strong>Data Prevista:</strong> ${envio.data_prevista}</p>
-            <p><strong>Status:</strong> ${envio.status}</p>
+        const editavel = envio.status === 'Aguardando';
+
+        modalConteudo.innerHTML = `
+            <form id="form-detalhes-envio">
+                <div class="mb-3">
+                    <label for="numero-remessa" class="form-label"><strong>Número da Remessa:</strong></label>
+                    <input type="text" class="form-control" id="numero-remessa" value="${envio.numero_remessa !== null ? envio.numero_remessa : ''}" ${!editavel ? 'disabled' : ''}>
+                </div>
+                <div class="mb-3">
+                    <label for="qtd-talao" class="form-label"><strong>Quantidade de Talões:</strong></label>
+                    <input type="number" class="form-control" id="qtd-talao" value="${envio.qtd_talao}" ${!editavel ? 'disabled' : ''}>
+                </div>
+                <div class="mb-3">
+                    <label for="destinatario" class="form-label"><strong>Destinatário:</strong></label>
+                    <input type="text" class="form-control" id="destinatario" value="${envio.destinatario}" ${!editavel ? 'disabled' : 'disabled'}>
+                </div>
+                <div class="mb-3">
+                    <label for="remetente" class="form-label"><strong>Remetente:</strong></label>
+                    <input type="text" class="form-control" id="remetente" value="${envio.remetente}" ${!editavel ? 'disabled' : 'disabled'}>
+                </div>
+                <div class="mb-3">
+                    <label for="data-envio" class="form-label"><strong>Data de Envio:</strong></label>
+                    <input type="date" class="form-control" id="data-envio" value="${envio.data_envio}" ${!editavel ? 'disabled' : ''}>
+                </div>
+                <div class="mb-3">
+                    <label for="data-prevista" class="form-label"><strong>Data Prevista:</strong></label>
+                    <input type="date" class="form-control" id="data-prevista" value="${envio.data_prevista}" ${!editavel ? 'disabled' : ''}>
+                </div>
+            </form>
         `;
 
         // Exibe o modal
         const modal = new bootstrap.Modal(document.getElementById('modalDetalhes'));
         modal.show();
+
+        // Adiciona o botão salvar ao rodapé somente se o status for "Aguardando"
+        const modalFooter = document.querySelector('.modal-footer');
+        modalFooter.innerHTML = editavel 
+            ? `<button type="button" class="btn btn-primary" id="btn-salvar-detalhes">Salvar</button>` 
+            : '';
+
+        // Evento para salvar as alterações
+        if (editavel) {
+            document.getElementById('btn-salvar-detalhes').addEventListener('click', async () => {
+                const dataTalao = {
+                    numero_remessa: document.getElementById('numero-remessa').value,
+                    qtd_talao: document.getElementById('qtd-talao').value,
+                    destinatario: document.getElementById('destinatario').value,
+                    remetente: document.getElementById('remetente').value,
+                    data_envio: document.getElementById('data-envio').value,
+                    data_prevista: document.getElementById('data-prevista').value,
+                    status: "Aguardando",
+                };
+                console.log('Dados talao')
+                console.log(dataTalao)
+
+                const resultadoAtualizacao = await atualizarTalao(id, dataTalao);
+                if (resultadoAtualizacao.success) {
+                    alert('Talão atualizado com sucesso!');
+                    modal.hide();
+                    carregarStatusEnvio(); // Atualiza a tabela
+                } else {
+                    alert(`Erro ao atualizar talão: ${resultadoAtualizacao.message}`);
+                }
+            });
+        }
     } else {
         alert('Erro ao carregar detalhes do envio.');
     }
 }
+
 
 // Função para filtrar as unidades
 document.getElementById('filtro-unidade').addEventListener('input', function () {

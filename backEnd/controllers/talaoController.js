@@ -36,18 +36,28 @@ const obterTalao = async (req, res) => {
     }
 };
 
-// Controlador para atualizar um talão pelo ID
 const atualizarTalaoInfo = async (req, res) => {
-    const { id } = req.params;
-    const { numero_remessa, qtd_talao, destinatario, remetente, status } = req.body;
+    const { id } = req.params;  // Pegando o ID do talão da URL
+    const { numero_remessa, qtd_talao, destinatario, remetente, status, data_envio, data_prevista, data_recebimento, observacao} = req.body;  // Pegando os dados do talão do corpo da requisição
+
     try {
-        const talaoAtualizado = await atualizarTalao(numero_remessa, qtd_talao, destinatario, remetente, status, data_envio, data_prevista, data_recebimento, observacao);
+        // Verificando se todos os campos obrigatórios foram enviados
+        if (!numero_remessa || !qtd_talao || !destinatario || !remetente || !status || !data_envio || !data_prevista) {
+            return res.status(400).json({ message: 'Campos obrigatórios faltando.' });
+        }
+
+        const talaoAtualizado = await atualizarTalao(id, numero_remessa, qtd_talao, destinatario, remetente, status, data_envio, data_prevista, data_recebimento, observacao );
+
         if (!talaoAtualizado) {
             return res.status(404).json({ message: 'Talão não encontrado' });
         }
-        res.status(200).json({ message: 'Talão atualizado com sucesso!', talao: talaoAtualizado });
+
+        return res.status(200).json({ message: 'Talão atualizado com sucesso!', talao: talaoAtualizado });
+
     } catch (erro) {
-        res.status(500).json({ message: 'Erro ao atualizar talão', error: erro.message });
+        // Em caso de erro, retorna o erro com status 500
+        console.error('Erro ao atualizar talão:', erro);
+        return res.status(500).json({ message: 'Erro ao atualizar talão', error: erro.message });
     }
 };
 

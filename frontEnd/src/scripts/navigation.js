@@ -30,7 +30,7 @@ function configureSidebarNavigation() {
         'Dashboard': ['Dashboard'],
         'Envio de Talões': ['Status de Envio', 'Enviar Talão'],
         'Recebimento de Talões': ['Recebimento'],
-        'Gerenciar Estoque': ['Estoque', 'Estoque Geral'],
+        'Gerenciar Estoque': ['Estoque'],
         'Gerenciar Perfil': ['Cadastrar Usuário', 'Perfil', 'Usuário'],
         'Cadastrar Loja': ['Cadastrar Loja', 'Lojas'],
         'Gerar Relatórios':['Gerar Relatórios']
@@ -50,6 +50,7 @@ function configureSidebarNavigation() {
         if (spanText === 'Sair do sistema') {
             button.addEventListener('click', () => {
                 localStorage.clear();
+                sessionStorage.clear();
                 window.location.href = '/pages/login/login.html';
             });
             return; 

@@ -34,9 +34,9 @@ const buscarUsuarioId = async (req, res) => {
 
 // Controlador para cadastrar um novo usuário
 const cadastrarUsuario = async (req, res) => {
-    const { nome, matricula, email, senha, perfil } = req.body;
+    const { nome, matricula, email, senha, perfil, status, id_loja } = req.body;
     try {
-        const novoUsuario = await inserirUsuario(nome, matricula, email, senha, perfil);
+        const novoUsuario = await inserirUsuario(nome, matricula, email, senha, perfil, status, id_loja);
         res.status(200).json({ message: 'Usuário cadastrado com sucesso!', usuario: novoUsuario });
     } catch (erro) {
         res.status(500).json({ message: 'Erro ao cadastrar usuário', error: erro.message });

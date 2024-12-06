@@ -1,6 +1,6 @@
 <h2>Cadastrar Usuário</h2>
 <!-- Formulário de Cadastro de Colaboradores -->
-<div class="container mt-2">
+<div class="container-fluid mt-2">
 
     <form action="processar_colaborador.html" method="POST">
         <div class="row mb-3">
@@ -20,10 +20,7 @@
                 <label for="loja-colaborador" class="form-label">Loja do Colaborador:</label>
                 <select id="loja-colaborador" name="loja-colaborador" class="form-select rounded-3" required>
                     <option value=""> </option>
-                    <option value="loja1">Loja 1</option>
-                    <option value="loja2">Loja 2</option>
-                    <option value="loja3">Loja 3</option>
-                    <option value="loja4">Loja 4</option>
+                    <option value="loja1">Carregando...</option>
                 </select>
             </div>
 
@@ -79,3 +76,5 @@
         </div>
     </form>
 </div>
+
+<script src="../../scripts/usuarioCadastro.js" data-module></script>
