@@ -165,6 +165,23 @@ async function salvarEdicaoUsuario(event) {
     }
 }
 
+function filtrarUsuariosPorNome() {
+    const filtro = document.getElementById('filtro-nome').value.toLowerCase();
+    const linhas = document.querySelectorAll('#usuarios-table tbody tr');
+
+    linhas.forEach(linha => {
+        const nome = linha.querySelector('td:first-child').textContent.toLowerCase();
+        if (nome.includes(filtro)) {
+            linha.style.display = ''; 
+        } else {
+            linha.style.display = 'none'; 
+        }
+    });
+}
+
+// Adiciona o evento de input ao campo de pesquisa
+document.getElementById('filtro-nome').addEventListener('input', filtrarUsuariosPorNome);
+
 // Adiciona o evento ao formulário de edição
 document.getElementById('form-editar-usuario').addEventListener('submit', salvarEdicaoUsuario);
 
