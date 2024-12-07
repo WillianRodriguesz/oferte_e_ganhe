@@ -1,5 +1,6 @@
-import { listarPerfis } from '../services/perfilService.js';
+import { listarPerfis, cadastrarPerfil, excluirPerfil } from '../services/perfilService.js';
 
+// Carregar Perfis na tabela
 async function carregarPerfis() {
     const resposta = await listarPerfis();
 
@@ -25,5 +26,32 @@ async function carregarPerfis() {
         alert("Erro ao carregar os perfis.");
     }
 }
+
+// Cadastrar um novo perfil
+async function cadastrarNovoPerfil() {
+  const novoPerfil = document.getElementById("nome-perfil").value.trim();
+
+  if (!novoPerfil) {
+    alert("Por favor, insira um nome de perfil válido.");
+    return;
+  }
+
+  try {
+    const resposta = await cadastrarPerfil({ funcao: novoPerfil });
+    
+    if (resposta.success) {
+      alert(`Perfil "${novoPerfil}" cadastrado com sucesso.`);
+      carregarPerfis();
+      document.getElementById("nome-perfil").value = "";
+    } else {
+      alert(resposta.message);
+    }
+  } catch (error) {
+    alert(error.message);
+  }
+}
+
+const btnRegistrar = document.getElementById('btnRegistrar');
+btnRegistrar.addEventListener('click', cadastrarNovoPerfil);
 
 carregarPerfis();
