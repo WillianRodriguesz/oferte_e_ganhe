@@ -22,8 +22,8 @@
         <thead>
             <tr>
                 <th scope="col">Nome</th>
-                <th scope="col">Email</th>
-                <th scope="col">Unidade</th>
+                <th scope="col" style="padding-left: 105px;">Email</th>
+                <th scope="col"  style="padding-left: 30px;">Unidade</th>
                 <th scope="col">Status de Cadastro</th>
                 <th scope="col" class="text-end coluna-acoes" style="padding-right: 75px;">Ações</th>
             </tr>
@@ -58,9 +58,17 @@
                     </div>
                     <div class="mb-3">
                         <label for="editar-status" class="form-label">Status</label>
-                        <select class="form-control" id="editar-status" name="status">
+                        <select class="form-control" id="editar-status" name="status" aria-placeholder="Status de cadastro">
                             <option value="true">Cadastrado</option>
                             <option value="false">Aguardando</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editar-perfil" class="form-label">Perfil</label>
+                        <select class="form-control" id="editar-perfil" name="perfil" required>
+                            <option value="admin">Admin</option>
+                            <option value="gerente">Gerente</option>
+                            <option value="caixa">Caixa</option>
                         </select>
                     </div>
                     <button type="submit" class="btn btn-primary">Salvar Alterações</button>
