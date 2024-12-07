@@ -15,12 +15,39 @@ async function carregarPerfis() {
                     <a href="editar_perfil.html?id=${perfil.id}" class="btn btn-warning btn-sm mx-1" title="Editar Perfil">
                         <i class="bi bi-pencil-fill"></i> Editar
                     </a>
-                    <a href="#" onclick="excluirPerfil(${perfil.id})" class="btn btn-danger btn-sm mx-1" title="Excluir Perfil">
+                    <button class="btn btn-danger btn-sm mx-1" title="Excluir Perfil" data-id="${perfil.id}">
                         <i class="bi bi-trash-fill"></i> Excluir
-                    </a>
+                    </button>
                 </td>
             `;
             tabela.appendChild(row);
+        });
+
+        // Adicionando event listener para os botões de exclusão
+        const botoesExcluir = document.querySelectorAll('[data-id]');
+        botoesExcluir.forEach(botao => {
+            botao.addEventListener('click', async (event) => {
+                const idPerfil = event.target.closest('[data-id]').getAttribute('data-id');
+
+                // Exibir confirmação para exclusão
+                const confirmacao = confirm("Tem certeza que deseja excluir este perfil?");
+                if (confirmacao) {
+                    try {
+                        const resposta = await excluirPerfil(idPerfil);
+
+                        if (resposta.success) {
+                            alert("Perfil excluído com sucesso.");
+                            carregarPerfis();
+                        } else {
+                            alert("Erro ao excluir o perfil.");
+                        }
+                    } catch (error) {
+                        alert("Erro ao processar a exclusão do perfil.");
+                    }
+                } else {
+                    alert("A exclusão foi cancelada.");
+                }
+            });
         });
     } else {
         alert("Erro ao carregar os perfis.");
@@ -40,7 +67,7 @@ async function cadastrarNovoPerfil() {
     const resposta = await cadastrarPerfil({ funcao: novoPerfil });
     
     if (resposta.success) {
-      alert(`Perfil "${novoPerfil}" cadastrado com sucesso.`);
+      alert(`Perfil ${novoPerfil} cadastrado com sucesso.`);
       carregarPerfis();
       document.getElementById("nome-perfil").value = "";
     } else {
@@ -51,7 +78,9 @@ async function cadastrarNovoPerfil() {
   }
 }
 
+// Adicionando o evento de clique para cadastrar o novo perfil
 const btnRegistrar = document.getElementById('btnRegistrar');
 btnRegistrar.addEventListener('click', cadastrarNovoPerfil);
 
+// Carregar a lista de perfis no início da execução
 carregarPerfis();
