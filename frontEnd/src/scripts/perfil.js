@@ -67,36 +67,34 @@ async function carregarPerfis() {
 
 async function abrirModalEditar(idPerfil) {
     try {
-        const resposta = await listarPerfis();
-        const perfilSelecionado = resposta.data.find(perfil => perfil.id == idPerfil);
-
-        if (!perfilSelecionado) {
-            alert("Erro ao buscar perfil.");
-            return;
+      const resposta = await listarPerfis();
+      const perfilSelecionado = resposta.data.find(perfil => perfil.id == idPerfil);
+  
+      if (!perfilSelecionado) {
+        alert("Erro ao buscar perfil.");
+        return;
+      }
+  
+      document.getElementById("editar-nome-perfil").value = perfilSelecionado.funcao;
+  
+      const modulos = await obterModulosPorPerfilId(perfilSelecionado.id);
+      const checkboxes = document.querySelectorAll('#modalEditarPerfil input[name="modulos[]"]');
+      checkboxes.forEach(checkbox => checkbox.checked = false);
+  
+      checkboxes.forEach(checkbox => {
+        if (modulos.includes(parseInt(checkbox.value))) {
+          checkbox.checked = true;
         }
-
-        // Carregar dados no modal
-        document.getElementById("editar-nome-perfil").value = perfilSelecionado.funcao;
-
-        // Carregar Módulos no Modal
-        console.log("perfilSelecionado", perfilSelecionado.id);
-        
-        const modulos = await obterModulosPorPerfilId(perfilSelecionado.id);
-        const checkboxes = document.querySelectorAll('input[name="modulos[]"]');
-        checkboxes.forEach(checkbox => checkbox.checked = false);
-        modulos.forEach(modulo => {
-            const checkbox = document.getElementById(`modulo-${modulo}`);
-            if (checkbox) checkbox.checked = true;
-        });
-
-        // Exibir o modal
-        const modal = new bootstrap.Modal(document.getElementById('modalEditarPerfil'));
-        modal.show();
+      });
+  
+      // Exibir o modal
+      const modal = new bootstrap.Modal(document.getElementById('modalEditarPerfil'));
+      modal.show();
     } catch (error) {
-        console.error("Erro ao abrir o modal de edição: ", error);
-        alert("Erro ao abrir o modal de edição.");
+      console.error("Erro ao abrir o modal de edição: ", error);
+      alert("Erro ao abrir o modal de edição.");
     }
-}
+  }
 
 
 async function cadastrarNovoPerfil() {
