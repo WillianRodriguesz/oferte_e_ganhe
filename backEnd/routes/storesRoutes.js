@@ -9,10 +9,10 @@ const  verificarPermissao = require('../middlewares/checkAccessMiddleware');
 router.get('/lojas/view', authenticateToken, verificarPermissao, storeController.exibirPaginaLojas);
 
 // Rota para obter todas as lojas
-router.get('/lojas', authenticateToken, verificarPermissao, storeController.listarLojas);
+router.get('/lojas', authenticateToken, storeController.listarLojas);
 
 // Rota para obter uma loja por ID
-router.get('/lojas/:id', authenticateToken, verificarPermissao, storeController.obterLoja);
+router.get('/lojas/:id', authenticateToken, storeController.obterLoja);
 
 // Rota para cadastrar uma nova loja
 router.post('/lojas', authenticateToken, verificarPermissao, storeController.criarLoja);

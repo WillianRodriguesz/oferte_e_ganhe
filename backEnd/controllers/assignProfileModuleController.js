@@ -2,7 +2,7 @@ const {
     associarPerfilModulo, 
     buscaTodosPerfisModulos, 
     buscaPerfilModuloId, 
-    excluirPerfilModulo 
+    excluirTodasAssociacoesPorPerfil 
 } = require('../services/assignProfileModuleServices');
 
 // Obter todas as associações de perfis a módulos
@@ -45,7 +45,7 @@ const criarAssociacaoPerfilModulo = async (req, res) => {
 const excluirAssociacaoPerfilModulo = async (req, res) => {
     const { id } = req.params;
     try {
-        const perfilModuloExcluido = await excluirPerfilModulo(id);
+        const perfilModuloExcluido = await excluirTodasAssociacoesPorPerfil(id);
         if (perfilModuloExcluido) {
             res.status(200).json({ mensagem: 'Associação de perfil ao módulo excluída com sucesso', perfilModulo: perfilModuloExcluido });
         } else {

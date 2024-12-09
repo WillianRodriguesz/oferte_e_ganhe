@@ -1,4 +1,6 @@
 import { listarPerfis, cadastrarPerfil, excluirPerfil } from '../services/perfilService.js';
+import { criarAssociacaoPerfilModulo, excluirAssociacaoPerfilModulo } from '../services/moduloService.js';
+
 
 // Carregar Perfis na tabela
 async function carregarPerfis() {
@@ -23,29 +25,36 @@ async function carregarPerfis() {
             tabela.appendChild(row);
         });
 
-        // Adicionando event listener para os botões de exclusão
+        // Re-atribuindo event listeners após recriar a tabela
         const botoesExcluir = document.querySelectorAll('[data-id]');
         botoesExcluir.forEach(botao => {
             botao.addEventListener('click', async (event) => {
                 const idPerfil = event.target.closest('[data-id]').getAttribute('data-id');
 
-                // Exibir confirmação para exclusão
                 const confirmacao = confirm("Tem certeza que deseja excluir este perfil?");
-                if (confirmacao) {
-                    try {
-                        const resposta = await excluirPerfil(idPerfil);
+                if (!confirmacao) {
+                    alert("A exclusão foi cancelada.");
+                    return;
+                }
 
-                        if (resposta.success) {
+                try {
+                    const respAssociacoes = await excluirAssociacaoPerfilModulo(idPerfil);
+
+                    if (respAssociacoes.success) {
+                        const respPerfil = await excluirPerfil(idPerfil);
+
+                        if (respPerfil.success) {
                             alert("Perfil excluído com sucesso.");
                             carregarPerfis();
                         } else {
                             alert("Erro ao excluir o perfil.");
                         }
-                    } catch (error) {
-                        alert("Erro ao processar a exclusão do perfil.");
+                    } else {
+                        alert("Erro ao excluir associações do perfil.");
                     }
-                } else {
-                    alert("A exclusão foi cancelada.");
+                } catch (error) {
+                    console.error(error);
+                    alert("Erro ao processar a exclusão do perfil.");
                 }
             });
         });
@@ -54,29 +63,49 @@ async function carregarPerfis() {
     }
 }
 
+
 // Cadastrar um novo perfil
 async function cadastrarNovoPerfil() {
-  const novoPerfil = document.getElementById("nome-perfil").value.trim();
-
-  if (!novoPerfil) {
-    alert("Por favor, insira um nome de perfil válido.");
-    return;
-  }
-
-  try {
-    const resposta = await cadastrarPerfil({ funcao: novoPerfil });
-    
-    if (resposta.success) {
-      alert(`Perfil ${novoPerfil} cadastrado com sucesso.`);
-      carregarPerfis();
-      document.getElementById("nome-perfil").value = "";
-    } else {
-      alert(resposta.message);
+    const novoPerfil = document.getElementById("nome-perfil").value.trim();
+  
+    if (!novoPerfil) {
+      alert("Por favor, insira um nome de perfil válido.");
+      return;
     }
-  } catch (error) {
-    alert(error.message);
+  
+    try {
+      // Cadastrar o novo perfil
+      const resposta = await cadastrarPerfil({ funcao: novoPerfil });
+  
+      if (resposta.success) {
+        const perfilId = resposta.data.perfil.id; 
+        console.log(resposta);
+        
+        console.log("ID DO PERFIL: ", resposta.data.perfil.id);
+        
+        const modulosSelecionados = Array.from(
+          document.querySelectorAll('input[name="modulos[]"]:checked')
+        ).map((checkbox) => parseInt(checkbox.value)); 
+  
+        for (const moduloId of modulosSelecionados) {
+          try {
+            await criarAssociacaoPerfilModulo ({ perfil_id: perfilId, modulo_id: moduloId });
+          } catch (error) {
+            console.error(`Erro ao associar o módulo ${moduloId} ao perfil ${perfilId}:`, error.message);
+          }
+        }
+  
+        alert(`Perfil ${novoPerfil} cadastrado e módulos associados com sucesso.`);
+        carregarPerfis(); 
+        document.getElementById("nome-perfil").value = ""; 
+      } else {
+        alert(resposta.message);
+      }
+    } catch (error) {
+      alert(error.message);
+    }
   }
-}
+  
 
 // Adicionando o evento de clique para cadastrar o novo perfil
 const btnRegistrar = document.getElementById('btnRegistrar');
