@@ -64,49 +64,68 @@ async function carregarPerfis() {
 }
 
 
-// Cadastrar um novo perfil
 async function cadastrarNovoPerfil() {
     const novoPerfil = document.getElementById("nome-perfil").value.trim();
-  
-    if (!novoPerfil) {
-      alert("Por favor, insira um nome de perfil válido.");
-      return;
-    }
-  
-    try {
-      // Cadastrar o novo perfil
-      const resposta = await cadastrarPerfil({ funcao: novoPerfil });
-  
-      if (resposta.success) {
-        const perfilId = resposta.data.perfil.id; 
-        console.log(resposta);
-        
-        console.log("ID DO PERFIL: ", resposta.data.perfil.id);
-        
-        const modulosSelecionados = Array.from(
-          document.querySelectorAll('input[name="modulos[]"]:checked')
-        ).map((checkbox) => parseInt(checkbox.value)); 
-  
-        for (const moduloId of modulosSelecionados) {
-          try {
-            await criarAssociacaoPerfilModulo ({ perfil_id: perfilId, modulo_id: moduloId });
-          } catch (error) {
-            console.error(`Erro ao associar o módulo ${moduloId} ao perfil ${perfilId}:`, error.message);
-          }
-        }
-  
-        alert(`Perfil ${novoPerfil} cadastrado e módulos associados com sucesso.`);
-        carregarPerfis(); 
-        document.getElementById("nome-perfil").value = ""; 
-      } else {
-        alert(resposta.message);
-      }
-    } catch (error) {
-      alert(error.message);
-    }
-  }
-  
 
+    if (!novoPerfil) {
+        alert("Por favor, insira um nome de perfil válido.");
+        return;
+    }
+
+    try {
+        // Cadastrar o novo perfil
+        const resposta = await cadastrarPerfil({ funcao: novoPerfil });
+
+        if (resposta.success) {
+            const perfilId = resposta.data.perfil.id;
+            console.log(resposta);
+            console.log("ID DO PERFIL: ", resposta.data.perfil.id);
+
+            let modulosSelecionados = Array.from(
+                document.querySelectorAll('input[name="modulos[]"]:checked')
+            ).map((checkbox) => parseInt(checkbox.value));
+
+            // Criar um novo array com as regras de associação
+            const modulosComRegras = [];
+            modulosSelecionados.forEach((moduloId) => {
+                modulosComRegras.push(moduloId);
+
+                if ([3, 5].includes(moduloId)) {
+                    if (!modulosComRegras.includes(4)) modulosComRegras.push(4);
+                }
+
+                if (moduloId === 2) {
+                    if (!modulosComRegras.includes(8)) modulosComRegras.push(8);
+                    if (!modulosComRegras.includes(6)) modulosComRegras.push(6);
+                }
+
+                if (moduloId === 9) {
+                    if (!modulosComRegras.includes(10)) modulosComRegras.push(10);
+                }
+            });
+
+            // Remover duplicados da lista de módulos
+            const modulosUnicos = [...new Set(modulosComRegras)];
+
+            // Criar associações de módulos ao perfil
+            for (const moduloId of modulosUnicos) {
+                try {
+                    await criarAssociacaoPerfilModulo({ perfil_id: perfilId, modulo_id: moduloId });
+                } catch (error) {
+                    console.error(`Erro ao associar o módulo ${moduloId} ao perfil ${perfilId}:`, error.message);
+                }
+            }
+
+            alert(`Perfil ${novoPerfil} cadastrado e módulos associados com sucesso.`);
+            carregarPerfis();
+            document.getElementById("nome-perfil").value = "";
+        } else {
+            alert(resposta.message);
+        }
+    } catch (error) {
+        alert(error.message);
+    }
+}
 // Adicionando o evento de clique para cadastrar o novo perfil
 const btnRegistrar = document.getElementById('btnRegistrar');
 btnRegistrar.addEventListener('click', cadastrarNovoPerfil);
