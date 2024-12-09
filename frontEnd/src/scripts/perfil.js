@@ -166,15 +166,34 @@ async function cadastrarNovoPerfil() {
 
 async function salvarAlteracoes(idPerfil) {
     try {
+        const novaFuncao = document.getElementById("editar-nome-perfil").value.trim();
+        if (!novaFuncao) {
+            alert("Por favor, insira uma função de perfil válida.");
+            return;
+        }
+
+        // Editar apenas a função do perfil
+        console.log("Nova função capturada:", novaFuncao); // Depuração        
+        const resultadoEdicao = await editarFuncaoPerfil(idPerfil, { novaFuncao: novaFuncao });
+        console.log("Resultado da edição:", resultadoEdicao); // Depuração
+        if (!resultadoEdicao.success) {
+            alert("Erro ao atualizar a função do perfil.");
+            return;
+        }
+
+        // Excluir associações antigas
         const respAssociacoesExcluir = await excluirAssociacaoPerfilModulo(idPerfil);
         if (!respAssociacoesExcluir.success) {
             alert("Erro ao excluir associações antigas.");
             return;
         }
+
+        // Obter os módulos selecionados
         const modulosSelecionados = Array.from(
             document.querySelectorAll('#modalEditarPerfil input[name="modulos[]"]:checked')
         ).map((checkbox) => parseInt(checkbox.value));
 
+        // Criar novas associações
         for (const moduloId of modulosSelecionados) {
             try {
                 const respCriarAssociacao = await criarAssociacaoPerfilModulo({ perfil_id: idPerfil, modulo_id: moduloId });
@@ -187,6 +206,7 @@ async function salvarAlteracoes(idPerfil) {
         }
 
         alert("Alterações salvas com sucesso.");
+        
         const modalElement = document.getElementById('modalEditarPerfil');
         const modal = bootstrap.Modal.getInstance(modalElement);
         modal.hide();
