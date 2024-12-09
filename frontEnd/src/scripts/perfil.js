@@ -171,11 +171,8 @@ async function salvarAlteracoes(idPerfil) {
             alert("Por favor, insira uma função de perfil válida.");
             return;
         }
-
-        // Editar apenas a função do perfil
-        console.log("Nova função capturada:", novaFuncao); // Depuração        
+           
         const resultadoEdicao = await editarFuncaoPerfil(idPerfil, { novaFuncao: novaFuncao });
-        console.log("Resultado da edição:", resultadoEdicao); // Depuração
         if (!resultadoEdicao.success) {
             alert("Erro ao atualizar a função do perfil.");
             return;
@@ -185,16 +182,36 @@ async function salvarAlteracoes(idPerfil) {
         const respAssociacoesExcluir = await excluirAssociacaoPerfilModulo(idPerfil);
         if (!respAssociacoesExcluir.success) {
             alert("Erro ao excluir associações antigas.");
-            return;
         }
 
-        // Obter os módulos selecionados
+        // Obter os módulos selecionados com base na lógica de regras
         const modulosSelecionados = Array.from(
             document.querySelectorAll('#modalEditarPerfil input[name="modulos[]"]:checked')
         ).map((checkbox) => parseInt(checkbox.value));
 
-        // Criar novas associações
-        for (const moduloId of modulosSelecionados) {
+        const modulosComRegras = [];
+        modulosSelecionados.forEach((moduloId) => {
+            modulosComRegras.push(moduloId);
+
+            if ([3, 5].includes(moduloId)) {
+                if (!modulosComRegras.includes(4)) modulosComRegras.push(4);
+            }
+
+            if (moduloId === 2) {
+                if (!modulosComRegras.includes(8)) modulosComRegras.push(8);
+                if (!modulosComRegras.includes(6)) modulosComRegras.push(6);
+            }
+
+            if (moduloId === 9) {
+                if (!modulosComRegras.includes(10)) modulosComRegras.push(10);
+            }
+        });
+
+        // Remover duplicados da lista de módulos
+        const modulosUnicos = [...new Set(modulosComRegras)];
+
+        // Criar novas associações com os módulos validados
+        for (const moduloId of modulosUnicos) {
             try {
                 const respCriarAssociacao = await criarAssociacaoPerfilModulo({ perfil_id: idPerfil, modulo_id: moduloId });
                 if (!respCriarAssociacao.success) {
