@@ -59,9 +59,9 @@ const excluirAssociacaoPerfilModulo = async (req, res) => {
 
 // Buscar todos os IDs dos módulos associados a um perfil específico
 const buscarModulosPorPerfil = async (req, res) => {
-    const { perfil_id } = req.params;
+    const { id } = req.params;
     try {
-        const modulosIds = await buscaModulosPorPerfilId(perfil_id);
+        const modulosIds = await buscaModulosPorPerfilId(id);
         res.status(200).json({ modulosIds });
     } catch (erro) {
         res.status(500).json({ mensagem: 'Erro ao buscar os módulos associados ao perfil', erro: erro.message });
