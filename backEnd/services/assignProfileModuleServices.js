@@ -72,9 +72,26 @@ async function excluirTodasAssociacoesPorPerfil(perfilId) {
     }
 }
 
+async function buscaModulosPorPerfilId(perfilId) {
+    try {
+        const associacoes = await PerfilModulos.findAll({
+            where: { perfil_id: perfilId },
+            attributes: ['modulo_id'] 
+        });
+
+        const modulosIds = associacoes.map(associacao => associacao.modulo_id);
+
+        return modulosIds;
+    } catch (erro) {
+        console.error('Erro ao buscar módulos associados ao perfil:', erro);
+        throw erro;
+    }
+}
+
 module.exports = {
     associarPerfilModulo,
     buscaTodosPerfisModulos,
     buscaPerfilModuloId,
-    excluirTodasAssociacoesPorPerfil
+    excluirTodasAssociacoesPorPerfil,
+    buscaModulosPorPerfilId
 };

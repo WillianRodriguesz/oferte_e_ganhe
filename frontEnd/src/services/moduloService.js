@@ -94,3 +94,29 @@ export async function excluirAssociacaoPerfilModulo(id) {
         throw new Error(error.message);
     }
 }
+
+// Busca todos os módulos associados a um perfil específico pelo ID
+export async function obterModulosPorPerfilId(id) {
+    const token = localStorage.getItem('auth_token');
+    
+    try {
+        const response = await fetch(`http://localhost:3000/perfilmodulos/associados/${id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+
+        const data = await response.json();
+        if (!response.ok) {
+            throw new Error(data.message || 'Erro ao buscar os módulos associados ao perfil.');
+        }
+
+        return data.modulosIds; // Retorna os IDs dos módulos associados
+    } catch (error) {
+        console.error('Erro ao buscar os módulos associados:', error.message);
+        throw new Error(error.message);
+    }
+}
+

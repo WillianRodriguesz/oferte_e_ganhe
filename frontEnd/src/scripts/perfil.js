@@ -1,23 +1,21 @@
 import { listarPerfis, cadastrarPerfil, excluirPerfil } from '../services/perfilService.js';
-import { criarAssociacaoPerfilModulo, excluirAssociacaoPerfilModulo } from '../services/moduloService.js';
+import { criarAssociacaoPerfilModulo, excluirAssociacaoPerfilModulo, obterModulosPorPerfilId } from '../services/moduloService.js';
 
-
-// Carregar Perfis na tabela
 async function carregarPerfis() {
     const resposta = await listarPerfis();
 
     if (resposta.success) {
         const tabela = document.querySelector("tbody");
-        tabela.innerHTML = ""; 
+        tabela.innerHTML = "";
         resposta.data.forEach(perfil => {
             const row = document.createElement("tr");
             row.innerHTML = `
                 <td>${perfil.funcao}</td>
                 <td class="text-end">
-                    <a href="editar_perfil.html?id=${perfil.id}" class="btn btn-warning btn-sm mx-1" title="Editar Perfil">
+                    <button class="btn btn-warning btn-sm mx-1 abrir-modal-edicao" data-id="${perfil.id}" title="Editar Perfil">
                         <i class="bi bi-pencil-fill"></i> Editar
-                    </a>
-                    <button class="btn btn-danger btn-sm mx-1" title="Excluir Perfil" data-id="${perfil.id}">
+                    </button>
+                    <button class="btn btn-danger btn-sm mx-1 excluir-perfil" data-id="${perfil.id}" title="Excluir Perfil">
                         <i class="bi bi-trash-fill"></i> Excluir
                     </button>
                 </td>
@@ -25,24 +23,18 @@ async function carregarPerfis() {
             tabela.appendChild(row);
         });
 
-        // Re-atribuindo event listeners após recriar a tabela
-        const botoesExcluir = document.querySelectorAll('[data-id]');
+        // Adicionar eventos para exclusão
+        const botoesExcluir = document.querySelectorAll('.excluir-perfil');
         botoesExcluir.forEach(botao => {
             botao.addEventListener('click', async (event) => {
-                const idPerfil = event.target.closest('[data-id]').getAttribute('data-id');
-
+                const idPerfil = event.target.closest('.excluir-perfil').getAttribute('data-id');
                 const confirmacao = confirm("Tem certeza que deseja excluir este perfil?");
-                if (!confirmacao) {
-                    alert("A exclusão foi cancelada.");
-                    return;
-                }
+                if (!confirmacao) return;
 
                 try {
                     const respAssociacoes = await excluirAssociacaoPerfilModulo(idPerfil);
-
                     if (respAssociacoes.success) {
                         const respPerfil = await excluirPerfil(idPerfil);
-
                         if (respPerfil.success) {
                             alert("Perfil excluído com sucesso.");
                             carregarPerfis();
@@ -58,77 +50,51 @@ async function carregarPerfis() {
                 }
             });
         });
+
+        // Adicionar evento para abrir modal de edição
+        const botoesAbrirModalEdicao = document.querySelectorAll('.abrir-modal-edicao');
+        botoesAbrirModalEdicao.forEach(botao => {
+            botao.addEventListener('click', async (event) => {
+                const idPerfil = botao.getAttribute('data-id');
+                await abrirModalEditar(idPerfil);
+            });
+        });
+
     } else {
         alert("Erro ao carregar os perfis.");
     }
 }
 
 
-async function cadastrarNovoPerfil() {
-    const novoPerfil = document.getElementById("nome-perfil").value.trim();
-
-    if (!novoPerfil) {
-        alert("Por favor, insira um nome de perfil válido.");
-        return;
-    }
-
+async function abrirModalEditar(idPerfil) {
     try {
-        // Cadastrar o novo perfil
-        const resposta = await cadastrarPerfil({ funcao: novoPerfil });
+        const resposta = await listarPerfis();
+        const perfilSelecionado = resposta.data.find(perfil => perfil.id == idPerfil);
 
-        if (resposta.success) {
-            const perfilId = resposta.data.perfil.id;
-            console.log(resposta);
-            console.log("ID DO PERFIL: ", resposta.data.perfil.id);
-
-            let modulosSelecionados = Array.from(
-                document.querySelectorAll('input[name="modulos[]"]:checked')
-            ).map((checkbox) => parseInt(checkbox.value));
-
-            // Criar um novo array com as regras de associação
-            const modulosComRegras = [];
-            modulosSelecionados.forEach((moduloId) => {
-                modulosComRegras.push(moduloId);
-
-                if ([3, 5].includes(moduloId)) {
-                    if (!modulosComRegras.includes(4)) modulosComRegras.push(4);
-                }
-
-                if (moduloId === 2) {
-                    if (!modulosComRegras.includes(8)) modulosComRegras.push(8);
-                    if (!modulosComRegras.includes(6)) modulosComRegras.push(6);
-                }
-
-                if (moduloId === 9) {
-                    if (!modulosComRegras.includes(10)) modulosComRegras.push(10);
-                }
-            });
-
-            // Remover duplicados da lista de módulos
-            const modulosUnicos = [...new Set(modulosComRegras)];
-
-            // Criar associações de módulos ao perfil
-            for (const moduloId of modulosUnicos) {
-                try {
-                    await criarAssociacaoPerfilModulo({ perfil_id: perfilId, modulo_id: moduloId });
-                } catch (error) {
-                    console.error(`Erro ao associar o módulo ${moduloId} ao perfil ${perfilId}:`, error.message);
-                }
-            }
-
-            alert(`Perfil ${novoPerfil} cadastrado e módulos associados com sucesso.`);
-            carregarPerfis();
-            document.getElementById("nome-perfil").value = "";
-        } else {
-            alert(resposta.message);
+        if (!perfilSelecionado) {
+            alert("Erro ao buscar perfil.");
+            return;
         }
+
+        // Carregar dados no modal
+        document.getElementById("editar-nome-perfil").value = perfilSelecionado.funcao;
+
+        // Carregar Módulos no Modal
+        const modulos = await obterModulosPorPerfilId(perfilSelecionado.id);
+        const checkboxes = document.querySelectorAll('input[name="modulos[]"]');
+        checkboxes.forEach(checkbox => checkbox.checked = false);
+        modulos.forEach(modulo => {
+            const checkbox = document.getElementById(`modulo-${modulo}`);
+            if (checkbox) checkbox.checked = true;
+        });
+
+        // Exibir o modal
+        const modal = new bootstrap.Modal(document.getElementById('modalEditarPerfil'));
+        modal.show();
     } catch (error) {
-        alert(error.message);
+        console.error("Erro ao abrir o modal de edição: ", error);
+        alert("Erro ao abrir o modal de edição.");
     }
 }
-// Adicionando o evento de clique para cadastrar o novo perfil
-const btnRegistrar = document.getElementById('btnRegistrar');
-btnRegistrar.addEventListener('click', cadastrarNovoPerfil);
 
-// Carregar a lista de perfis no início da execução
 carregarPerfis();

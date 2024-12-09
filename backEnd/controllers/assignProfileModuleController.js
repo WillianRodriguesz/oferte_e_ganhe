@@ -2,7 +2,8 @@ const {
     associarPerfilModulo, 
     buscaTodosPerfisModulos, 
     buscaPerfilModuloId, 
-    excluirTodasAssociacoesPorPerfil 
+    excluirTodasAssociacoesPorPerfil,
+    buscaModulosPorPerfilId 
 } = require('../services/assignProfileModuleServices');
 
 // Obter todas as associações de perfis a módulos
@@ -32,9 +33,9 @@ const obterPerfilModuloPorId = async (req, res) => {
 
 // Criar uma nova associação de perfil a módulo
 const criarAssociacaoPerfilModulo = async (req, res) => {
-    const { perfil_id, modulo_id } = req.body;
+    const { id, modulo_id } = req.body;
     try {
-        const novaAssociacao = await associarPerfilModulo(perfil_id, modulo_id);
+        const novaAssociacao = await associarPerfilModulo(id, modulo_id);
         res.status(201).json({ mensagem: 'Associação de perfil ao módulo criada com sucesso', perfilModulo: novaAssociacao });
     } catch (erro) {
         res.status(500).json({ mensagem: 'Erro ao associar perfil ao módulo', erro: erro.message });
@@ -56,9 +57,21 @@ const excluirAssociacaoPerfilModulo = async (req, res) => {
     }
 };
 
+// Buscar todos os IDs dos módulos associados a um perfil específico
+const buscarModulosPorPerfil = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const modulosIds = await buscaModulosPorPerfilId(id);
+        res.status(200).json({ modulosIds });
+    } catch (erro) {
+        res.status(500).json({ mensagem: 'Erro ao buscar os módulos associados ao perfil', erro: erro.message });
+    }
+};
+
 module.exports = {
     obterTodosPerfisModulos,
     obterPerfilModuloPorId,
     criarAssociacaoPerfilModulo,
-    excluirAssociacaoPerfilModulo
+    excluirAssociacaoPerfilModulo,
+    buscarModulosPorPerfil 
 };
