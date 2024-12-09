@@ -165,3 +165,37 @@ export async function excluirPerfil(id) {
     }
 }
 
+export async function editarFuncaoPerfil(id, dadosPerfil) {
+    try {
+        const token = localStorage.getItem('auth_token');
+
+        if (!token) {
+            throw new Error('Token não encontrado. Faça login novamente.');
+        }
+
+        const response = await fetch(`http://localhost:3000/perfis/editar/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify(dadosPerfil),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            return { success: true, data }; // Retorna o perfil editado com sucesso
+        } else {
+            let message = 'Erro ao editar a função do perfil.';
+            if (data && data.message) {
+                message = data.message;
+            }
+            return { success: false, message };
+        }
+    } catch (error) {
+        console.error(`Erro ao editar a função do perfil com ID ${id}:`, error);
+        return { success: false, message: error.message || 'Erro ao tentar editar a função do perfil. Tente novamente.' };
+    }
+}
+

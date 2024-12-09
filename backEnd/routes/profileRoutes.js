@@ -23,4 +23,7 @@ router.delete('/perfis/:id', authenticateToken, verificarPermissao, profileContr
 // Rota para servir o arquivo HTML
 router.get('/perfis/view', authenticateToken, verificarPermissao, profileController.exibirPaginaPerfis);
 
+router.put('/perfis/editar/:id', authenticateToken, verificarPermissao, profileController.editarFuncaoPerfilController);
+
+
 module.exports = router;

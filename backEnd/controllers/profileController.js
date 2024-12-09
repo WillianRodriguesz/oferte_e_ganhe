@@ -4,7 +4,8 @@ const {
     obterTodosPerfis, 
     obterPerfilPorId, 
     atualizarPerfil, 
-    excluirPerfil 
+    excluirPerfil,
+    editarFuncaoPerfil
 } = require('../services/profileServices');
 
 // Controlador para cadastrar um novo perfil
@@ -71,6 +72,23 @@ const excluirPerfilPorId = async (req, res) => {
     }
 };
 
+const editarFuncaoPerfilController = async (req, res) => {
+    const { id } = req.params;
+    const { novaFuncao } = req.body;
+
+    try {
+        const resultado = await editarFuncaoPerfil(id, novaFuncao);
+
+        if (resultado.success) {
+            return res.status(200).json({ message: resultado.mensagem, perfil: resultado.dados });
+        }
+
+        return res.status(404).json({ message: resultado.mensagem });
+    } catch (error) {
+        res.status(500).json({ message: 'Erro ao editar perfil', error: error.message });
+    }
+};
+
 // Controlador para servir o arquivo HTML
 const exibirPaginaPerfis = (req, res) => {
     res.sendFile(path.join(__dirname, '../../frontend/public/perfis.html'));
@@ -83,4 +101,5 @@ module.exports = {
     atualizarPerfilPorId,
     excluirPerfilPorId,
     exibirPaginaPerfis,
+    editarFuncaoPerfilController
 };

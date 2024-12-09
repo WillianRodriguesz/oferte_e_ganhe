@@ -1,4 +1,4 @@
-import { listarPerfis, cadastrarPerfil, excluirPerfil } from '../services/perfilService.js';
+import { listarPerfis, cadastrarPerfil, excluirPerfil, editarFuncaoPerfil } from '../services/perfilService.js';
 import { criarAssociacaoPerfilModulo, excluirAssociacaoPerfilModulo, obterModulosPorPerfilId } from '../services/moduloService.js';
 
 async function carregarPerfis() {
@@ -67,34 +67,42 @@ async function carregarPerfis() {
 
 async function abrirModalEditar(idPerfil) {
     try {
-      const resposta = await listarPerfis();
-      const perfilSelecionado = resposta.data.find(perfil => perfil.id == idPerfil);
-  
-      if (!perfilSelecionado) {
-        alert("Erro ao buscar perfil.");
-        return;
-      }
-  
-      document.getElementById("editar-nome-perfil").value = perfilSelecionado.funcao;
-  
-      const modulos = await obterModulosPorPerfilId(perfilSelecionado.id);
-      const checkboxes = document.querySelectorAll('#modalEditarPerfil input[name="modulos[]"]');
-      checkboxes.forEach(checkbox => checkbox.checked = false);
-  
-      checkboxes.forEach(checkbox => {
-        if (modulos.includes(parseInt(checkbox.value))) {
-          checkbox.checked = true;
+        const resposta = await listarPerfis();
+        const perfilSelecionado = resposta.data.find(perfil => perfil.id == idPerfil);
+
+        if (!perfilSelecionado) {
+            alert("Erro ao buscar perfil.");
+            return;
         }
-      });
-  
-      // Exibir o modal
-      const modal = new bootstrap.Modal(document.getElementById('modalEditarPerfil'));
-      modal.show();
+
+        document.getElementById("editar-nome-perfil").value = perfilSelecionado.funcao;
+
+        const modulos = await obterModulosPorPerfilId(perfilSelecionado.id);
+        const checkboxes = document.querySelectorAll('#modalEditarPerfil input[name="modulos[]"]');
+        checkboxes.forEach(checkbox => checkbox.checked = false);
+
+        checkboxes.forEach(checkbox => {
+            if (modulos.includes(parseInt(checkbox.value))) {
+                checkbox.checked = true;
+            }
+        });
+
+        // Exibir o modal
+        const modal = new bootstrap.Modal(document.getElementById('modalEditarPerfil'));
+        modal.show();
+
+        // Adicionando o evento de clique no botão de salvar alterações
+        const btnSalvarAlteracoes = document.querySelector('#formEditarPerfil button[type="submit"]');
+        btnSalvarAlteracoes.onclick = async (event) => {
+            event.preventDefault();
+            await salvarAlteracoes(perfilSelecionado.id);
+        };
+
     } catch (error) {
-      console.error("Erro ao abrir o modal de edição: ", error);
-      alert("Erro ao abrir o modal de edição.");
+        console.error("Erro ao abrir o modal de edição: ", error);
+        alert("Erro ao abrir o modal de edição.");
     }
-  }
+}
 
 
 async function cadastrarNovoPerfil() {
@@ -155,9 +163,42 @@ async function cadastrarNovoPerfil() {
         alert(error.message);
     }
 }
-// Adicionando o evento de clique para cadastrar o novo perfil
+
+async function salvarAlteracoes(idPerfil) {
+    try {
+        const respAssociacoesExcluir = await excluirAssociacaoPerfilModulo(idPerfil);
+        if (!respAssociacoesExcluir.success) {
+            alert("Erro ao excluir associações antigas.");
+            return;
+        }
+        const modulosSelecionados = Array.from(
+            document.querySelectorAll('#modalEditarPerfil input[name="modulos[]"]:checked')
+        ).map((checkbox) => parseInt(checkbox.value));
+
+        for (const moduloId of modulosSelecionados) {
+            try {
+                const respCriarAssociacao = await criarAssociacaoPerfilModulo({ perfil_id: idPerfil, modulo_id: moduloId });
+                if (!respCriarAssociacao.success) {
+                    console.error(`Erro ao associar o módulo ${moduloId} ao perfil ${idPerfil}.`);
+                }
+            } catch (error) {
+                console.error(`Erro ao associar o módulo ${moduloId} ao perfil:`, error.message);
+            }
+        }
+
+        alert("Alterações salvas com sucesso.");
+        const modalElement = document.getElementById('modalEditarPerfil');
+        const modal = bootstrap.Modal.getInstance(modalElement);
+        modal.hide();
+
+        carregarPerfis();
+    } catch (error) {
+        console.error("Erro ao salvar alterações:", error);
+        alert("Erro ao salvar alterações.");
+    }
+}
+
 const btnRegistrar = document.getElementById('btnRegistrar');
 btnRegistrar.addEventListener('click', cadastrarNovoPerfil);
 
-// Carregar a lista de perfis no início da execução
 carregarPerfis();

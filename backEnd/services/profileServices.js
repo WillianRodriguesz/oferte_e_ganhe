@@ -72,10 +72,29 @@ async function excluirPerfil(id) {
     }
 }
 
+async function editarFuncaoPerfil(id, novaFuncao) {
+    try {
+        // Atualizando o perfil no banco de dados
+        const resultado = await atualizarPerfil(id, novaFuncao);
+
+        if (resultado) {
+            console.log('Perfil atualizado com sucesso:', resultado);
+            return { success: true, mensagem: 'Perfil atualizado com sucesso.', dados: resultado };
+        } else {
+            console.log('Perfil não encontrado para atualização.');
+            return { success: false, mensagem: 'Perfil não encontrado para atualização.' };
+        }
+    } catch (error) {
+        console.error('Erro ao editar perfil:', error);
+        return { success: false, mensagem: 'Erro ao editar perfil.' };
+    }
+}
+
 module.exports = {
     inserirPerfil,
     obterTodosPerfis,
     obterPerfilPorId,
     atualizarPerfil,
-    excluirPerfil
+    excluirPerfil,
+    editarFuncaoPerfil
 };
