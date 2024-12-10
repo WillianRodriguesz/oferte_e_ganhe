@@ -73,8 +73,25 @@ async function enviarEmail(email, subject, message) {
     }
 }
 
+// Função para atualizar a senha no banco de dados
+async function atualizarSenhaPorEmail(email, senhaHash) {
+    try {
+        const resultado = await Usuario.update(
+            { senha: senhaHash }, 
+            { where: { email } }
+        );
+
+        // Retorna se a atualização foi bem-sucedida
+        return resultado[0] > 0;
+    } catch (erro) {
+        console.error('Erro ao atualizar senha no banco:', erro);
+        throw erro;
+    }
+}
+
 module.exports = {
     validarUsuario,
     buscarUsuarioPorEmail,
     enviarEmail,
+    atualizarSenhaPorEmail
 };

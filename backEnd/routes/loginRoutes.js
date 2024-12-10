@@ -28,7 +28,7 @@ router.get('/login/redefinir-senha', (req, res) => {
 router.post('/login/enviar-link-redefinicao', loginController.enviarEmailRedefinicao);
 
 // Rota para redefinir senha
-//router.post('/login/redefinir-senha', loginController.redefinirSenha);
+router.post('/login/redefinir-senha', loginController.redefinirSenha);
 
 
 module.exports = router;
