@@ -1,4 +1,3 @@
-// Importa os serviços (substitua pelo caminho correto)
 import { enviarTalao } from '../services/talaoService.js';
 import { buscarLojas } from '../services/lojaService.js';
 
@@ -31,8 +30,6 @@ async function carregarLojas(filtro = '') {
                     <td class="text-center">${loja.Estoque.qtd_atual || '0'}</td>
                     <td class="text-center">${loja.Estoque.status || 'Desconhecido'}</td>
                 `;
-
-                // Adiciona a linha na tabela
                 tabelaCorpo.appendChild(linha);
             });
 
@@ -55,7 +52,6 @@ btnRegistrarTalao.addEventListener('submit', handleEnvioTalao);
 async function handleEnvioTalao(e) {
     e.preventDefault();
 
-    // Coleta os dados do formulário
     const talaoData = {
         destinatario: document.getElementById('loja-destinatario').value,
         remetente: document.getElementById('loja-remetente').value,
