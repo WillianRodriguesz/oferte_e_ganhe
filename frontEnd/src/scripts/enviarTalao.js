@@ -18,7 +18,16 @@ async function carregarLojas() {
 
             // Adiciona apenas o cod_unidade como opções no select
             lojas.forEach(loja => {
-                const option = new Option(loja.cod_unidade, loja.cod_unidade); 
+                let optionValue = loja.cod_unidade;
+                let optionText = loja.cod_unidade;
+
+                // Verifica se a cod_unidade é 1001, substitui o texto por 'Matriz'
+                if (loja.cod_unidade === 1001) {
+                    optionText = '1001 - Matriz'; // Define o texto como 'Matriz'
+                }
+
+                // Cria a opção
+                const option = new Option(optionText, optionValue); 
                 destinatarioSelect.add(option.cloneNode(true)); // Adiciona ao destinatário
                 remetenteSelect.add(option); // Adiciona ao remetente
             });

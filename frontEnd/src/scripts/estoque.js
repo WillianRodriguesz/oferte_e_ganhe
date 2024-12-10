@@ -133,7 +133,7 @@ document.getElementById('solicitarTalao').addEventListener('click', async functi
 
         const solicitacaoData = {
             destinatario: usuario.id_loja,
-            remetente: 1, // trocar para buscar no banco pela matriz
+            remetente: 1001, // id da matriz (troca para buscar pelo banco)
             qtd_talao: estoque.qtd_maxima - estoque.qtd_atual,
             status: 'Aguardando'
         };
