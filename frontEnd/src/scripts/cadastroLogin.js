@@ -1,29 +1,10 @@
 // Importa os serviços necessários
-import { solicitarAcesso } from '../services/loginService.js';
-import { buscarLojas } from '../services/lojaService.js';
+import { cadastrarUsuario } from '../services/usuarioService.js';
 
-// Função para carregar as lojas
-async function carregarLojas() {
-    try {
-        const response = await buscarLojas(); 
-        const lojas = response.data; 
-        const lojaSelect = document.getElementById('codigoLoja');
-        
-        // Limpa o combo de lojas
-        lojaSelect.innerHTML = '<option value="">Selecione a loja</option>';
-        lojas.forEach(loja => {
-            const option = new Option(loja.cod_unidade, loja.id); 
-            lojaSelect.add(option);
-        });
-    } catch (error) {
-        console.error('Erro ao carregar as lojas:', error);
-    }
-}
 
-// Função para obter os dados do formulário de solicitação de acesso
 function obterDadosFormulario() {
     const matricula = document.getElementById('matricula').value;
-    const codigoLoja = document.getElementById('codigoLoja').value;
+    const id_loja = document.getElementById('codigoLoja').value;
     const email = document.getElementById('email').value;
     const senha = document.getElementById('senha').value;
     const confirmarSenha = document.getElementById('confirmarSenha').value;
@@ -43,9 +24,11 @@ function obterDadosFormulario() {
     // Monta o objeto de dados da solicitação de acesso
     const solicitacaoData = {
         matricula,
-        codigoLoja,
+        nome,
         email,
-        senha
+        senha,
+        status: false,
+        id_loja, 
     };
 
     console.log(solicitacaoData);
@@ -54,7 +37,7 @@ function obterDadosFormulario() {
 
 async function registrarSolicitacao(solicitacaoData) {
     try {
-        const result = await solicitarAcesso(solicitacaoData); 
+        const result = await cadastrarUsuario(solicitacaoData); 
 
         if (result.success) {
             alert('Solicitação de acesso enviada com sucesso! Aguarde a aprovação.');
@@ -86,6 +69,5 @@ async function handleSolicitacaoAcesso(event) {
     }
 }
 
-carregarLojas(); 
 const formulario = document.querySelector('#formSolicitacaoAcesso');
 formulario.addEventListener('submit', handleSolicitacaoAcesso); 

@@ -38,7 +38,7 @@
 
 .second-column {
     background: linear-gradient(to right, #1DA752, #0B4120);
-    padding-top: 60px;
+    padding-top: 30px;
 }
 
 .form {
@@ -122,7 +122,7 @@ input[type="password"]::placeholder {
     font-size: 12px; 
     cursor: pointer; 
     transition: background-color 0.3s; 
-    margin-top: 10px;
+    /*margin-top: 10px;*/
 }
 
 .btn-acess:hover, .btn-back:hover {
@@ -280,3 +280,30 @@ p{
 }
 
 
+select {
+    border: 2px solid #FFCA00;
+    border-radius: 20px;
+    padding: 10px;
+    outline: none; /* Remove o contorno padrão ao focar */
+    background-color: transparent; /* Remove o preenchimento de fundo */
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.6);
+    width: 100%; /* Faz com que o combo ocupe toda a largura disponível */
+    margin-bottom: 20px; /* Espaçamento entre os elementos */
+    padding: 7px 10px;
+    appearance: none; /* Remove a seta padrão do combo box */
+    background-image: linear-gradient(45deg, transparent 50%, #FFCA00 50%),
+                      linear-gradient(135deg, #FFCA00 50%, transparent 50%);
+    background-position: calc(100% - 10px) calc(1em + 2px), calc(100% - 5px) calc(1em + 2px);
+    background-size: 5px 5px, 5px 5px;
+    background-repeat: no-repeat;
+}
+
+select::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+/* Ajusta o foco no select */
+select:focus {
+    border-color: #e0a800;
+}
