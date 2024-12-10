@@ -1,7 +1,6 @@
 // Importa os serviços necessários
 import { cadastrarUsuarioLogin } from '../services/usuarioService.js';
 
-
 function obterDadosFormulario() {
     const matricula = document.getElementById('matricula').value;
     const id_loja = document.getElementById('codigoLoja').value;
@@ -12,13 +11,21 @@ function obterDadosFormulario() {
 
     // Verifica se as senhas coincidem
     if (senha !== confirmarSenha) {
-        alert('As senhas não coincidem.');
+        Swal.fire({
+            icon: 'warning',
+            title: 'Senhas não coincidem',
+            text: 'As senhas digitadas são diferentes. Por favor, verifique.',
+        });
         return null;
     }
 
     // Verifica se todos os campos obrigatórios foram preenchidos
-    if (!matricula || !codigoLoja || !email || !senha) {
-        alert('Por favor, preencha todos os campos obrigatórios.');
+    if (!matricula || !id_loja || !email || !senha) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Campos obrigatórios',
+            text: 'Por favor, preencha todos os campos obrigatórios.',
+        });
         return null;
     }
 
@@ -30,7 +37,7 @@ function obterDadosFormulario() {
         senha,
         status: false,
         perfil: 0,
-        id_loja, 
+        id_loja,
     };
 
     console.log(solicitacaoData);
@@ -39,23 +46,35 @@ function obterDadosFormulario() {
 
 async function registrarSolicitacao(solicitacaoData) {
     try {
-        const result = await cadastrarUsuarioLogin(solicitacaoData); 
+        const result = await cadastrarUsuarioLogin(solicitacaoData);
 
         if (result.success) {
-            alert('Solicitação de acesso enviada com sucesso! Aguarde a aprovação.');
-            limparCamposFormulario(); 
+            Swal.fire({
+                icon: 'success',
+                title: 'Solicitação enviada',
+                text: 'Sua solicitação de acesso foi enviada com sucesso! Aguarde a aprovação.',
+            });
+            limparCamposFormulario();
         } else {
-            alert('Erro ao solicitar acesso: ' + (result.message || 'Erro desconhecido'));
+            Swal.fire({
+                icon: 'error',
+                title: 'Erro ao solicitar acesso',
+                text: result.message || 'Erro desconhecido.',
+            });
         }
     } catch (error) {
         console.error('Erro ao solicitar acesso:', error);
-        alert('Erro ao tentar solicitar acesso.');
+        Swal.fire({
+            icon: 'error',
+            title: 'Erro interno',
+            text: 'Ocorreu um erro ao tentar enviar a solicitação de acesso.',
+        });
     }
 }
 
 function limparCamposFormulario() {
     const campos = ['matricula', 'codigoLoja', 'email', 'senha', 'confirmarSenha', 'nome'];
-    
+
     campos.forEach(id => {
         document.getElementById(id).value = '';
     });
@@ -67,9 +86,9 @@ async function handleSolicitacaoAcesso(event) {
     const solicitacaoData = obterDadosFormulario();
 
     if (solicitacaoData) {
-        await registrarSolicitacao(solicitacaoData); 
+        await registrarSolicitacao(solicitacaoData);
     }
 }
 
 const formulario = document.querySelector('#formSolicitacaoAcesso');
-formulario.addEventListener('submit', handleSolicitacaoAcesso); 
+formulario.addEventListener('submit', handleSolicitacaoAcesso);
