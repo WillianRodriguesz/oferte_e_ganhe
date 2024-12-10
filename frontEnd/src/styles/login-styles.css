@@ -156,7 +156,7 @@ p{
 
 
 /* PARTE RESPONSIVA DO LOGIN */
-@media (max-width: 968px) and (min-width: 769px) {
+@media (max-width: 1000px) and (min-width: 769px) {
     /* Reduz o tamanho da logo e do texto do título gradualmente */
     .first-column img {
         width: 70%;  

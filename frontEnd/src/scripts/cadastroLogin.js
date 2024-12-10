@@ -1,5 +1,5 @@
 // Importa os serviços necessários
-import { cadastrarUsuario } from '../services/usuarioService.js';
+import { cadastrarUsuarioLogin } from '../services/usuarioService.js';
 
 
 function obterDadosFormulario() {
@@ -7,6 +7,7 @@ function obterDadosFormulario() {
     const id_loja = document.getElementById('codigoLoja').value;
     const email = document.getElementById('email').value;
     const senha = document.getElementById('senha').value;
+    const nome = document.getElementById('nome').value;
     const confirmarSenha = document.getElementById('confirmarSenha').value;
 
     // Verifica se as senhas coincidem
@@ -28,6 +29,7 @@ function obterDadosFormulario() {
         email,
         senha,
         status: false,
+        perfil: 0,
         id_loja, 
     };
 
@@ -37,7 +39,7 @@ function obterDadosFormulario() {
 
 async function registrarSolicitacao(solicitacaoData) {
     try {
-        const result = await cadastrarUsuario(solicitacaoData); 
+        const result = await cadastrarUsuarioLogin(solicitacaoData); 
 
         if (result.success) {
             alert('Solicitação de acesso enviada com sucesso! Aguarde a aprovação.');
@@ -52,7 +54,7 @@ async function registrarSolicitacao(solicitacaoData) {
 }
 
 function limparCamposFormulario() {
-    const campos = ['matricula', 'codigoLoja', 'email', 'senha', 'confirmarSenha'];
+    const campos = ['matricula', 'codigoLoja', 'email', 'senha', 'confirmarSenha', 'nome'];
     
     campos.forEach(id => {
         document.getElementById(id).value = '';
