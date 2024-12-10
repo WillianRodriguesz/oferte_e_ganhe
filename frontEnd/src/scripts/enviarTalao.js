@@ -2,37 +2,42 @@
 import { enviarTalao } from '../services/talaoService.js';
 import { buscarLojas } from '../services/lojaService.js';
 
-async function carregarLojas() {
-    console.log('entrou no carregar lojas');
+async function carregarLojas(filtro = '') {
     try {
-        const response = await buscarLojas(); 
-        
-        if (response.success && Array.isArray(response.data)) {
-            const lojas = response.data; // Extraindo o array de lojas
-            const destinatarioSelect = document.getElementById('loja-destinatario');
-            const remetenteSelect = document.getElementById('loja-remetente');
+        const resultado = await buscarLojas(); // Chama o serviço para buscar as lojas
+        if (resultado.success) {
+            const lojas = resultado.data; // Dados das lojas recebidas da API
+            const tabelaCorpo = document.querySelector('#status-table-body'); // Referência para o corpo da tabela
 
-            // Limpa os selects antes de adicionar as opções
-            destinatarioSelect.innerHTML = '<option value="">Selecione o cod. da loja</option>';
-            remetenteSelect.innerHTML = '<option value="">Selecione o cod. da loja</option>';
+            // Limpa a tabela antes de adicionar os dados
+            tabelaCorpo.innerHTML = '';
 
-            // Adiciona apenas o cod_unidade como opções no select
-            lojas.forEach(loja => {
-                let optionValue = loja.cod_unidade;
-                let optionText = loja.cod_unidade;
-
-                // Verifica se a cod_unidade é 1001, substitui o texto por 'Matriz'
-                if (loja.cod_unidade === 1001) {
-                    optionText = '1001 - Matriz'; // Define o texto como 'Matriz'
-                }
-
-                // Cria a opção
-                const option = new Option(optionText, optionValue); 
-                destinatarioSelect.add(option.cloneNode(true)); // Adiciona ao destinatário
-                remetenteSelect.add(option); // Adiciona ao remetente
+            // Filtra as lojas conforme o filtro (por cod_unidade ou nome da unidade)
+            const lojasFiltradas = lojas.filter(loja => {
+                return String(loja.cod_unidade).includes(filtro) || 
+                       (loja.unidade && loja.unidade.toLowerCase().includes(filtro.toLowerCase()));
             });
+
+            // Itera sobre as lojas filtradas e cria uma linha para cada uma
+            lojasFiltradas.forEach(loja => {
+                const linha = document.createElement('tr'); 
+
+                console.log('dados da loja aqui', loja);
+                
+                linha.innerHTML = `
+                    <td class="text-center">${loja.cod_unidade}</td>
+                    <td class="text-center">${loja.Address.cidade || 'Sem nome'}</td>
+                    <td class="text-center">${loja.Estoque.qtd_minima || '0'}</td>
+                    <td class="text-center">${loja.Estoque.qtd_atual || '0'}</td>
+                    <td class="text-center">${loja.Estoque.status || 'Desconhecido'}</td>
+                `;
+
+                // Adiciona a linha na tabela
+                tabelaCorpo.appendChild(linha);
+            });
+
         } else {
-            throw new Error('Dados inválidos ou ausentes na resposta');
+            alert(resultado.message); // Exibe a mensagem de erro se a busca falhar
         }
     } catch (error) {
         console.error('Erro ao carregar lojas:', error);
@@ -40,6 +45,10 @@ async function carregarLojas() {
     }
 }
 
+// Chama a função de carregar lojas quando a página for carregada
+carregarLojas();
+
+// Função para enviar talão
 const btnRegistrarTalao = document.querySelector('form');
 btnRegistrarTalao.addEventListener('submit', handleEnvioTalao);
 
@@ -56,6 +65,7 @@ async function handleEnvioTalao(e) {
         data_prevista: document.getElementById('previsao-entrega').value,
         status: "Aguardando",
     };
+
     try {
         const result = await enviarTalao(talaoData);
 
@@ -86,5 +96,3 @@ function clearFormFields() {
         }
     });
 }
-
-carregarLojas();
