@@ -177,16 +177,25 @@ async function salvarAlteracoesLoja(event) {
 async function excluirLojaComConfirmacao(codUnidade) {
     if (confirm('Tem certeza que deseja excluir esta loja, seu endereço e estoque?')) {
         try {
-            console.log(loja)
-            const loja = await buscarLojaPorId(codUnidade);
-            const idEstoque = loja.data.id_estoque; 
-            const logradouro = loja.data.logradouro; 
-           
+            // Remover a variável global 'loja' e buscar os dados da loja diretamente
+            const resultado = await buscarLojaPorId(codUnidade);
+            
+            if (!resultado.success) {
+                alert('Erro ao buscar os dados da loja.');
+                return;
+            }
+
+            const loja = resultado.data; // Dados da loja recém recuperados
+            const idEstoque = loja.id_estoque; 
+            const logradouro = loja.logradouro; 
+            
+            // Excluir a loja
             const resultLoja = await excluirLoja(codUnidade);
             if (!resultLoja.success) {
                 alert('Erro ao excluir a loja.');
                 return;  
             }
+
             // Excluir o estoque
             const resultEstoque = await excluirEstoque(idEstoque);
             if (!resultEstoque.success) {
@@ -196,8 +205,13 @@ async function excluirLojaComConfirmacao(codUnidade) {
 
             // Excluir o endereço
             const resultEndereco = await excluirLogradouro(logradouro);
-            
-            carregarLojas();  // Recarregar as lojas após exclusão
+            if (!resultEndereco.success) {
+                console.log(resultEndereco.message);
+                
+            }
+
+            // Recarregar a lista de lojas após exclusão
+            carregarLojas(); 
             alert('Loja excluída com sucesso!');
             
         } catch (error) {
@@ -206,6 +220,7 @@ async function excluirLojaComConfirmacao(codUnidade) {
         }
     }
 }
+
 
 document.getElementById('form-editar-loja').addEventListener('submit', salvarAlteracoesLoja);
 carregarLojas(); 
