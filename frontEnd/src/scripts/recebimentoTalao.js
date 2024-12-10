@@ -1,9 +1,17 @@
-import { buscarTaloes, obterTalaoPorNumeroRemessa, editarRecebimentoTalao } from '../services/talaoService.js';
+import { buscarTaloes, obterTalaoPorNumeroRemessa, editarRecebimentoTalao, buscarTalaoPorDestinatario } from '../services/talaoService.js';
 import { buscarLojaPorId } from '../services/lojaService.js';
 import { buscarEstoquePorId, atualizarQtdEstoque } from '../services/estoqueService.js';
 
 async function carregarStatusRecebimento() {
-    const resultado = await buscarTaloes(); 
+    
+    
+    const usuario = JSON.parse(sessionStorage.getItem('user_data'));
+        if (!usuario || !usuario.id_loja) {
+            throw new Error('Usuário não autenticado ou id_loja ausente.');
+        }
+
+    const resultado = await buscarTalaoPorDestinatario(usuario.id_loja);
+
     if (resultado.success) {
         let statusRecebimento = resultado.data; 
         statusRecebimento = statusRecebimento.sort((a, b) => {

@@ -1,18 +1,10 @@
 <h2>Usuários Cadastrados</h2>
 
 <div class="row mb-4">
-    <div class="col-md-9">
-        <label for="filtro-unidade" class="form-label">Nome</label>
+    <div class="col-md-12">
+        <label for="filtro-nome" class="form-label"></label>
         <div class="search-bar">
-            <input type="text" id="filtro-unidade" name="filtro-unidade" class="form-control campo-pesquisa" placeholder="Digite o nome do colaborador">
-        </div>
-    </div>
-
-    <div class="col-md-3 d-flex align-items-end">
-        <div class="text-center w-100">
-            <button type="button" class="btn btn-outline-success w-100" id="btn-pesquisar">
-                Pesquisar
-            </button>
+            <input type="text" id="filtro-nome" name="filtro-nome" class="form-control campo-pesquisa" placeholder="Digite o nome do colaborador">
         </div>
     </div>
 </div>
@@ -22,8 +14,8 @@
         <thead>
             <tr>
                 <th scope="col">Nome</th>
-                <th scope="col">Email</th>
-                <th scope="col">Unidade</th>
+                <th scope="col" style="padding-left: 105px;">Email</th>
+                <th scope="col"  style="padding-left: 30px;">Unidade</th>
                 <th scope="col">Status de Cadastro</th>
                 <th scope="col" class="text-end coluna-acoes" style="padding-right: 75px;">Ações</th>
             </tr>
@@ -32,6 +24,50 @@
             <!-- As linhas serão preenchidas pelo JavaScript -->
         </tbody>
     </table>
+</div>
+
+<!-- Modal de Edição de Usuário -->
+<div class="modal fade" id="modalEditarUsuario" tabindex="-1" aria-labelledby="modalEditarUsuarioLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEditarUsuarioLabel">Editar Usuário</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="form-editar-usuario">
+                    <div class="mb-3">
+                        <label for="editar-nome" class="form-label">Nome</label>
+                        <input type="text" class="form-control" id="editar-nome" name="nome" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editar-email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="editar-email" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editar-unidade" class="form-label">Unidade</label>
+                        <input type="text" class="form-control" id="editar-unidade" name="unidade" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editar-status" class="form-label">Status</label>
+                        <select class="form-control" id="editar-status" name="status" aria-placeholder="Status de cadastro">
+                            <option value="true">Cadastrado</option>
+                            <option value="false">Aguardando</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editar-perfil" class="form-label">Perfil</label>
+                        <select class="form-control" id="editar-perfil" name="perfil" required>
+                            <option value="admin">Admin</option>
+                            <option value="gerente">Gerente</option>
+                            <option value="caixa">Caixa</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Adicionar Bootstrap Icons -->

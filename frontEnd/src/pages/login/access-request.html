@@ -6,31 +6,35 @@
     <title>Solicitar Acesso</title>
     <link rel="stylesheet" href="../../styles/login-styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
 </head>
 <body>
     <div class="container">
         <div class="content">
             <div class="first-column">
-                <img src="../../styles/img/logoQQ.svg" alt="" style="width: 300px; height: auto;" >
-                <h1><span class="oferta">Oferte</span> <span class="ganhe">& Ganhe</span></h2>
-            </div>
-    
-            <div class="second-column">
-                <form class="form">
-                    <input type="text" placeholder="Matricula">
-                    <input type="text" placeholder="Código da loja">
-                    <input type="email" placeholder="E-mail">
-                    <input type="password" placeholder="Senha">
-                    <input type="password" placeholder="Confirmar senha">
-                    <button class="btn-login" id="btnEnviarSolicitacao">Solicitar acesso</button>
-                </form>
-                
-                <button class="btn-back" id="btnVoltar" type="button">Voltar</button>
+                <img src="../../styles/img/logoQQ.svg" alt="Logo" style="width: 400px; height: auto;">
+                <h1><span class="oferta">Oferte</span> <span class="ganhe">& Ganhe</span></h1>
             </div>
 
-        </div>       
+            <div class="second-column">
+                <form class="form" id="formSolicitacaoAcesso">
+                    <input type="text" id="matricula" name="matricula" placeholder="Matrícula" required>
+                    <input type="text" id="nome" name="nome" placeholder="Nome completo" required>
+                    <input type="text" id="codigoLoja" name="codigoLoja" placeholder="Código da loja" required>
+                    <input type="email" id="email" name="email" placeholder="E-mail" required>
+                    <input type="password" id="senha" name="senha" placeholder="Senha" required>
+                    <input type="password" id="confirmarSenha" name="confirmarSenha" placeholder="Confirmar senha" required>
+                    <button class="btn-login" id="btnEnviarSolicitacao" type="submit">Solicitar Acesso</button>
+                </form>
+                <button class="btn-back" id="btnVoltar" type="button">Voltar</button>
+            </div>
+        </div>
     </div>
 
     <script src="../../scripts/navigationLogin.js"></script>
+    <script type="module" src="../../scripts/cadastroLogin.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </body>
 </html>

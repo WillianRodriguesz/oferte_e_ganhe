@@ -1,4 +1,4 @@
-const { inserirTalao, obterTodosTaloes, obterTalaoPorId, atualizarTalao, excluirTalao, 
+const { inserirTalao, obterTodosTaloes, obterTalaoPorId, atualizarTalao, excluirTalao, obterTalaoDestinario,
         atualizarStatusTalao, obterTalaoPorNumeroRemessa, editarRecebimento } = require('../services/talaoServices');
 
 // Controlador para cadastrar um novo talão
@@ -179,6 +179,27 @@ const editarRecebimentoTalao = async (req, res) => {
     }
 };
 
+async function buscarTalaosPorDestinatario(req, res) {
+    try {
+        const { destinatario } = req.params; 
+
+        if (!destinatario) {
+            return res.status(400).json({ mensagem: 'O campo destinatario é obrigatório' });
+        }
+
+        const taloes = await obterTalaoDestinario(destinatario);
+
+        if (taloes.length === 0) {
+            return res.status(404).json({ mensagem: 'Nenhum talão encontrado para este destinatário' });
+        }
+
+        return res.status(200).json(taloes);
+    } catch (error) {
+        console.error('Erro no controller:', error);
+        return res.status(500).json({ mensagem: 'Erro interno do servidor' });
+    }
+}
+
 module.exports = {
     cadastrarTalao,
     listarTaloes,
@@ -187,5 +208,6 @@ module.exports = {
     excluirTalaoInfo,
     atualizarStatus,
     obterTalaoPorRemessa,
-    editarRecebimentoTalao
+    editarRecebimentoTalao,
+    buscarTalaosPorDestinatario
 };

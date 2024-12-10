@@ -269,5 +269,36 @@ export async function editarRecebimentoTalao(id, dataRecebimento, status) {
     }
 }
 
+export async function buscarTalaoPorDestinatario(destinatario) {
+    try {
+        const token = localStorage.getItem('auth_token');
 
+        if (!token) {
+            throw new Error('Token não encontrado. Faça login novamente.');
+        }
+
+        const response = await fetch(`http://localhost:3000/talao/destinatario/${destinatario}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            return { success: true, data }; // Retorna os talões encontrados
+        } else {
+            let message = 'Erro ao buscar os talões pelo destinatário.';
+            if (data && data.message) {
+                message = data.message;
+            }
+            return { success: false, message };
+        }
+    } catch (error) {
+        console.error(`Erro ao buscar os talões pelo destinatário ${destinatario}:`, error);
+        return { success: false, message: error.message || 'Erro ao tentar buscar os talões. Tente novamente.' };
+    }
+}
 

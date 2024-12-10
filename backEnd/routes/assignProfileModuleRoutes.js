@@ -17,4 +17,6 @@ router.post('/perfilmodulos', authenticateToken, verificarPermissao, perfilModul
 // Rota para excluir uma associação de perfil a módulo
 router.delete('/perfilmodulos/:id', authenticateToken, verificarPermissao, perfilModuloController.excluirAssociacaoPerfilModulo);
 
+router.get('/perfilmodulos/associados/:id', authenticateToken, verificarPermissao, perfilModuloController.buscarModulosPorPerfil);
+
 module.exports = router;

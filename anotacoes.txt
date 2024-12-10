@@ -17,3 +17,6 @@ npm install bcrypt
 npm install cors
 
 npm install sequelize
+
+npm install nodemailer
+

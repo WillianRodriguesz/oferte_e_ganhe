@@ -46,19 +46,44 @@ async function buscaPerfilModuloId(id) {
     }
 }
 
-// Função para excluir uma associação de perfil a módulo
-async function excluirPerfilModulo(id) {
+// Função para excluir todas as associações de perfil a módulos com base no perfil_id
+async function excluirTodasAssociacoesPorPerfil(perfilId) {
     try {
-        const associacao = await PerfilModulos.findOne({
-            where: { id }
+        // Busca todas as associações relacionadas ao perfil
+        const associacoes = await PerfilModulos.findAll({
+            where: { perfil_id: perfilId }
         });
 
-        if (!associacao) return null;
+        if (associacoes.length === 0) {
+            console.log(`Nenhuma associação encontrada para o perfil com ID ${perfilId}.`);
+            return null;
+        }
 
-        await associacao.destroy();
-        return associacao;
+        // Excluir todas as associações encontradas
+        for (const associacao of associacoes) {
+            await associacao.destroy();
+        }
+
+        console.log(`Todas as associações do perfil com ID ${perfilId} foram excluídas com sucesso.`);
+        return associacoes;
     } catch (erro) {
-        console.error('Erro ao excluir associação de perfil a módulo:', erro);
+        console.error('Erro ao excluir associações de perfil a módulos:', erro);
+        throw erro;
+    }
+}
+
+async function buscaModulosPorPerfilId(perfilId) {
+    try {
+        const associacoes = await PerfilModulos.findAll({
+            where: { perfil_id: perfilId },
+            attributes: ['modulo_id'] 
+        });
+
+        const modulosIds = associacoes.map(associacao => associacao.modulo_id);
+
+        return modulosIds;
+    } catch (erro) {
+        console.error('Erro ao buscar módulos associados ao perfil:', erro);
         throw erro;
     }
 }
@@ -67,5 +92,6 @@ module.exports = {
     associarPerfilModulo,
     buscaTodosPerfisModulos,
     buscaPerfilModuloId,
-    excluirPerfilModulo
+    excluirTodasAssociacoesPorPerfil,
+    buscaModulosPorPerfilId
 };

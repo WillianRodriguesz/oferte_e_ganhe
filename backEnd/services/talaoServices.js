@@ -128,6 +128,18 @@ async function editarRecebimento(id, data_recebimento, status) {
     }
 }
 
+async function obterTalaoDestinario(destinatario) {
+    try {
+        const taloes = await Talao.findAll({
+            where: { destinatario: destinatario }
+        });
+        return taloes; 
+    } catch (erro) {
+        console.error('Erro ao buscar talões pelo destinatário:', erro);
+        throw erro;
+    }
+}
+
 module.exports = {
     inserirTalao,
     obterTodosTaloes,
@@ -135,6 +147,8 @@ module.exports = {
     atualizarTalao,
     excluirTalao,
     atualizarStatusTalao,
+    obterTalaoDestinario,
     obterTalaoPorNumeroRemessa,
     editarRecebimento
+    
 };

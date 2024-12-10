@@ -2,7 +2,8 @@ const {
     associarPerfilModulo, 
     buscaTodosPerfisModulos, 
     buscaPerfilModuloId, 
-    excluirPerfilModulo 
+    excluirTodasAssociacoesPorPerfil,
+    buscaModulosPorPerfilId 
 } = require('../services/assignProfileModuleServices');
 
 // Obter todas as associações de perfis a módulos
@@ -17,9 +18,9 @@ const obterTodosPerfisModulos = async (req, res) => {
 
 // Obter uma associação específica de perfil a módulo por ID
 const obterPerfilModuloPorId = async (req, res) => {
-    const { id } = req.params;
+    const { perfil_id } = req.params;
     try {
-        const perfilModulo = await buscaPerfilModuloId(id);
+        const perfilModulo = await buscaPerfilModuloId(perfil_id);
         if (perfilModulo) {
             res.status(200).json(perfilModulo);
         } else {
@@ -45,7 +46,7 @@ const criarAssociacaoPerfilModulo = async (req, res) => {
 const excluirAssociacaoPerfilModulo = async (req, res) => {
     const { id } = req.params;
     try {
-        const perfilModuloExcluido = await excluirPerfilModulo(id);
+        const perfilModuloExcluido = await excluirTodasAssociacoesPorPerfil(id);
         if (perfilModuloExcluido) {
             res.status(200).json({ mensagem: 'Associação de perfil ao módulo excluída com sucesso', perfilModulo: perfilModuloExcluido });
         } else {
@@ -56,9 +57,21 @@ const excluirAssociacaoPerfilModulo = async (req, res) => {
     }
 };
 
+// Buscar todos os IDs dos módulos associados a um perfil específico
+const buscarModulosPorPerfil = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const modulosIds = await buscaModulosPorPerfilId(id);
+        res.status(200).json({ modulosIds });
+    } catch (erro) {
+        res.status(500).json({ mensagem: 'Erro ao buscar os módulos associados ao perfil', erro: erro.message });
+    }
+};
+
 module.exports = {
     obterTodosPerfisModulos,
     obterPerfilModuloPorId,
     criarAssociacaoPerfilModulo,
-    excluirAssociacaoPerfilModulo
+    excluirAssociacaoPerfilModulo,
+    buscarModulosPorPerfil 
 };

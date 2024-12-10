@@ -30,7 +30,7 @@ async function obterUsuarios() {
     try {
         const usuarios = await Usuario.findAll({
             include: [
-                { model: Perfil, attributes: ['funcao'] },
+                { model: Perfil, attributes: ['id', 'funcao'] },
                 { model: Loja, attributes: ['cod_unidade'] }
             ]
         }); 
@@ -47,7 +47,7 @@ async function obterUsuarioId(matricula) {
         const usuario = await Usuario.findOne({
             where: { matricula },
             include: [
-                { model: Perfil, attributes: ['funcao'] },
+                { model: Perfil, attributes: ['id', 'funcao'] },
                 { model: Loja, attributes: ['cod_unidade'] }
             ]
         });  

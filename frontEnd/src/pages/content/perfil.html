@@ -4,7 +4,7 @@
     <form action="processar_perfil.html" method="POST">
         <div class="row mb-3">
             <!-- Campo Nome do Perfil -->
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <label for="nome-perfil" class="form-label">Nome do Perfil:</label>
                 <input type="text" id="nome-perfil" name="nome-perfil" class="form-control rounded-3" required>
             </div>
@@ -17,38 +17,36 @@
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="modulo-estoque" name="modulos[]" value="Estoque">
+                            <input class="form-check-input" type="checkbox" id="modulo-estoque" name="modulos[]" value="6">
                             <label class="form-check-label" for="modulo-estoque">Estoque</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="modulo-envio-talao" name="modulos[]" value="Envio de talão">
+                            <input class="form-check-input" type="checkbox" id="modulo-envio-talao" name="modulos[]" value="3">
                             <label class="form-check-label" for="modulo-envio-talao">Envio de Talão</label>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="modulo-recebimento" name="modulos[]" value="Recebimento">
-                            <label class="form-check-label" for="modulo-recebimento">Recebimento</label>
+                            <input class="form-check-input" type="checkbox" id="modulo-recebimento" name="modulos[]" value="5">
+                            <label class="form-check-label" for="modulo-recebimento">Recebimento de Talões</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="modulo-relatorios" name="modulos[]" value="Relatórios">
+                            <input class="form-check-input" type="checkbox" id="modulo-relatorios" name="modulos[]" value="1">
                             <label class="form-check-label" for="modulo-relatorios">Relatórios</label>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="modulo-gerenciamento-perfis" name="modulos[]" value="Gerenciamento de perfis">
+                            <input class="form-check-input" type="checkbox" id="modulo-gerenciamento-perfis" name="modulos[]" value="9">
                             <label class="form-check-label" for="modulo-gerenciamento-perfis">Gerenciamento de Perfis</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="modulo-cadastro-lojas" name="modulos[]" value="Cadastro de lojas">
+                            <input class="form-check-input" type="checkbox" id="modulo-cadastro-lojas" name="modulos[]" value="2">
                             <label class="form-check-label" for="modulo-cadastro-lojas">Cadastro de Lojas</label>
                         </div>
-                    </div>
-                    <div class="col-md-3">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="modulo-estoque-geral" name="modulos[]" value="Estoque Geral">
-                            <label class="form-check-label" for="modulo-estoque-geral">Estoque Geral</label>
+                            <input class="form-check-input" type="checkbox" id="modulo-cadastro-usuario" name="modulos[]" value="7">
+                            <label class="form-check-label" for="modulo-cadastro-usuario">Cadastro de Usuarios</label>
                         </div>
                     </div>
                 </div>
@@ -56,7 +54,7 @@
         </div>
 
         <div class="mb-3 col-md-2">
-            <button type="submit" class="btn w-100 rounded-3" 
+            <button id="btnRegistrar" type="button" class="btn w-100 rounded-3" 
                 style="background-color: #188642; border-color: #188642; color: white; transition: background-color 0.3s, border-color 0.3s, color 0.3s;"
                 onmouseover="this.style.backgroundColor='#156d33'; this.style.borderColor='#156d33'; this.style.color='white';"
                 onmouseout="this.style.backgroundColor='#188642'; this.style.borderColor='#188642'; this.style.color='white';">
@@ -125,5 +123,56 @@
     </table>
 </div>
 
+<!-- Modal para Editar Perfil -->
+<div class="modal fade" id="modalEditarPerfil" tabindex="-1" aria-labelledby="modalEditarPerfilLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalEditarPerfilLabel">Editar Perfil</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="formEditarPerfil">
+            <div class="mb-3">
+              <label for="editar-nome-perfil" class="form-label">Nome do Perfil</label>
+              <input type="text" id="editar-nome-perfil" name="editar-nome-perfil" class="form-control" required>
+            </div>
+            <div class="mb-2">
+              <label class="form-label">Selecionar Módulos</label>
+              <div class="col-md-4">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="modulo-gerenciamento-perfis" name="modulos[]" value="9">
+                  <label class="form-check-label" for="modulo-gerenciamento-perfis">Gerenciamento de Perfis</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="modulo-cadastro-lojas" name="modulos[]" value="2">
+                  <label class="form-check-label" for="modulo-cadastro-lojas">Cadastro de Lojas</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="modulo-cadastro-usuario" name="modulos[]" value="7">
+                  <label class="form-check-label" for="modulo-cadastro-usuario">Cadastro de Usuarios</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="modulo-estoque" name="modulos[]" value="6">
+                  <label class="form-check-label" for="modulo-estoque">Estoque</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="modulo-recebimento" name="modulos[]" value="5">
+                  <label class="form-check-label" for="modulo-recebimento">Recebimento</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="modulo-envio" name="modulos[]" value="3">
+                  <label class="form-check-label" for="modulo-envio">Envio</label>
+                </div>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-success">Salvar Alterações</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
 <!-- Adicionar Bootstrap Icons -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<script src="../../scripts/perfil.js" data-module></script>

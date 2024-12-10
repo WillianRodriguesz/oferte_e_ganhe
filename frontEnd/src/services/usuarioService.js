@@ -98,6 +98,34 @@ export async function cadastrarUsuario(usuarioData) {
     }
 }
 
+export async function cadastrarUsuarioLogin(usuarioData) {
+    try {
+        const response = await fetch('http://localhost:3000/usuarios', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(usuarioData),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            return { success: true, data }; // Retorna os dados do usuário cadastrado
+        } else {
+            let message = 'Erro ao cadastrar o usuário.';
+            if (data && data.message) {
+                message = data.message;
+            }
+            return { success: false, message };
+        }
+    } catch (error) {
+        console.error('Erro ao cadastrar o usuário:', error);
+        return { success: false, message: error.message || 'Erro ao tentar cadastrar o usuário. Tente novamente.' };
+    }
+}
+
+
 export async function atualizarUsuario(id, usuarioData) {
     try {
         const token = localStorage.getItem('auth_token');
