@@ -74,10 +74,23 @@ async function excluirLogRecebimento(id) {
     }
 }
 
+async function obterTalaosPorDestinatario(idDestinatario) {
+    try {
+        const talaos = await Talao.findAll({
+            where: { destinatario: idDestinatario }
+        });
+        return talaos;
+    } catch (erro) {
+        console.error('Erro ao buscar talões por destinatário:', erro);
+        throw erro;
+    }
+}
+
 module.exports = {
     inserirLogRecebimento,
     obterTodosLogsRecebimento,
     obterLogRecebimentoPorId,
     atualizarLogRecebimento,
-    excluirLogRecebimento
+    excluirLogRecebimento,
+    obterTalaosPorDestinatario
 };

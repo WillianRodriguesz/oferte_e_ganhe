@@ -17,6 +17,8 @@ router.get('/talao/:id', authenticateToken, verificarPermissao, talaoController.
 // Rota para obter um talão pelo número de remessa
 router.get('/talao/numeroRemessa/:numero_remessa', authenticateToken, verificarPermissao, talaoController.obterTalaoPorRemessa);
 
+router.get('/talao/destinatario/:destinatario', authenticateToken, verificarPermissao, talaoController.buscarTalaosPorDestinatario);
+
 // Rota para atualizar um talão pelo ID
 router.put('/talao/:id', authenticateToken, verificarPermissao, talaoController.atualizarTalaoInfo);
 

@@ -3,7 +3,8 @@ const {
     obterTodosLogsRecebimento, 
     obterLogRecebimentoPorId, 
     atualizarLogRecebimento, 
-    excluirLogRecebimento 
+    excluirLogRecebimento,
+    obterTalaosPorDestinatario
 } = require('../services/receivingServices');
 
 // Controlador para cadastrar um novo log de recebimento
@@ -70,10 +71,22 @@ const excluirLogRecebimentoPorId = async (req, res) => {
     }
 };
 
+async function buscarTalaosPorDestinario(req, res) {
+    try {
+        const { destinatarioId } = req.params; // Pegando o ID do destinatário da requisição
+        const talaos = await obterTalaosPorDestinatario(destinatarioId);
+
+        res.status(200).json(talaos);
+    } catch (erro) {
+        res.status(500).json({ message: 'Erro interno ao buscar os talões' });
+    }
+}
+
 module.exports = {
     criarLogRecebimento,
     listarLogsRecebimento,
     obterLogRecebimento,
     atualizarLogRecebimentoPorId,
     excluirLogRecebimentoPorId,
+    buscarTalaosPorDestinario,
 };

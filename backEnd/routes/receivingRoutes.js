@@ -19,4 +19,6 @@ router.put('/recebimentoTalao/:id', authenticateToken, verificarPermissao, recei
 // Rota para excluir um log de recebimento pelo ID
 router.delete('/recebimentoTalao/:id', authenticateToken, verificarPermissao, receivingController.excluirLogRecebimentoPorId);
 
+router.get('/recebimentoTalao/destinatario/:id', authenticateToken, verificarPermissao, receivingController.buscarTalaosPorDestinario);
+
 module.exports = router;
