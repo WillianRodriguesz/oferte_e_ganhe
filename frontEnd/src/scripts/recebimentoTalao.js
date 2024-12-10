@@ -31,6 +31,12 @@ async function carregarStatusRecebimento() {
             if(talao.data_recebimento == null){
                 talao.data_recebimento = '-'
             }
+            if(talao.numero_remessa == null){
+                talao.numero_remessa = 'Solicitado'
+            }
+            if(talao.data_envio == null){
+                talao.data_envio = '-'
+            }
             linha.innerHTML = `
                 <td class="text-center">${talao.numero_remessa}</td>
                 <td class="text-center">${talao.qtd_talao}</td>
