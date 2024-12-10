@@ -3,7 +3,7 @@ import { atualizarLogradouro, excluirLogradouro } from '../services/enderecoServ
 import { atualizarEstoque, excluirEstoque } from '../services/estoqueService.js';
 
 // Função para carregar as lojas e preencher a tabela HTML
-async function carregarLojas() {
+async function carregarLojas(filtro = '') {
     const resultado = await buscarLojas(); // Chama o serviço para buscar as lojas
     if (resultado.success) {
         const lojas = resultado.data; // Dados das lojas recebidas da API
@@ -12,8 +12,14 @@ async function carregarLojas() {
         // Limpa a tabela antes de adicionar os dados
         tabelaCorpo.innerHTML = '';
 
-        // Itera sobre as lojas e cria uma linha para cada uma
-        lojas.forEach(loja => {
+        // Filtra as lojas conforme o filtro (por nome da unidade)
+        const lojasFiltradas = lojas.filter(loja => {
+            return String(loja.cod_unidade).includes(filtro) || 
+                   (loja.Address && loja.Address.cidade && loja.Address.cidade.toLowerCase().includes(filtro.toLowerCase()));
+        });
+
+        // Itera sobre as lojas filtradas e cria uma linha para cada uma
+        lojasFiltradas.forEach(loja => {
             const cidade = loja.Address?.cidade || 'Não informado'; // Verifica se há cidade disponível
             const enderecoCompleto = loja.Address
                 ? `${loja.Address.endereco || 'Sem endereço'} - ${loja.Address.numero || 'S/N'}`
@@ -60,6 +66,12 @@ async function carregarLojas() {
         alert(resultado.message); // Exibe a mensagem de erro se a busca falhar
     }
 }
+
+// Função de busca ao digitar no campo de filtro
+document.getElementById('filtro-unidade').addEventListener('input', (event) => {
+    const filtro = event.target.value; // Obtém o valor do campo de pesquisa
+    carregarLojas(filtro); // Recarrega as lojas aplicando o filtro
+});
 
 let loja = null;
 
