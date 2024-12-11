@@ -3,38 +3,59 @@ import { buscarLojas } from '../services/lojaService.js';
 
 async function carregarLojas(filtro = '') {
     try {
-        const resultado = await buscarLojas(); // Chama o serviço para buscar as lojas
+        const resultado = await buscarLojas(); 
         if (resultado.success) {
-            const lojas = resultado.data; // Dados das lojas recebidas da API
-            const tabelaCorpo = document.querySelector('#status-table-body'); // Referência para o corpo da tabela
-
-            // Limpa a tabela antes de adicionar os dados
+            const lojas = resultado.data; 
+            const tabelaCorpo = document.querySelector('#status-table-body'); 
+            
             tabelaCorpo.innerHTML = '';
-
-            // Filtra as lojas conforme o filtro (por cod_unidade ou nome da unidade)
             const lojasFiltradas = lojas.filter(loja => {
                 return String(loja.cod_unidade).includes(filtro) || 
                        (loja.unidade && loja.unidade.toLowerCase().includes(filtro.toLowerCase()));
             });
 
-            // Itera sobre as lojas filtradas e cria uma linha para cada uma
+            const statusToNumber = (status) => {
+                switch (status.toLowerCase()) {
+                    case 'baixo': return 1;
+                    case 'medio': return 2;
+                    case 'cheio': return 3;
+                    default: return 0; 
+                }
+            };
+            lojasFiltradas.sort((a, b) => statusToNumber(a.Estoque.status) - statusToNumber(b.Estoque.status));
+
+            const definirClasseStatus = (status) => {
+                switch (status.toLowerCase()) {
+                    case 'baixo': return 'bg-danger';  
+                    case 'medio': return 'bg-warning'; 
+                    case 'cheio': return 'bg-success'; 
+                    default: return 'bg-secondary'; 
+                }
+            };
+
             lojasFiltradas.forEach(loja => {
                 const linha = document.createElement('tr'); 
 
                 console.log('dados da loja aqui', loja);
                 
+                const classeStatus = definirClasseStatus(loja.Estoque.status);
+
                 linha.innerHTML = `
                     <td class="text-center">${loja.cod_unidade}</td>
                     <td class="text-center">${loja.Address.cidade || 'Sem nome'}</td>
                     <td class="text-center">${loja.Estoque.qtd_minima || '0'}</td>
                     <td class="text-center">${loja.Estoque.qtd_atual || '0'}</td>
-                    <td class="text-center">${loja.Estoque.status || 'Desconhecido'}</td>
+                    <td class="text-center">
+                        <span class="badge ${classeStatus}">
+                            ${loja.Estoque.status || 'Desconhecido'}
+                        </span>
+                    </td>
                 `;
                 tabelaCorpo.appendChild(linha);
             });
 
         } else {
-            alert(resultado.message); // Exibe a mensagem de erro se a busca falhar
+            alert(resultado.message); 
         }
     } catch (error) {
         console.error('Erro ao carregar lojas:', error);
@@ -42,10 +63,8 @@ async function carregarLojas(filtro = '') {
     }
 }
 
-// Chama a função de carregar lojas quando a página for carregada
 carregarLojas();
 
-// Função para enviar talão
 const btnRegistrarTalao = document.querySelector('form');
 btnRegistrarTalao.addEventListener('submit', handleEnvioTalao);
 
