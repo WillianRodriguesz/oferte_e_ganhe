@@ -95,8 +95,6 @@ async function carregarLojas(filtro = '') {
     }
 }
 
-carregarLojas();
-
 const btnRegistrarTalao = document.querySelector('form');
 btnRegistrarTalao.addEventListener('submit', handleEnvioTalao);
 
@@ -149,3 +147,5 @@ filtroUnidadeInput.addEventListener('input', function() {
     const filtro = filtroUnidadeInput.value;
     carregarLojas(filtro); 
 });
+
+carregarLojas();
