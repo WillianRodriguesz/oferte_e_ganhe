@@ -143,3 +143,9 @@ function clearFormFields() {
         }
     });
 }
+
+const filtroUnidadeInput = document.getElementById('filtro-unidade');
+filtroUnidadeInput.addEventListener('input', function() {
+    const filtro = filtroUnidadeInput.value;
+    carregarLojas(filtro); 
+});
