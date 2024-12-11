@@ -2,10 +2,10 @@ const express = require('express');
 const path = require('path');
 const router = express.Router();
 const authenticateToken = require('../middlewares/authMiddleware');
+const { exportarRelatorioUsuarios } = require('../controllers/reportingController');
 
 
-router.get('/relatorios', authenticateToken,  (req, res) => {
-    res.sendFile(path.join(__dirname, '../../frontend/public/relatorios.html'));
-});
+// Rota para gerar e exportar o CSV
+router.get('/relatorio/usuarios', authenticateToken, exportarRelatorioUsuarios);
 
 module.exports = router;
