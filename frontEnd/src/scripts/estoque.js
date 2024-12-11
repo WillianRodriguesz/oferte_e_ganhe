@@ -11,7 +11,7 @@ async function mostraEstoque() {
 
         const loja = await buscarLojaPorId(usuario.id_loja);
         const estoque = await buscarEstoquePorId(loja.data.id_estoque);
-        //preencherTabelaTaloes(usuario.id_loja);
+        preencherTabelaTaloes(usuario.id_loja);
 
         const estoqueAtualElement = document.querySelector('.card-text.text-success');
         if (estoqueAtualElement) {
@@ -158,22 +158,24 @@ async function preencherTabelaTaloes(id) {
     try {
         // Chama a função que busca os talões por destinatário
         const taloes = await buscarTalaoPorDestinatario(id); // Agora usando sua função de serviço
+        console.log('Dados trazido do meu banco dos taloes: ', taloes);
+        console.log('length:', taloes.data.length);
         
-        if (taloes && taloes.length > 0) {
+        if (taloes && taloes.data.length > 0) {
             // Obtém o corpo da tabela onde os talões serão exibidos
             const tabelaCorpo = document.querySelector('#status-table-body');
             tabelaCorpo.innerHTML = ''; // Limpa a tabela antes de adicionar as novas linhas
 
             // Preenche a tabela com os talões
-            taloes.forEach(talao => {
+            taloes.data.forEach(talao => {
                 const linha = document.createElement('tr');
                 
                 // Preenche as células da linha com os dados dos talões
                 linha.innerHTML = `
-                    <td class="text-center">${talao.remessa}</td>
-                    <td class="text-center">${talao.unidade_talao}</td>
-                    <td class="text-center">${talao.data_envio}</td>
-                    <td class="text-center">${talao.data_recebimento || 'Não recebido'}</td>
+                    <td class="text-center">${talao.numero_remessa}</td>
+                    <td class="text-center">${talao.qtd_talao}</td>
+                    <td class="text-center">${talao.data_envio || 'Aguardando'} </td>
+                    <td class="text-center">${talao.data_recebimento || '-'}</td>
                 `;
                 
                 // Adiciona a linha à tabela
