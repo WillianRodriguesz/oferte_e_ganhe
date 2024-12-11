@@ -11,8 +11,9 @@ PythonShell.defaultOptions = {
     pythonPath: pythonExecutable,
 };
 
-async function gerarRelatorioUsuario() {
-    const scriptPython = path.join(__dirname, '../reports/export_user.py'); 
+// Função genérica para rodar qualquer script Python
+async function gerarRelatorio(scriptNome, arquivoSaida) {
+    const scriptPython = path.join(__dirname, `../reports/${scriptNome}`); 
 
     return new Promise((resolve, reject) => {
         const pythonProcess = new PythonShell(scriptPython, {
@@ -54,7 +55,7 @@ async function gerarRelatorioUsuario() {
 
             if (code === 0 && output.includes("STATUS: SUCCESS")) {
                 console.log("Processo Python concluído com sucesso.");
-                const caminhoArquivo = path.join(__dirname, '../../reports/usuarios.csv'); 
+                const caminhoArquivo = path.join(__dirname, `../../reports/${arquivoSaida}`);
                 resolve(caminhoArquivo);
             } else {
                 console.error(`Erro no script Python: ${stderr.join('\n')}`);
@@ -64,6 +65,27 @@ async function gerarRelatorioUsuario() {
     });
 }
 
+// Funções específicas para cada relatório
+
+async function gerarRelatorioEstoque() {
+    return gerarRelatorio('export_estoque.py', 'estoque.csv');
+}
+
+async function gerarRelatorioPerfis() {
+    return gerarRelatorio('export_perfis.py', 'perfil.csv');
+}
+
+async function gerarRelatorioRecebimento() {
+    return gerarRelatorio('export_recebimento.py', 'recebimento.csv');
+}
+
+async function gerarRelatorioTalao() {
+    return gerarRelatorio('export_talao.py', 'talao.csv');
+}
+
 module.exports = {
-    gerarRelatorioUsuario,
+    gerarRelatorioEstoque,
+    gerarRelatorioPerfis,
+    gerarRelatorioRecebimento,
+    gerarRelatorioTalao,
 };
