@@ -83,9 +83,13 @@ async function gerarRelatorioTalao() {
     return gerarRelatorio('export_talao.py', 'talao.csv');
 }
 
+async function gerarRelatorioUsuario() {
+    return gerarRelatorio('export_user.py', 'usuarios.csv');
+}
 module.exports = {
     gerarRelatorioEstoque,
     gerarRelatorioPerfis,
     gerarRelatorioRecebimento,
     gerarRelatorioTalao,
+    gerarRelatorioUsuario
 };
