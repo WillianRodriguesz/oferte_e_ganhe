@@ -14,6 +14,38 @@ async function carregarLojas(filtro = '') {
                        (loja.unidade && loja.unidade.toLowerCase().includes(filtro.toLowerCase()));
             });
 
+            const selectRemetente = document.querySelector('#loja-remetente');
+            const selectDestinatario = document.querySelector('#loja-destinatario');
+
+            selectRemetente.innerHTML = '<option value="">Selecione o cod. da Loja</option>';
+            selectDestinatario.innerHTML = '<option value="">Selecione o cod. da Loja</option>';
+
+            lojasFiltradas.forEach(loja => {
+                const option = document.createElement('option');
+                option.value = loja.cod_unidade;
+
+                if (loja.cod_unidade == 1001) {
+                    option.textContent = 'Loja Matriz';
+                } else {
+                    option.textContent = `Loja ${loja.cod_unidade}`;
+                }
+
+                selectRemetente.appendChild(option);
+            });
+
+            lojasFiltradas.forEach(loja => {
+                const option = document.createElement('option');
+                option.value = loja.cod_unidade;
+
+                if (loja.cod_unidade == 1001) {
+                    option.textContent = 'Loja Matriz';
+                } else {
+                    option.textContent = `Loja ${loja.cod_unidade}`;
+                }
+
+                selectDestinatario.appendChild(option);
+            });
+
             const statusToNumber = (status) => {
                 switch (status.toLowerCase()) {
                     case 'baixo': return 1;
