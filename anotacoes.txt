@@ -20,3 +20,6 @@ npm install sequelize
 
 npm install nodemailer
 
+npm install dotenv
+
+

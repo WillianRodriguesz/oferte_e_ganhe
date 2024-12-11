@@ -1,0 +1,6 @@
+Relatório de Usuários - Exportação de Dados
+
+matricula,nome,email,status,perfil,id_loja
+1010,Willian Rodrigues,willian@gmail.com,Cadastrado,3,1001
+1,Admin,admin@verdecard.com,Cadastrado,1,1001
+2,Gerente,gerente@gmail.com,Cadastrado,2,1001

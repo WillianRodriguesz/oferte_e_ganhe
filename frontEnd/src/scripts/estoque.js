@@ -1,6 +1,6 @@
 import { buscarLojaPorId } from '../services/lojaService.js';
 import { buscarEstoquePorId, atualizarQtdEstoque } from '../services/estoqueService.js';
-import { enviarTalao } from '../services/talaoService.js';
+import { enviarTalao, buscarTalaoPorDestinatario } from '../services/talaoService.js';
 
 async function mostraEstoque() {
     try {
@@ -11,6 +11,7 @@ async function mostraEstoque() {
 
         const loja = await buscarLojaPorId(usuario.id_loja);
         const estoque = await buscarEstoquePorId(loja.data.id_estoque);
+        //preencherTabelaTaloes(usuario.id_loja);
 
         const estoqueAtualElement = document.querySelector('.card-text.text-success');
         if (estoqueAtualElement) {
@@ -152,6 +153,42 @@ document.getElementById('solicitarTalao').addEventListener('click', async functi
         alert(error.message || 'Erro ao enviar o talão.');
     }
 });
+
+async function preencherTabelaTaloes(id) {
+    try {
+        // Chama a função que busca os talões por destinatário
+        const taloes = await buscarTalaoPorDestinatario(id); // Agora usando sua função de serviço
+        
+        if (taloes && taloes.length > 0) {
+            // Obtém o corpo da tabela onde os talões serão exibidos
+            const tabelaCorpo = document.querySelector('#status-table-body');
+            tabelaCorpo.innerHTML = ''; // Limpa a tabela antes de adicionar as novas linhas
+
+            // Preenche a tabela com os talões
+            taloes.forEach(talao => {
+                const linha = document.createElement('tr');
+                
+                // Preenche as células da linha com os dados dos talões
+                linha.innerHTML = `
+                    <td class="text-center">${talao.remessa}</td>
+                    <td class="text-center">${talao.unidade_talao}</td>
+                    <td class="text-center">${talao.data_envio}</td>
+                    <td class="text-center">${talao.data_recebimento || 'Não recebido'}</td>
+                `;
+                
+                // Adiciona a linha à tabela
+                tabelaCorpo.appendChild(linha);
+            });
+        } else {
+            // Caso não existam talões para o destinatário
+            const tabelaCorpo = document.querySelector('#status-table-body');
+            tabelaCorpo.innerHTML = '<tr><td colspan="4" class="text-center">Nenhum talão encontrado para este destinatário.</td></tr>';
+        }
+    } catch (error) {
+        console.error('Erro ao buscar os talões:', error);
+        alert('Erro ao buscar os talões. Tente novamente mais tarde.');
+    }
+}
 
 
 // Inicializar as funções principais
