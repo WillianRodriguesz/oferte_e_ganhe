@@ -1,3 +1,6 @@
+import { logout } from '../services/loginService.js';
+
+
 fetch('../pages/auxiliary-page/navigation-menu.html')
     .then(response => response.text())
     .then(data => {
@@ -48,10 +51,24 @@ function configureSidebarNavigation() {
 
         // Exibir/ocultar os botões baseados na visibilidade de módulos acessados
         if (spanText === 'Sair do sistema') {
-            button.addEventListener('click', () => {
-                localStorage.clear();
-                sessionStorage.clear();
-                window.location.href = '/pages/login/login.html';
+            //button.addEventListener('click', () => {
+                //localStorage.clear();
+                //sessionStorage.clear();
+                
+                //window.location.assign('/login');
+            //});
+            //return;
+
+            button.addEventListener('click', async () => {
+                try {
+                    // Chamar a função de logout do loginService
+                    await logout();  // Aqui estamos chamando a função de logout
+        
+                    // Após o logout, redireciona para a página de login
+                    window.location.assign('/login'); // Ou use 'window.location.href' para redirecionar para a página de login
+                } catch (error) {
+                    console.error('Erro ao tentar fazer logout:', error);
+                }
             });
             return;
         }
@@ -129,8 +146,3 @@ function configureSidebarSelection() {
     });
 }
 
-// Aciona animação sidebar
-function toggleSidebar() {
-    const sidebar = document.querySelector('.sidebar');
-    sidebar.classList.toggle('closed');
-}

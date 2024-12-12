@@ -52,3 +52,8 @@ function loadExternalScript(src, isModule = false) {
     // Adicionar o script ao body para ser executado
     document.body.appendChild(script);
 }
+
+function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    sidebar.classList.toggle('closed');
+}
