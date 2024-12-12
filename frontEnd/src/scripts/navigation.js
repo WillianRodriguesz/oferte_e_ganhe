@@ -14,6 +14,7 @@ fetch('../pages/sidebar-page/sidebar.html')
         configureSidebarNavigation();
         configureButtonSelection();
         configureSidebarSelection();  
+        loadContent('home');
     })
     .catch(error => console.error('Erro ao carregar o sidebar:', error));
 
