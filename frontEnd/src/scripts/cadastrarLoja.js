@@ -15,7 +15,6 @@ async function handleCadastroLoja(e) {
         qtd_maxima: parseInt(document.getElementById('estoque-maximo').value),
     };
 
-    
     const logradouroData = {
         bairro: document.getElementById('bairro').value,
         cidade: document.getElementById('cidade').value,
@@ -26,11 +25,11 @@ async function handleCadastroLoja(e) {
     };
 
     try {
-        // Cadastra o estoque e endereco
+        
+        // Cadastra o estoque e endereço
         const estoqueId = await cadastrarEstoque(estoqueData);
         const enderecoId = await cadastrarLogradouro(logradouroData);
 
-       
         const lojaData = {
             cod_unidade: document.getElementById('codigo-unidade').value,
             id_estoque: estoqueId,
@@ -42,17 +41,35 @@ async function handleCadastroLoja(e) {
         const result = await cadastrarLoja(lojaData);
 
         if (result.success) {
-            alert('Loja cadastrada com sucesso!');
-            clearFormFields();
+            Swal.fire({
+                title: 'Sucesso!',
+                text: 'Loja cadastrada com sucesso!',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                clearFormFields(); // Limpa os campos após o sucesso
+            });
         } else {
-            alert(result.message || 'Erro ao tentar cadastrar a loja.');
+            Swal.fire({
+                title: 'Erro!',
+                text: result.message || 'Erro ao tentar cadastrar a loja.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
         }
 
     } catch (error) {
         console.error('Erro no processo de cadastro:', error);
-        alert(error.message || 'Erro ao tentar cadastrar loja, estoque ou logradouro.');
+        Swal.fire({
+            title: 'Erro!',
+            text: error.message || 'Erro ao tentar cadastrar loja, estoque ou logradouro.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
     }
 }
+
+
 function clearFormFields() {
     // Lista de IDs dos campos do formulário que precisam ser limpos
     const formFields = [

@@ -4,10 +4,10 @@ import { atualizarEstoque, excluirEstoque } from '../services/estoqueService.js'
 
 // Função para carregar as lojas e preencher a tabela HTML
 async function carregarLojas(filtro = '') {
-    const resultado = await buscarLojas(); // Chama o serviço para buscar as lojas
+    const resultado = await buscarLojas(); 
     if (resultado.success) {
-        const lojas = resultado.data; // Dados das lojas recebidas da API
-        const tabelaCorpo = document.querySelector('#tabela-lojas'); // Referência para o corpo da tabela
+        const lojas = resultado.data; 
+        const tabelaCorpo = document.querySelector('#tabela-lojas'); 
 
         // Limpa a tabela antes de adicionar os dados
         tabelaCorpo.innerHTML = '';
@@ -20,7 +20,7 @@ async function carregarLojas(filtro = '') {
 
         // Itera sobre as lojas filtradas e cria uma linha para cada uma
         lojasFiltradas.forEach(loja => {
-            const cidade = loja.Address?.cidade || 'Não informado'; // Verifica se há cidade disponível
+            const cidade = loja.Address?.cidade || 'Não informado'; 
             const enderecoCompleto = loja.Address
                 ? `${loja.Address.endereco || 'Sem endereço'} - ${loja.Address.numero || 'S/N'}`
                 : 'Endereço não disponível'; 
@@ -50,7 +50,7 @@ async function carregarLojas(filtro = '') {
         document.querySelectorAll('.excluir-btn').forEach(button => {
             button.addEventListener('click', (event) => {
                 const codUnidade = event.target.closest('button').getAttribute('data-id');
-                excluirLojaComConfirmacao(codUnidade); // Passa o cod_unidade para a função
+                excluirLojaComConfirmacao(codUnidade); 
             });
         });
 
@@ -58,25 +58,25 @@ async function carregarLojas(filtro = '') {
         document.querySelectorAll('.editar-btn').forEach(button => {
             button.addEventListener('click', (event) => {
                 const codUnidade = event.target.closest('button').getAttribute('data-id');
-                abrirModalEditarLoja(codUnidade); // Chama a função para abrir o modal com os dados da loja
+                abrirModalEditarLoja(codUnidade); 
             });
         });
 
     } else {
-        alert(resultado.message); // Exibe a mensagem de erro se a busca falhar
+        alert(resultado.message); 
     }
 }
 
 // Função de busca ao digitar no campo de filtro
 document.getElementById('filtro-unidade').addEventListener('input', (event) => {
-    const filtro = event.target.value; // Obtém o valor do campo de pesquisa
-    carregarLojas(filtro); // Recarrega as lojas aplicando o filtro
+    const filtro = event.target.value; 
+    carregarLojas(filtro); 
 });
 
 let loja = null;
 
 async function abrirModalEditarLoja(codUnidade) {
-    const resultado = await buscarLojaPorId(codUnidade); // Busca os dados da loja pelo cod_unidade
+    const resultado = await buscarLojaPorId(codUnidade); 
     if (resultado.success) {
         loja = resultado.data;
         // Verificar se os elementos do modal existem antes de tentar preenchê-los
@@ -145,7 +145,17 @@ async function salvarAlteracoesLoja(event) {
     };
     
     try {
-      
+        // Usando SweetAlert2 para informar sobre a atualização
+        Swal.fire({
+            title: 'Aguarde...',
+            text: 'Atualizando a loja...',
+            icon: 'info',
+            showConfirmButton: false,
+            willOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
         const estoqueId = await atualizarEstoque(loja.id_estoque, estoqueData); 
         const enderecoId = await atualizarLogradouro(loja.logradouro, logradouroData); 
         
@@ -156,32 +166,62 @@ async function salvarAlteracoesLoja(event) {
             matriz: false, 
         };
 
-        const result = await atualizarLoja(loja.cod_unidade,lojaData);
+        const result = await atualizarLoja(loja.cod_unidade, lojaData);
 
         if (result.success) {
-            alert('Loja atualizada com sucesso!');
-            const modalElement = document.getElementById('modalEditarLoja');
-            const modalInstance = bootstrap.Modal.getInstance(modalElement);
-            modalInstance.hide(); // Fecha o modal
-            carregarLojas(); // Recarrega a lista de lojas
+            Swal.fire({
+                title: 'Sucesso!',
+                text: 'Loja atualizada com sucesso!',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                const modalElement = document.getElementById('modalEditarLoja');
+                const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                modalInstance.hide(); 
+                carregarLojas(); 
+            });
         } else {
-            alert('Erro ao atualizar loja: ' + result.message);
+            Swal.fire({
+                title: 'Erro!',
+                text: 'Erro ao atualizar loja: ' + result.message,
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
         }
 
     } catch (error) {
         console.error('Erro no processo de atualização:', error);
-        alert(error.message || 'Erro ao tentar atualizar loja, estoque ou logradouro.');
+        Swal.fire({
+            title: 'Erro!',
+            text: error.message || 'Erro ao tentar atualizar loja, estoque ou logradouro.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
     }
 }
 
 async function excluirLojaComConfirmacao(codUnidade) {
-    if (confirm('Tem certeza que deseja excluir esta loja, seu endereço e estoque?')) {
+    const confirmDelete = await Swal.fire({
+        title: 'Tem certeza?',
+        text: 'Deseja excluir esta loja, seu endereço e estoque?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sim, excluir!',
+        cancelButtonText: 'Cancelar'
+    });
+
+    if (confirmDelete.isConfirmed) {
         try {
             // Remover a variável global 'loja' e buscar os dados da loja diretamente
             const resultado = await buscarLojaPorId(codUnidade);
             
             if (!resultado.success) {
-                alert('Erro ao buscar os dados da loja.');
+                Swal.fire({
+                    title: 'Erro!',
+                    text: 'Erro ao buscar os dados da loja.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
                 return;
             }
 
@@ -192,14 +232,24 @@ async function excluirLojaComConfirmacao(codUnidade) {
             // Excluir a loja
             const resultLoja = await excluirLoja(codUnidade);
             if (!resultLoja.success) {
-                alert('Erro ao excluir a loja.');
+                Swal.fire({
+                    title: 'Erro!',
+                    text: 'Erro ao excluir a loja.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
                 return;  
             }
 
             // Excluir o estoque
             const resultEstoque = await excluirEstoque(idEstoque);
             if (!resultEstoque.success) {
-                alert('Erro ao excluir o estoque.');
+                Swal.fire({
+                    title: 'Erro!',
+                    text: 'Erro ao excluir o estoque.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
                 return; 
             }
 
@@ -207,19 +257,29 @@ async function excluirLojaComConfirmacao(codUnidade) {
             const resultEndereco = await excluirLogradouro(logradouro);
             if (!resultEndereco.success) {
                 console.log(resultEndereco.message);
-                
             }
 
             // Recarregar a lista de lojas após exclusão
             carregarLojas(); 
-            alert('Loja excluída com sucesso!');
-            
+            Swal.fire({
+                title: 'Sucesso!',
+                text: 'Loja excluída com sucesso!',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+
         } catch (error) {
             console.error('Erro ao excluir loja, endereço ou estoque:', error);
-            alert('Erro ao excluir loja, endereço ou estoque.');
+            Swal.fire({
+                title: 'Erro!',
+                text: 'Erro ao excluir loja, endereço ou estoque.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
         }
     }
 }
+
 
 
 document.getElementById('form-editar-loja').addEventListener('submit', salvarAlteracoesLoja);
