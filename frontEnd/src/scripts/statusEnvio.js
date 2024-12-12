@@ -132,18 +132,34 @@ async function exibirDetalhesEnvio(id) {
 
                 const resultadoAtualizacao = await atualizarTalao(id, dataTalao);
                 if (resultadoAtualizacao.success) {
-                    alert('Talão atualizado com sucesso!');
+                    // Usando SweetAlert2 para sucesso
+                    await Swal.fire({
+                        icon: 'success',
+                        title: 'Sucesso!',
+                        text: 'Talão atualizado com sucesso!',
+                    });
                     modal.hide();
                     carregarStatusEnvio(); // Atualiza a tabela
                 } else {
-                    alert(`Erro ao atualizar talão: ${resultadoAtualizacao.message}`);
+                    // Usando SweetAlert2 para erro
+                    await Swal.fire({
+                        icon: 'error',
+                        title: 'Erro',
+                        text: `Erro ao atualizar talão: ${resultadoAtualizacao.message}`,
+                    });
                 }
             });
         }
     } else {
-        alert('Erro ao carregar detalhes do envio.');
+        // Usando SweetAlert2 para erro ao carregar os detalhes
+        await Swal.fire({
+            icon: 'error',
+            title: 'Erro',
+            text: 'Erro ao carregar detalhes do envio.',
+        });
     }
 }
+
 
 
 // Função para filtrar as unidades
@@ -198,15 +214,31 @@ document.getElementById('btn-enviar').addEventListener('click', async function (
         }
 
         if (sucessoTotal) {
-            alert('Remessa de talão enviada com sucesso!');
+            // Usando SweetAlert2 para sucesso
+            await Swal.fire({
+                icon: 'success',
+                title: 'Sucesso!',
+                text: 'Remessa de talão enviada com sucesso!',
+            });
             carregarStatusEnvio(); 
         } else {
-            alert('Houve erros ao atualizar alguns talões. Verifique o console para mais detalhes.');
+            // Usando SweetAlert2 para erro
+            await Swal.fire({
+                icon: 'error',
+                title: 'Erro',
+                text: 'Houve erros ao atualizar alguns talões. Verifique o console para mais detalhes.',
+            });
         }
     } else {
-        alert('Selecione ao menos um envio com status "Aguardando".');
+        // Usando SweetAlert2 para aviso caso nenhum envio seja selecionado
+        await Swal.fire({
+            icon: 'warning',
+            title: 'Atenção',
+            text: 'Selecione ao menos um envio com status "Aguardando".',
+        });
     }
 });
+
 
 // Função para excluir talões
 document.getElementById('btn-excluir').addEventListener('click', async function () {
@@ -229,15 +261,31 @@ document.getElementById('btn-excluir').addEventListener('click', async function 
         }
 
         if (sucessoTotal) {
-            alert('Talões excluídos com sucesso!');
+            // Usando SweetAlert2 para sucesso
+            await Swal.fire({
+                icon: 'success',
+                title: 'Sucesso!',
+                text: 'Talões excluídos com sucesso!',
+            });
             carregarStatusEnvio(); // Recarrega a tabela após a exclusão
         } else {
-            alert('Houve erros ao excluir alguns talões. Verifique o console para mais detalhes.');
+            // Usando SweetAlert2 para erro
+            await Swal.fire({
+                icon: 'error',
+                title: 'Erro',
+                text: 'Houve erros ao excluir alguns talões. Verifique o console para mais detalhes.',
+            });
         }
     } else {
-        alert('Selecione ao menos um talão para exclusão.');
+        // Usando SweetAlert2 para alerta de erro caso não selecione talões
+        await Swal.fire({
+            icon: 'warning',
+            title: 'Atenção',
+            text: 'Selecione ao menos um talão para exclusão.',
+        });
     }
 });
+
 
 // Carregar os status de envio quando a página for carregada
 carregarStatusEnvio();
