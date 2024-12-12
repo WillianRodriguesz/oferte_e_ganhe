@@ -91,14 +91,22 @@ document.getElementById('btn-receber').addEventListener('click', async function 
     const numeroRemessa = document.getElementById('numero-remessa').value;
 
     if (!dataRecebimento || !numeroRemessa) {
-        alert('Por favor, preencha todos os campos.');
+        await Swal.fire({
+            icon: 'warning',
+            title: 'Atenção',
+            text: 'Por favor, preencha todos os campos.'
+        });
         return;
     }
 
     try {
         const talao = await obterTalaoPorNumeroRemessa(numeroRemessa);
         if (!talao) {
-            alert('Talão não encontrado!');
+            await Swal.fire({
+                icon: 'error',
+                title: 'Erro',
+                text: 'Talão não encontrado!'
+            });
             return;
         }
     
@@ -124,22 +132,39 @@ document.getElementById('btn-receber').addEventListener('click', async function 
             const qtdAtualizada = estoque.qtd_atual + talao.data.qtd_talao;
             await atualizarQtdEstoque(estoque.id, qtdAtualizada);
 
-            if(resultado.message){
-                alert(resultado.message);
+            if (resultado.message) {
+                await Swal.fire({
+                    icon: 'success',
+                    title: 'Sucesso!',
+                    text: resultado.message
+                });
                 carregarStatusRecebimento();
             } else {
-                alert(resultado.data.message);
+                await Swal.fire({
+                    icon: 'success',
+                    title: 'Sucesso!',
+                    text: resultado.data.message
+                });
                 carregarStatusRecebimento();
             }
         } else {
-            alert('Erro ao registrar o recebimento do talão.');
+            await Swal.fire({
+                icon: 'error',
+                title: 'Erro',
+                text: 'Erro ao registrar o recebimento do talão.'
+            });
         }
 
     } catch (erro) {
-        alert('Erro ao tentar atualizar o talão.');
+        await Swal.fire({
+            icon: 'error',
+            title: 'Erro',
+            text: 'Erro ao tentar atualizar o talão.'
+        });
         console.error(erro);
     }
 });
+
 
 
 // Carregar os status de recebimento quando a página for carregada
