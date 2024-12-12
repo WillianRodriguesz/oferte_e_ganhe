@@ -5,6 +5,7 @@
         <span style="color: #FFCA00;">Oferte</span> & Ganhe
         </h1>
     </div>
+    <p id="mobile-text">Bem vindo ao <br> Oferte & Ganhe</p>
     <p id="system-description">Este sistema permite o controle completo do estoque e distribuição de talões para as lojas, <br>garantindo eficiência e segurança</p>
     <p id="system-sub-description"> Estamos aqui para facilitar sua gestão!</p>
   </div>
@@ -42,5 +43,20 @@
         padding-top: 80px;
       font-size: 17px;
       color: #1DA752;
+    }
+    #mobile-text{
+      display: none; 
+    }
+
+    @media (max-width: 768px) {
+      #main-title, #welcome-text {
+          display: none;  /* Oculta os elementos h1 e h2 */
+      }
+      #mobile-text {
+        display: block;
+        color: #FFCA00;
+        font-size: 30px; /* Aumenta o tamanho da fonte */
+        font-weight: bold; /* Deixa o texto em negrito */
+    }
     }
   </style>

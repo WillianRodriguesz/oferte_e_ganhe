@@ -33,10 +33,21 @@ async function retirarTalao() {
     if (btnRetirarTalao) {
         btnRetirarTalao.addEventListener('click', async () => {
             console.log('Botão "Retirar Talão" clicado!');
-            const confirmacao = confirm('Tem certeza de que deseja retirar um talão?');
-            if (!confirmacao) {
-                return; // Cancela a ação se o usuário clicar em "Cancelar"
+            
+            // Usando SweetAlert2 para a confirmação
+            const confirmacao = await Swal.fire({
+                title: 'Tem certeza?',
+                text: 'Deseja realmente retirar um talão?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Sim',
+                cancelButtonText: 'Não',
+            });
+
+            if (!confirmacao.isConfirmed) {
+                return; // Cancela a ação se o usuário clicar em "Não"
             }
+
             try {
                 const usuario = JSON.parse(sessionStorage.getItem('user_data'));
                 if (!usuario || !usuario.id_loja) {
@@ -49,17 +60,26 @@ async function retirarTalao() {
 
                 await atualizarQtdEstoque(estoque.id, qtdAtualizada);
                 console.log('Estoque atualizado com sucesso!');
-                
+
+                // Atualiza a interface com a nova quantidade
                 atualizaInterfaceEstoque(qtdAtualizada, estoque.qtd_minima);
-                mostraEstoque();  
+                mostraEstoque();
+
+                // Exibe um alerta de sucesso usando SweetAlert2
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Sucesso',
+                    text: 'Talão retirado com sucesso!',
+                });
             } catch (error) {
                 console.error('Erro ao atualizar o estoque:', error.message);
 
-                // Mostrar mensagem de erro no HTML
-                const erroContainer = document.createElement('div');
-                erroContainer.className = 'alert alert-danger';
-                erroContainer.textContent = 'Erro ao atualizar o estoque. Tente novamente.';
-                document.querySelector('.container').prepend(erroContainer);
+                // Exibe um alerta de erro usando SweetAlert2
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro',
+                    text: 'Erro ao atualizar o estoque. Tente novamente.',
+                });
             }
         });
     }
@@ -115,10 +135,20 @@ function atualizaInterfaceEstoque(qtdAtual, qtdMinima) {
 
 document.getElementById('solicitarTalao').addEventListener('click', async function () {
     try {
-        const confirmacao = confirm('Tem certeza de que deseja solicitar um talão?');
-        if (!confirmacao) {
-            return; 
+        // Usando SweetAlert2 para confirmação
+        const confirmacao = await Swal.fire({
+            title: 'Tem certeza?',
+            text: 'Deseja realmente solicitar uma remessa de Talão?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Sim',
+            cancelButtonText: 'Não',
+        });
+
+        if (!confirmacao.isConfirmed) {
+            return; // Cancela a ação se o usuário clicar em "Não"
         }
+
         const usuario = JSON.parse(sessionStorage.getItem('user_data'));
 
         if (!usuario || !usuario.id_loja) {
@@ -134,7 +164,7 @@ document.getElementById('solicitarTalao').addEventListener('click', async functi
 
         const solicitacaoData = {
             destinatario: usuario.id_loja,
-            remetente: 1001, // id da matriz (troca para buscar pelo banco)
+            remetente: 1001, // id da matriz (trocar para buscar pelo banco)
             qtd_talao: estoque.qtd_maxima - estoque.qtd_atual,
             status: 'Aguardando'
         };
@@ -143,16 +173,32 @@ document.getElementById('solicitarTalao').addEventListener('click', async functi
 
         const result = await enviarTalao(solicitacaoData);
 
+        // Usando SweetAlert2 para exibir mensagem de sucesso ou erro
         if (result.success) {
-            alert('Talão solicitado com sucesso!');
+            await Swal.fire({
+                icon: 'success',
+                title: 'Sucesso!',
+                text: 'Talão solicitado com sucesso!',
+            });
         } else {
-            alert(result.message || 'Erro ao solicitar o talão.');
+            await Swal.fire({
+                icon: 'error',
+                title: 'Erro',
+                text: result.message || 'Erro ao solicitar o talão.',
+            });
         }
     } catch (error) {
         console.error('Erro ao processar solicitação de talões:', error);
-        alert(error.message || 'Erro ao enviar o talão.');
+
+        // Usando SweetAlert2 para exibir mensagem de erro
+        await Swal.fire({
+            icon: 'error',
+            title: 'Erro',
+            text: error.message || 'Erro ao enviar o talão.',
+        });
     }
 });
+
 
 async function preencherTabelaTaloes(id) {
     try {
