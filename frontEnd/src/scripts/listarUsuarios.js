@@ -45,8 +45,16 @@ async function carregarUsuarios() {
             botoesExcluir.forEach(botao => {
                 botao.addEventListener('click', async (e) => {
                     const id = e.target.closest('button').getAttribute('data-id');
-                    const confirmacao = confirm('Tem certeza de que deseja excluir este usuário?');
-                    if (confirmacao) {
+                    const confirmacao = await Swal.fire({
+                        title: 'Tem certeza?',
+                        text: 'Você está prestes a excluir este usuário!',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Sim, excluir!',
+                        cancelButtonText: 'Cancelar',
+                    });
+
+                    if (confirmacao.isConfirmed) {
                         await excluirUsuarioHandler(id);
                     }
                 });
@@ -61,27 +69,53 @@ async function carregarUsuarios() {
                 });
             });
         } else {
-            alert(`Erro: ${resultado.message}`);
+            // Usando SweetAlert2 para erro de carregamento
+            Swal.fire({
+                icon: 'error',
+                title: 'Erro!',
+                text: `Erro: ${resultado.message}`,
+            });
         }
     } catch (error) {
         console.error('Erro ao carregar os usuários:', error);
-        alert('Ocorreu um erro ao tentar carregar os usuários.');
+        // Usando SweetAlert2 para erro de sistema
+        Swal.fire({
+            icon: 'error',
+            title: 'Erro!',
+            text: 'Ocorreu um erro ao tentar carregar os usuários.',
+        });
     }
 }
+
 
 // Função para excluir um usuário
 async function excluirUsuarioHandler(id) {
     try {
         const resultado = await excluirUsuario(id);
         if (resultado.success) {
-            alert(resultado.message);
+            // Usando SweetAlert2 para sucesso
+            await Swal.fire({
+                icon: 'success',
+                title: 'Usuário excluído!',
+                text: resultado.message,
+            });
             carregarUsuarios(); // Recarrega a tabela após a exclusão
         } else {
-            alert(`Erro: ${resultado.message}`);
+            // Usando SweetAlert2 para erro de exclusão
+            await Swal.fire({
+                icon: 'error',
+                title: 'Erro!',
+                text: `Erro: ${resultado.message}`,
+            });
         }
     } catch (error) {
         console.error('Erro ao excluir o usuário:', error);
-        alert('Ocorreu um erro ao tentar excluir o usuário.');
+        // Usando SweetAlert2 para erro de sistema
+        await Swal.fire({
+            icon: 'error',
+            title: 'Erro!',
+            text: 'Ocorreu um erro ao tentar excluir o usuário.',
+        });
     }
 }
 
@@ -151,19 +185,35 @@ async function salvarEdicaoUsuario(event) {
     try {
         const resultado = await atualizarUsuario(id, { nome, email, id_loja: idLoja, status, perfil });
         if (resultado.success) {
-            alert('Usuário atualizado com sucesso!');
+            // Usando SweetAlert2 para sucesso
+            await Swal.fire({
+                icon: 'success',
+                title: 'Usuário atualizado!',
+                text: 'As informações do usuário foram atualizadas com sucesso.',
+            });
             carregarUsuarios();
 
             const modal = bootstrap.Modal.getInstance(document.getElementById('modalEditarUsuario'));
             modal.hide();
         } else {
-            alert(`Erro ao atualizar o usuário: ${resultado.message}`);
+            // Usando SweetAlert2 para erro
+            await Swal.fire({
+                icon: 'error',
+                title: 'Erro!',
+                text: `Erro ao atualizar o usuário: ${resultado.message}`,
+            });
         }
     } catch (error) {
         console.error('Erro ao atualizar o usuário:', error);
-        alert('Ocorreu um erro ao tentar atualizar o usuário.');
+        // Usando SweetAlert2 para erro de sistema
+        await Swal.fire({
+            icon: 'error',
+            title: 'Erro!',
+            text: 'Ocorreu um erro ao tentar atualizar o usuário.',
+        });
     }
 }
+
 
 function filtrarUsuariosPorNome() {
     const filtro = document.getElementById('filtro-nome').value.toLowerCase();
