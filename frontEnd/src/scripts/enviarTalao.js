@@ -115,14 +115,26 @@ async function handleEnvioTalao(e) {
         const result = await enviarTalao(talaoData);
 
         if (result.success) {
-            alert('Talão enviado com sucesso!');
+            await Swal.fire({
+                icon: 'success',
+                title: 'Sucesso!',
+                text: 'Talão enviado com sucesso!',
+            });
             clearFormFields();
         } else {
-            alert(result.message || 'Erro ao enviar o talão.');
+            await Swal.fire({
+                icon: 'error',
+                title: 'Erro',
+                text: result.message || 'Erro ao enviar o talão.',
+            });
         }
     } catch (error) {
         console.error('Erro ao processar envio de talões:', error);
-        alert(error.message || 'Erro ao enviar o talão.');
+        await Swal.fire({
+            icon: 'error',
+            title: 'Erro',
+            text: error.message || 'Erro ao enviar o talão.',
+        });
     }
 }
 
