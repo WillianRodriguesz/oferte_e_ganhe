@@ -96,6 +96,8 @@ button.selected {
     width: calc(100% - 250px);
     z-index: 1000;
     isolation: isolate;
+    transition: left 0.3s ease, width 0.3s ease;
+
 }
 
 /* Animação de fechamento */
@@ -115,4 +117,18 @@ button.selected {
 .sidebar.closed .auxiliary-bar {
     left: 80px;
     width: calc(100% - 80px);
+}
+
+.content {
+    flex-grow: 1; /* Faz o conteúdo ocupar o espaço restante */
+    padding: 20px; /* Adiciona um espaço interno */
+    background-color: rgb(255, 255, 255); 
+    min-height: 100vh; 
+    margin-top: 100px;
+    margin-left: 0px;
+    transition: margin-left 0.3s ease;
+}
+
+.content.adjusted {
+    margin-left: -170px; /* Remove a margem quando o sidebar está fechado */
 }

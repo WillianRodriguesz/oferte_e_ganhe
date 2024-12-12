@@ -11,15 +11,6 @@ body {
     width: 250px; 
 }
 
-.content {
-    flex-grow: 1; /* Faz o conteúdo ocupar o espaço restante */
-    padding: 20px; /* Adiciona um espaço interno */
-    background-color: rgb(255, 255, 255); 
-    min-height: 100vh; 
-    margin-top: 100px;
-    margin-left: 15px;
-}
-
 
 .navigation-menu {
     display: flex;
@@ -39,6 +30,11 @@ body {
     gap: 15px; 
     margin-left: 20px;
     z-index: 100;
+    transition: left 0.3s ease;
+}
+
+.navigation-menu.adjusted {
+    left: 80px; 
 }
 
 .navigation-menu button {
