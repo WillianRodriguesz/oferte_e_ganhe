@@ -1,57 +1,56 @@
 <!-- Formulário de Envio de Talões -->
-<div class="container-fluid mt-2"> <!-- Ajustado para usar o container-fluid -->
-    <h3 class="mb-4 text-start">Envio de Talões</h3>
+<div class="container-fluid mt-2 ms-sm-0 me-sm-0 ms-0 custom-me-right"> <!-- Ajustado para usar o container-fluid -->
+    <h2>Envio de Talões</h2>
 
     <form action="processar_talao.html" method="POST">
         <div class="row mb-3">
-            
             <!-- Campo Loja Remetente -->
-            <div class="col-md-6">
+            <div class="col-12 col-sm-6 col-md-6">
                 <label for="loja-remetente" class="form-label">Loja Remetente:</label>
                 <select id="loja-remetente" name="loja-remetente" class="form-select rounded-3" required>
                     <option value="">Selecione o cod. da Loja</option>
                 </select>
             </div>
-
+    
             <!-- Campo Loja Destinatário -->
-            <div class="col-md-6">
+            <div class="col-12 col-sm-6 col-md-6">
                 <label for="loja-destinatario" class="form-label">Loja Destinatário:</label>
                 <select id="loja-destinatario" name="loja-destinatario" class="form-select rounded-3" required>
                     <option value="">Selecione o cod. da Loja</option>
                 </select>
             </div>
         </div>
-
+    
         <div class="row mb-3">
             <!-- Campo Quantidade de Talões -->
-            <div class="col-md-4">
+            <div class="col-12 col-md-4">
                 <label for="qtd-taloes" class="form-label">Quantidade de Talões:</label>
                 <input type="number" id="qtd-taloes" name="qtd-taloes" class="form-control rounded-3" min="1" required>
             </div>
-
+    
             <!-- Campo Número de Remessa -->
-            <div class="col-md-8">
+            <div class="col-12 col-md-8">
                 <label for="num-remessa" class="form-label">Número de Remessa:</label>
                 <input type="text" id="num-remessa" name="num-remessa" class="form-control rounded-3" required>
             </div>
         </div>
-
+    
         <div class="row mb-3">
             <!-- Campo Data de Envio -->
-            <div class="col-md-6">
+            <div class="col-12 col-md-6">
                 <label for="data-envio" class="form-label">Data de Envio:</label>
                 <input type="date" id="data-envio" name="data-envio" class="form-control rounded-3" required>
             </div>
-
+    
             <!-- Campo Previsão de Entrega -->
-            <div class="col-md-6">
+            <div class="col-12 col-md-6">
                 <label for="previsao-entrega" class="form-label">Previsão de Entrega:</label>
                 <input type="date" id="previsao-entrega" name="previsao-entrega" class="form-control rounded-3" required>
             </div>
         </div>
-
+    
         <div class="row mb-5">
-            <div class="col-md-2">
+            <div class="col-12 col-md-2">
                 <button type="submit" class="btn w-100 rounded-3" 
                     style="background-color: #188642; border-color: #188642; color: white; transition: background-color 0.3s, border-color 0.3s, color 0.3s;"
                     onmouseover="this.style.backgroundColor='#156d33'; this.style.borderColor='#156d33'; this.style.color='white';"
@@ -61,44 +60,53 @@
             </div>
         </div>
     </form>
-</div>
 
-<div style="border-top: 2px solid #188642; margin-bottom: 30px;"></div>
 
-<!-- Estoque Geral -->
-<h3 class="mb-4 text-start">Estoque Geral</h3>
+    <div style="border-top: 2px solid #188642; margin-bottom: 30px;"></div>
 
-<div class="row mb-4">
-    <div class="col-md-12">
-        <label for="filtro-unidade" class="form-label">Unidade</label>
-        <div class="search-bar">
-            <input type="text" id="filtro-unidade" name="filtro-unidade" class="form-control campo-pesquisa" placeholder="Digite o nome da unidade">
+    <!-- Estoque Geral -->
+    <h2>Estoque Geral</h2>
+
+    <div class="row mb-4">
+        <div class="col-12">
+            <label for="filtro-unidade" class="form-label">Unidade</label>
+            <div class="search-bar">
+                <input type="text" id="filtro-unidade" name="filtro-unidade" class="form-control campo-pesquisa" placeholder="Digite o nome da unidade">
+            </div>
         </div>
+    </div>
+    
+    <div class="table-estoque-geral">
+        <table class="table table-striped table-bordered rounded shadow-sm">
+            <thead class="table-light">
+                <tr>
+                    <th class="text-center">Cód. Unidade</th>
+                    <th class="text-center">Unidade</th>
+                    <th class="text-center">Estoque mínimo</th>
+                    <th class="text-center">Estoque atual</th>
+                    <th class="text-center">Status</th>
+                </tr>
+            </thead>
+            <tbody id="status-table-body">
+                <tr>
+                    <td class="text-center">Carregando...</td>
+                    <td class="text-center">Carregando...</td>
+                    <td class="text-center">Carregando...</td>
+                    <td class="text-center">Carregando...</td>
+                    <td class="text-center">Carregando...</td>
+                    <td class="text-center"><input type="checkbox" class="form-check-input" style="border: 1px solid #000000;"></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 
-<div class="table-estoque-geral">
-    <table class="table table-striped table-bordered rounded shadow-sm">
-        <thead class="table-light">
-            <tr>
-                <th class="text-center">Cód. Unidade</th>
-                <th class="text-center">Unidade</th>
-                <th class="text-center">Estoque mínimo</th>
-                <th class="text-center">Estoque atual</th>
-                <th class="text-center">Status</th>
-            </tr>
-        </thead>
-        <tbody id="status-table-body">
-            <tr>
-                <td class="text-center">Carregando...</td>
-                <td class="text-center">Carregando...</td>
-                <td class="text-center">Carregando...</td>
-                <td class="text-center">Carregando...</td>
-                <td class="text-center">Carregando...</td>
-                <td class="text-center"><input type="checkbox" class="form-check-input" style="border: 1px solid #000000;"></td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
+<style>
+    @media (max-width: 576px) {
+    .custom-me-right {
+        margin-right: -100px !important;  
+        padding-right: 0px
+    }
+}
+</style>
 <script src="../../scripts/enviarTalao.js" data-module></script>

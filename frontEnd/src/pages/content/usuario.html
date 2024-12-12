@@ -1,15 +1,15 @@
-<h2>Usuários Cadastrados</h2>
 
-<div class="row mb-4">
-    <div class="col-md-12">
-        <label for="filtro-nome" class="form-label"></label>
-        <div class="search-bar">
-            <input type="text" id="filtro-nome" name="filtro-nome" class="form-control campo-pesquisa" placeholder="Digite o nome do colaborador">
+<div class="container-fluid mt-2 ms-sm-0 me-sm-0 ms-3 me-0">
+    <h2>Usuários Cadastrados</h2>
+
+    <div class="row mb-4 col-12">
+        <div class="md-12 col-12">
+            <label for="filtro-nome" class="form-label"></label>
+            <div class="search-bar">
+                <input type="text" id="filtro-nome" name="filtro-nome" class="form-control campo-pesquisa" placeholder="Digite o nome do colaborador">
+            </div>
         </div>
     </div>
-</div>
-
-<div class="container-fluid mt-4">
     <table class="table table-striped" id="usuarios-table"> <!-- Adicionamos o id 'usuarios-table' aqui -->
         <thead>
             <tr>
@@ -69,6 +69,15 @@
         </div>
     </div>
 </div>
+
+<style>
+    @media (max-width: 576px) {
+    .custom-me-right {
+        margin-right: -100px !important;  
+        padding-right: 0px
+    }
+}
+</style>
 
 <!-- Adicionar Bootstrap Icons -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
