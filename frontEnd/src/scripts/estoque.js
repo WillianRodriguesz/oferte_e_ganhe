@@ -223,6 +223,9 @@ async function preencherTabelaTaloes(id) {
                 // Adiciona a linha à tabela
                 tabelaCorpo.appendChild(linha);
             });
+
+            // Chama a função para adicionar a pesquisa dinâmica
+            adicionarFiltroTabela();
         } else {
             // Caso não existam talões para o destinatário
             const tabelaCorpo = document.querySelector('#status-table-body');
@@ -232,6 +235,28 @@ async function preencherTabelaTaloes(id) {
         console.error('Erro ao buscar os talões:', error);
         alert('Erro ao buscar os talões. Tente novamente mais tarde.');
     }
+}
+
+function adicionarFiltroTabela() {
+    const filtroInput = document.getElementById('filtro-remessa');
+    const tabelaCorpo = document.querySelector('#status-table-body');
+
+    filtroInput.addEventListener('input', function() {
+        const filtroTexto = filtroInput.value.toLowerCase(); // Texto digitado no campo de pesquisa
+        const linhasTabela = tabelaCorpo.querySelectorAll('tr');
+
+        linhasTabela.forEach(linha => {
+            const colunas = linha.getElementsByTagName('td');
+            const numeroRemessa = colunas[0].textContent.toLowerCase(); // Coluna com o número da remessa
+
+            // Verifica se o número da remessa contém o texto do filtro
+            if (numeroRemessa.includes(filtroTexto)) {
+                linha.style.display = ''; // Exibe a linha
+            } else {
+                linha.style.display = 'none'; // Oculta a linha
+            }
+        });
+    });
 }
 
 
