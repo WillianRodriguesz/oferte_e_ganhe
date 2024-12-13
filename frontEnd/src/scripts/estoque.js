@@ -135,7 +135,6 @@ function atualizaInterfaceEstoque(qtdAtual, qtdMinima) {
 
 document.getElementById('solicitarTalao').addEventListener('click', async function () {
     try {
-        // Usando SweetAlert2 para confirmação
         const confirmacao = await Swal.fire({
             title: 'Tem certeza?',
             text: 'Deseja realmente solicitar uma remessa de Talão?',
@@ -146,7 +145,7 @@ document.getElementById('solicitarTalao').addEventListener('click', async functi
         });
 
         if (!confirmacao.isConfirmed) {
-            return; // Cancela a ação se o usuário clicar em "Não"
+            return; // Cancela a ação 
         }
 
         const usuario = JSON.parse(sessionStorage.getItem('user_data'));
@@ -170,16 +169,15 @@ document.getElementById('solicitarTalao').addEventListener('click', async functi
         };
 
         console.log("Data da solicitacao", solicitacaoData);
-
         const result = await enviarTalao(solicitacaoData);
 
-        // Usando SweetAlert2 para exibir mensagem de sucesso ou erro
         if (result.success) {
             await Swal.fire({
                 icon: 'success',
                 title: 'Sucesso!',
                 text: 'Talão solicitado com sucesso!',
             });
+            preencherTabelaTaloes(usuario.id_loja)
         } else {
             await Swal.fire({
                 icon: 'error',
@@ -190,7 +188,6 @@ document.getElementById('solicitarTalao').addEventListener('click', async functi
     } catch (error) {
         console.error('Erro ao processar solicitação de talões:', error);
 
-        // Usando SweetAlert2 para exibir mensagem de erro
         await Swal.fire({
             icon: 'error',
             title: 'Erro',
@@ -203,14 +200,13 @@ document.getElementById('solicitarTalao').addEventListener('click', async functi
 async function preencherTabelaTaloes(id) {
     try {
         // Chama a função que busca os talões por destinatário
-        const taloes = await buscarTalaoPorDestinatario(id); // Agora usando sua função de serviço
+        const taloes = await buscarTalaoPorDestinatario(id); 
         console.log('Dados trazido do meu banco dos taloes: ', taloes);
         console.log('length:', taloes.data.length);
         
         if (taloes && taloes.data.length > 0) {
-            // Obtém o corpo da tabela onde os talões serão exibidos
             const tabelaCorpo = document.querySelector('#status-table-body');
-            tabelaCorpo.innerHTML = ''; // Limpa a tabela antes de adicionar as novas linhas
+            tabelaCorpo.innerHTML = ''; 
 
             // Preenche a tabela com os talões
             taloes.data.forEach(talao => {
@@ -218,7 +214,7 @@ async function preencherTabelaTaloes(id) {
                 
                 // Preenche as células da linha com os dados dos talões
                 linha.innerHTML = `
-                    <td class="text-center">${talao.numero_remessa}</td>
+                    <td class="text-center">${talao.numero_remessa || '-'}</td>
                     <td class="text-center">${talao.qtd_talao}</td>
                     <td class="text-center">${talao.data_envio || 'Aguardando'} </td>
                     <td class="text-center">${talao.data_recebimento || '-'}</td>
@@ -239,6 +235,5 @@ async function preencherTabelaTaloes(id) {
 }
 
 
-// Inicializar as funções principais
 mostraEstoque();
 retirarTalao();
