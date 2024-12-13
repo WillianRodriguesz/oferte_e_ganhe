@@ -134,8 +134,8 @@ document.getElementById('btn-receber').addEventListener('click', async function 
 
             if (resultado.message) {
                 await Swal.fire({
-                    icon: 'success',
-                    title: 'Sucesso!',
+                    icon: 'error',
+                    title: 'Erro!',
                     text: resultado.message
                 });
                 carregarStatusRecebimento();
