@@ -1,6 +1,6 @@
 import { buscarLojaPorId } from '../services/lojaService.js';
 import { buscarEstoquePorId, atualizarQtdEstoque } from '../services/estoqueService.js';
-import { enviarTalao } from '../services/talaoService.js';
+import { enviarTalao, buscarTalaoPorDestinatario } from '../services/talaoService.js';
 
 async function mostraEstoque() {
     try {
@@ -11,6 +11,7 @@ async function mostraEstoque() {
 
         const loja = await buscarLojaPorId(usuario.id_loja);
         const estoque = await buscarEstoquePorId(loja.data.id_estoque);
+        preencherTabelaTaloes(usuario.id_loja);
 
         const estoqueAtualElement = document.querySelector('.card-text.text-success');
         if (estoqueAtualElement) {
@@ -32,10 +33,21 @@ async function retirarTalao() {
     if (btnRetirarTalao) {
         btnRetirarTalao.addEventListener('click', async () => {
             console.log('Botão "Retirar Talão" clicado!');
-            const confirmacao = confirm('Tem certeza de que deseja retirar um talão?');
-            if (!confirmacao) {
-                return; // Cancela a ação se o usuário clicar em "Cancelar"
+            
+            // Usando SweetAlert2 para a confirmação
+            const confirmacao = await Swal.fire({
+                title: 'Tem certeza?',
+                text: 'Deseja realmente retirar um talão?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Sim',
+                cancelButtonText: 'Não',
+            });
+
+            if (!confirmacao.isConfirmed) {
+                return; // Cancela a ação se o usuário clicar em "Não"
             }
+
             try {
                 const usuario = JSON.parse(sessionStorage.getItem('user_data'));
                 if (!usuario || !usuario.id_loja) {
@@ -48,17 +60,26 @@ async function retirarTalao() {
 
                 await atualizarQtdEstoque(estoque.id, qtdAtualizada);
                 console.log('Estoque atualizado com sucesso!');
-                
+
+                // Atualiza a interface com a nova quantidade
                 atualizaInterfaceEstoque(qtdAtualizada, estoque.qtd_minima);
-                mostraEstoque();  
+                mostraEstoque();
+
+                // Exibe um alerta de sucesso usando SweetAlert2
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Sucesso',
+                    text: 'Talão retirado com sucesso!',
+                });
             } catch (error) {
                 console.error('Erro ao atualizar o estoque:', error.message);
 
-                // Mostrar mensagem de erro no HTML
-                const erroContainer = document.createElement('div');
-                erroContainer.className = 'alert alert-danger';
-                erroContainer.textContent = 'Erro ao atualizar o estoque. Tente novamente.';
-                document.querySelector('.container').prepend(erroContainer);
+                // Exibe um alerta de erro usando SweetAlert2
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro',
+                    text: 'Erro ao atualizar o estoque. Tente novamente.',
+                });
             }
         });
     }
@@ -114,10 +135,19 @@ function atualizaInterfaceEstoque(qtdAtual, qtdMinima) {
 
 document.getElementById('solicitarTalao').addEventListener('click', async function () {
     try {
-        const confirmacao = confirm('Tem certeza de que deseja solicitar um talão?');
-        if (!confirmacao) {
-            return; 
+        const confirmacao = await Swal.fire({
+            title: 'Tem certeza?',
+            text: 'Deseja realmente solicitar uma remessa de Talão?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Sim',
+            cancelButtonText: 'Não',
+        });
+
+        if (!confirmacao.isConfirmed) {
+            return; // Cancela a ação 
         }
+
         const usuario = JSON.parse(sessionStorage.getItem('user_data'));
 
         if (!usuario || !usuario.id_loja) {
@@ -133,27 +163,77 @@ document.getElementById('solicitarTalao').addEventListener('click', async functi
 
         const solicitacaoData = {
             destinatario: usuario.id_loja,
-            remetente: 1, // trocar para buscar no banco pela matriz
+            remetente: 1001, // id da matriz (trocar para buscar pelo banco)
             qtd_talao: estoque.qtd_maxima - estoque.qtd_atual,
             status: 'Aguardando'
         };
 
         console.log("Data da solicitacao", solicitacaoData);
-
         const result = await enviarTalao(solicitacaoData);
 
         if (result.success) {
-            alert('Talão solicitado com sucesso!');
+            await Swal.fire({
+                icon: 'success',
+                title: 'Sucesso!',
+                text: 'Talão solicitado com sucesso!',
+            });
+            preencherTabelaTaloes(usuario.id_loja)
         } else {
-            alert(result.message || 'Erro ao solicitar o talão.');
+            await Swal.fire({
+                icon: 'error',
+                title: 'Erro',
+                text: result.message || 'Erro ao solicitar o talão.',
+            });
         }
     } catch (error) {
         console.error('Erro ao processar solicitação de talões:', error);
-        alert(error.message || 'Erro ao enviar o talão.');
+
+        await Swal.fire({
+            icon: 'error',
+            title: 'Erro',
+            text: error.message || 'Erro ao enviar o talão.',
+        });
     }
 });
 
 
-// Inicializar as funções principais
+async function preencherTabelaTaloes(id) {
+    try {
+        // Chama a função que busca os talões por destinatário
+        const taloes = await buscarTalaoPorDestinatario(id); 
+        console.log('Dados trazido do meu banco dos taloes: ', taloes);
+        console.log('length:', taloes.data.length);
+        
+        if (taloes && taloes.data.length > 0) {
+            const tabelaCorpo = document.querySelector('#status-table-body');
+            tabelaCorpo.innerHTML = ''; 
+
+            // Preenche a tabela com os talões
+            taloes.data.forEach(talao => {
+                const linha = document.createElement('tr');
+                
+                // Preenche as células da linha com os dados dos talões
+                linha.innerHTML = `
+                    <td class="text-center">${talao.numero_remessa || '-'}</td>
+                    <td class="text-center">${talao.qtd_talao}</td>
+                    <td class="text-center">${talao.data_envio || 'Aguardando'} </td>
+                    <td class="text-center">${talao.data_recebimento || '-'}</td>
+                `;
+                
+                // Adiciona a linha à tabela
+                tabelaCorpo.appendChild(linha);
+            });
+        } else {
+            // Caso não existam talões para o destinatário
+            const tabelaCorpo = document.querySelector('#status-table-body');
+            tabelaCorpo.innerHTML = '<tr><td colspan="4" class="text-center">Nenhum talão encontrado para este destinatário.</td></tr>';
+        }
+    } catch (error) {
+        console.error('Erro ao buscar os talões:', error);
+        alert('Erro ao buscar os talões. Tente novamente mais tarde.');
+    }
+}
+
+
 mostraEstoque();
 retirarTalao();

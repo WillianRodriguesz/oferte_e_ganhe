@@ -1,8 +1,8 @@
-<div class="container my-4">
+<div class="container-fluid mt-2 ms-sm-0 me-sm-0 ms-3 me-0">
     <div class="row g-3">
         <!-- Primeiro Botão -->
         <div class="col-md-4">
-            <button class="btn btn-outline-success text-center w-100" style="height: 250px; border-width: 2px; transition: background-color 0.3s, border-color 0.3s;">
+            <button id="btn-usuarios" class="btn btn-outline-success text-center w-100" data-relatorio="usuarios" style="height: 250px; border-width: 2px; transition: background-color 0.3s, border-color 0.3s;">
                 <div class="d-flex flex-column justify-content-center align-items-center h-100 p-0">
                     <h5 class="card-title text-dark">Usuários Cadastrados</h5>
                     <img src="/styles/img/iconRelUsuarios.svg" alt="Usuários Cadastrados" class="img-fluid" style="max-width: 100px;">
@@ -12,7 +12,7 @@
         
         <!-- Segundo Botão -->
         <div class="col-md-4">
-            <button class="btn btn-outline-success text-center w-100" style="height: 250px; border-width: 2px; transition: background-color 0.3s, border-color 0.3s;">
+            <button id="btn-perfis" class="btn btn-outline-success text-center w-100" data-relatorio="perfis" style="height: 250px; border-width: 2px; transition: background-color 0.3s, border-color 0.3s;">
                 <div class="d-flex flex-column justify-content-center align-items-center h-100 p-0">
                     <h5 class="card-title text-dark">Perfis de Usuários</h5>
                     <img src="/styles/img/iconRelPerfil.svg" alt="Perfis de Usuários" class="img-fluid" style="max-width: 100px;">
@@ -22,7 +22,7 @@
         
         <!-- Terceiro Botão -->
         <div class="col-md-4">
-            <button class="btn btn-outline-success text-center w-100" style="height: 250px; border-width: 2px; transition: background-color 0.3s, border-color 0.3s;">
+            <button id="btn-recebimento" class="btn btn-outline-success text-center w-100" data-relatorio="recebimento" style="height: 250px; border-width: 2px; transition: background-color 0.3s, border-color 0.3s;">
                 <div class="d-flex flex-column justify-content-center align-items-center h-100 p-0">
                     <h5 class="card-title text-dark">Gestão de Recebimento</h5>
                     <img src="/styles/img/iconRelGestaoRecebimento.svg" alt="Gestão de Recebimento" class="img-fluid" style="max-width: 100px;">
@@ -34,7 +34,7 @@
     <div class="row g-3 mt-3">
         <!-- Quarto Botão -->
         <div class="col-md-4">
-            <button class="btn btn-outline-success text-center w-100" style="height: 250px; border-width: 2px; transition: background-color 0.3s, border-color 0.3s;">
+            <button id="btn-talao" class="btn btn-outline-success text-center w-100" data-relatorio="talao" style="height: 250px; border-width: 2px; transition: background-color 0.3s, border-color 0.3s;">
                 <div class="d-flex flex-column justify-content-center align-items-center h-100 p-0">
                     <h5 class="card-title text-dark">Manutenção de Talões</h5>
                     <img src="/styles/img/iconRelManutTalao.svg" alt="Manutenção de Talões" class="img-fluid" style="max-width: 100px;">
@@ -44,7 +44,7 @@
 
         <!-- Quinto Botão -->
         <div class="col-md-4">
-            <button class="btn btn-outline-success text-center w-100" style="height: 250px; border-width: 2px; transition: background-color 0.3s, border-color 0.3s;">
+            <button id="btn-estoque" class="btn btn-outline-success text-center w-100" data-relatorio="estoque" style="height: 250px; border-width: 2px; transition: background-color 0.3s, border-color 0.3s;">
                 <div class="d-flex flex-column justify-content-center align-items-center h-100 p-0">
                     <h5 class="card-title text-dark">Gestão de Estoque</h5>
                     <img src="/styles/img/iconRelGestaoEstoque.svg" alt="Gestão de Estoque" class="img-fluid" style="max-width: 100px;">
@@ -61,3 +61,5 @@
         border-color: #28a745; /* Borda verde */
     }
 </style>
+
+<script type="module" src="../../scripts/relatorios.js"></script>

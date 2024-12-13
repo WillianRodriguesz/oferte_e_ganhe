@@ -1,21 +1,21 @@
-<div class="container-fluid mt-2"> <!-- Usando container-fluid para ocupar toda a largura -->
-    <h3 class="mb-4 text-start">Recebimento de Talões</h3>
 
-    <!-- campo de recebimento -->
+<div class="container-fluid mt-2 ms-sm-0 me-sm-0 ms-2 custom-me-right"> <!-- Usando container-fluid para ocupar toda a largura -->
+    <h2>Recebimento de Talões</h2>
+    <!-- Campo de recebimento -->
     <div class="row mb-5"> <!-- Aumentamos a margem inferior para criar distância -->
-        <div class="col-md-3">
+        <div class="col-md-3 col-sm-6">
             <div class="form-group">
                 <label for="data-recebimento" class="form-label">Data de Recebimento</label>
                 <input type="date" id="data-recebimento" name="data-recebimento" class="form-control" required>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-6">
             <div class="form-group">
                 <label for="numero-remessa" class="form-label">Número da Remessa</label>
                 <input type="text" id="numero-remessa" name="numero-remessa" class="form-control" placeholder="Digite o número da remessa" required>
             </div>
         </div>
-        <div class="col-md-3 d-flex align-items-end">
+        <div class="col-md-3 d-flex align-items-end justify-content-center">
             <button class="btn btn-success w-100 rounded-3" type="button" id="btn-receber" style="height: 38px;">
                 Receber
             </button>
@@ -26,27 +26,27 @@
 
     <!-- Filtro de Data e Pesquisa -->
     <div class="row mb-4"> <!-- Ajustamos a margem inferior para alinhamento adequado -->
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-12">
             <label for="filtro-remessa" class="form-label">Remessa</label>
             <div class="search-bar">
                 <input type="text" id="filtro-remessa" name="filtro-remessa" class="form-control campo-pesquisa" placeholder="Digite o numero da remessa">
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2 col-sm-6">
             <div class="form-group">
                 <label for="filtro-data-envio" class="form-label">Data de Envio</label>
                 <input type="date" id="filtro-data-envio" name="filtro-data-envio" class="form-control campo-pesquisa" placeholder="Data de Envio">
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2 col-sm-6">
             <div class="form-group">
                 <label for="filtro-data-recebida" class="form-label">Data Recebida</label>
                 <input type="date" id="filtro-data-recebida" name="filtro-data-recebida" class="form-control campo-pesquisa" placeholder="Data Recebida">
             </div>
         </div>
-        <div class="col-md-2 d-flex align-items-end">
+        <div class="col-md-2 col-sm-12 d-flex align-items-end">
             <div class=" text-center">
-                <button type="button" class="btn btn-outline-success" id="btn-pesquisar">Pesquisar</button>
+                <button type="button" class="btn btn-outline-success w-100" id="btn-pesquisar">Pesquisar</button>
             </div>
         </div>
     </div>
@@ -84,5 +84,15 @@
         </table>
     </div>
 </div>
+
+<style>
+    @media (max-width: 576px) {
+    .custom-me-right {
+        margin-right: -100px !important;  /* Garantir que a regra seja aplicada */
+        padding-right: 0px
+    }
+}
+</style>
+
 
 <script src="../../scripts/recebimentoTalao.js" data-module></script>

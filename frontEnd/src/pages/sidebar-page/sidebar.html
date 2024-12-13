@@ -1,13 +1,18 @@
 <div class="sidebar">
     <aside>
-        <header onclick="toggleSidebar()">
+        <header id="toggle-sidebar" onclick="toggleSidebar()">
             <img src="/styles/img/logoQQ.svg" alt="logo da Quero-Quero">
         </header>
     </aside>
 
     <div class="auxiliary-bar"></div>
 
-    <nav>
+    <nav class="sidebar-buttons">
+        <button>
+            <img src="/styles/img/iconEstoque.svg">
+            <span class="button-title">Gerenciar Estoque</span>
+        </button>
+        
         <button>
             <img src="/styles/img/iconEnvioTalao.svg">
             <span class="button-title">Envio de Talões</span>
@@ -16,11 +21,6 @@
         <button>
             <img src="/styles/img/iconRecebimento.svg">
             <span class="button-title">Recebimento de Talões</span>
-        </button>
-
-        <button>
-            <img src="/styles/img/iconEstoque.svg">
-            <span class="button-title">Gerenciar Estoque</span>
         </button>
 
         <button>

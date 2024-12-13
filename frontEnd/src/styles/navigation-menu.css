@@ -11,15 +11,6 @@ body {
     width: 250px; 
 }
 
-.content {
-    flex-grow: 1; /* Faz o conteúdo ocupar o espaço restante */
-    padding: 20px; /* Adiciona um espaço interno */
-    background-color: rgb(255, 255, 255); 
-    min-height: 100vh; 
-    margin-top: 100px;
-    margin-left: 15px;
-}
-
 
 .navigation-menu {
     display: flex;
@@ -39,6 +30,11 @@ body {
     gap: 15px; 
     margin-left: 20px;
     z-index: 100;
+    transition: left 0.3s ease;
+}
+
+.navigation-menu.adjusted {
+    left: 80px; 
 }
 
 .navigation-menu button {
@@ -73,4 +69,32 @@ body {
     border: 2px solid white; 
     background-color: white; 
     color: rgb(0, 0, 0);
+}
+
+@media (max-width: 768px) {
+    .navigation-menu {
+        width: 100%;
+        left: 230px;
+        margin-left: 0px;
+        padding: 43px;
+        gap: 5px;
+    }
+
+    .navigation-menu button {
+        padding: 8px 12px; /* Reduz o padding */
+        font-size: 13px; /* Diminui o tamanho da fonte */
+        min-width: 80px; /* Ajusta o tamanho mínimo do botão */
+        margin-top: 10px; /* Ajusta a margem superior para mais espaço */
+    }
+
+    .navigation-menu.adjusted{
+        width: 100%;
+        left: 50px;
+        margin-left: 0px;
+        padding: 43px;
+        gap: 5px;
+        
+    }
+
+    
 }

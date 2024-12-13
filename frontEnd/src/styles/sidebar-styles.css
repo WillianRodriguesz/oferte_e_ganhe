@@ -7,7 +7,6 @@ body {
 .sidebar {
     width: 250px;
     height: 100vh;
-    background-color: white;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     position: fixed;
     display: flex;
@@ -94,8 +93,9 @@ button.selected {
     left: 250px;
     top: 0;
     width: calc(100% - 250px);
-    z-index: 1000;
+    z-index: 100;
     isolation: isolate;
+    transition: left 0.3s ease, width 0.3s ease;
 }
 
 /* Animação de fechamento */
@@ -115,4 +115,32 @@ button.selected {
 .sidebar.closed .auxiliary-bar {
     left: 80px;
     width: calc(100% - 80px);
+}
+
+.content {
+    flex-grow: 1; /* Faz o conteúdo ocupar o espaço restante */
+    padding: 20px; 
+    background-color: rgb(255, 255, 255); 
+    min-height: 100vh; 
+    margin-top: 100px;
+    margin-left: 0px;
+    transition: margin-left 0.3s ease;
+}
+
+.content.adjusted {
+    margin-left: -170px; 
+}
+
+@media (max-width: 768px) { 
+    .sidebar {
+        box-shadow: none; 
+    }
+    .sidebar nav {
+        transform: translateX(0); /* Posição inicial do menu */
+        transition: transform 0.3s ease-out; /* Mais suave com 0.5s e easing 'ease-out' */
+    }
+
+    .sidebar.closed nav {
+        transform: translateX(-100%); /* Move o menu para fora da tela */
+    }
 }

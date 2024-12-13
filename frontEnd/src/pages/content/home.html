@@ -1,0 +1,62 @@
+<div class="container text-center">
+    <div class="title-container" id="title-section">
+      <h2 id="welcome-text">Bem vindo ao</h2>
+      <h1 id="main-title" class="display-1">
+        <span style="color: #FFCA00;">Oferte</span> & Ganhe
+        </h1>
+    </div>
+    <p id="mobile-text">Bem vindo ao <br> Oferte & Ganhe</p>
+    <p id="system-description">Este sistema permite o controle completo do estoque e distribuição de talões para as lojas, <br>garantindo eficiência e segurança</p>
+    <p id="system-sub-description"> Estamos aqui para facilitar sua gestão!</p>
+  </div>
+  
+  <style>
+    .container {
+      text-align: center;
+      padding-top: 100px;
+    }
+  
+    #title-section {
+      position: relative;
+    }
+  
+    #welcome-text {
+      position: absolute;
+      top: -10%;
+      left: 40%;
+      transform: translate(-80%, -50%);
+      font-weight: bold;
+      color: #FFCA00;
+    }
+  
+    #main-title {
+      font-weight: bold;
+      color: #1DA752;
+    }
+  
+    #system-description {
+      font-size: 17px;
+      color: #1DA752;
+    }
+
+    #system-sub-description{
+        padding-top: 80px;
+      font-size: 17px;
+      color: #1DA752;
+    }
+    #mobile-text{
+      display: none; 
+    }
+
+    @media (max-width: 768px) {
+      #main-title, #welcome-text {
+          display: none;  /* Oculta os elementos h1 e h2 */
+      }
+      #mobile-text {
+        display: block;
+        color: #FFCA00;
+        font-size: 30px; /* Aumenta o tamanho da fonte */
+        font-weight: bold; /* Deixa o texto em negrito */
+    }
+    }
+  </style>

@@ -1,14 +1,18 @@
 const { Sequelize } = require('sequelize');
+require('dotenv').config(); 
 
-// Configuração do Sequelize
-const sequelize = new Sequelize('oferte_ganhe', 'postgres', 'postgres', {
-    host: 'localhost',
-    dialect: 'postgres',
-    port: 5432, 
-    logging: true, // Define se as consultas SQL devem ser exibidas no console
-});
+const sequelize = new Sequelize(
+    process.env.DB_NAME,         
+    process.env.DB_USER,         
+    process.env.DB_PASSWORD,     
+    {
+        host: process.env.DB_HOST,       
+        dialect: process.env.DB_DIALECT, 
+        port: process.env.DB_PORT,       
+        logging: true,                   
+    }
+);
 
-// Testa a conexão ao banco de dados
 (async () => {
     try {
         await sequelize.authenticate();

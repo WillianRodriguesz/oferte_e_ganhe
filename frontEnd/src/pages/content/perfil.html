@@ -1,6 +1,6 @@
-<h3>Cadastrar Perfil</h3>
 <!-- Formulário de Cadastro de Perfis -->
-<div class="container mt-2">
+<div class="container-fluid mt-2 ms-sm-0 me-sm-0 ms-3 me-0">
+    <h2>Cadastrar Perfil</h2>
     <form action="processar_perfil.html" method="POST">
         <div class="row mb-3">
             <!-- Campo Nome do Perfil -->
@@ -62,65 +62,67 @@
             </button>
         </div>
     </form>
-</div>
 
-<div class="mt-5" style="border-top: 2px solid #188642; margin-bottom: 20px; margin-bottom: 50px;"></div>
 
-<h3>Perfis Cadastrados</h3>
-<!-- Tabela de Perfis Cadastrados -->
-<div class="container mt-2">
+    <div class="mt-5" style="border-top: 2px solid #188642; margin-bottom: 20px; margin-bottom: 50px;"></div>
+
+
+    <!-- Tabela de Perfis Cadastrados -->
+
+    <h2>Perfis Cadastrados</h2>
     <table class="table table-striped">
-        <thead>
+         <thead>
             <tr>
                 <th scope="col">Nome do Perfil</th>
                 <th scope="col" class="text-end" style="padding-right: 75px;">Ações</th>
             </tr>
         </thead>
         <tbody>
-            <!-- Exemplo de perfil 1 -->
+                <!-- Exemplo de perfil 1 -->
+                <tr>
+                    <td>Administrador</td>
+                    <td class="text-end">
+                        <!-- Botão Editar -->
+                        <a href="editar_perfil.html" class="btn btn-warning btn-sm mx-1" title="Editar Perfil">
+                            <i class="bi bi-pencil-fill"></i> Editar
+                        </a>
+                        <!-- Botão Excluir -->
+                        <a href="excluir_perfil.html" class="btn btn-danger btn-sm mx-1" title="Excluir Perfil" onclick="return confirm('Tem certeza de que deseja excluir este perfil?');">
+                            <i class="bi bi-trash-fill"></i> Excluir
+                        </a>
+                    </td>
+             </tr>
+                <!-- Exemplo de perfil 2 -->
             <tr>
-                <td>Administrador</td>
-                <td class="text-end">
-                    <!-- Botão Editar -->
-                    <a href="editar_perfil.html" class="btn btn-warning btn-sm mx-1" title="Editar Perfil">
-                        <i class="bi bi-pencil-fill"></i> Editar
-                    </a>
-                    <!-- Botão Excluir -->
-                    <a href="excluir_perfil.html" class="btn btn-danger btn-sm mx-1" title="Excluir Perfil" onclick="return confirm('Tem certeza de que deseja excluir este perfil?');">
-                        <i class="bi bi-trash-fill"></i> Excluir
-                    </a>
-                </td>
+                    <td>Vendedor</td>
+                    <td class="text-end">
+                        <!-- Botão Editar -->
+                        <a href="editar_perfil.html" class="btn btn-warning btn-sm mx-1" title="Editar Perfil">
+                            <i class="bi bi-pencil-fill"></i> Editar
+                        </a>
+                        <!-- Botão Excluir -->
+                        <a href="excluir_perfil.html" class="btn btn-danger btn-sm mx-1" title="Excluir Perfil" onclick="return confirm('Tem certeza de que deseja excluir este perfil?');">
+                            <i class="bi bi-trash-fill"></i> Excluir
+                        </a>
+                    </td>
             </tr>
-            <!-- Exemplo de perfil 2 -->
+                <!-- Exemplo de perfil 3 -->
             <tr>
-                <td>Vendedor</td>
-                <td class="text-end">
-                    <!-- Botão Editar -->
-                    <a href="editar_perfil.html" class="btn btn-warning btn-sm mx-1" title="Editar Perfil">
-                        <i class="bi bi-pencil-fill"></i> Editar
-                    </a>
-                    <!-- Botão Excluir -->
-                    <a href="excluir_perfil.html" class="btn btn-danger btn-sm mx-1" title="Excluir Perfil" onclick="return confirm('Tem certeza de que deseja excluir este perfil?');">
-                        <i class="bi bi-trash-fill"></i> Excluir
-                    </a>
-                </td>
-            </tr>
-            <!-- Exemplo de perfil 3 -->
-            <tr>
-                <td>Operador</td>
-                <td class="text-end">
-                    <!-- Botão Editar -->
-                    <a href="editar_perfil.html" class="btn btn-warning btn-sm mx-1" title="Editar Perfil">
-                        <i class="bi bi-pencil-fill"></i> Editar
-                    </a>
-                    <!-- Botão Excluir -->
-                    <a href="excluir_perfil.html" class="btn btn-danger btn-sm mx-1" title="Excluir Perfil" onclick="return confirm('Tem certeza de que deseja excluir este perfil?');">
-                        <i class="bi bi-trash-fill"></i> Excluir
-                    </a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+                    <td>Operador</td>
+                    <td class="text-end">
+                        <!-- Botão Editar -->
+                        <a href="editar_perfil.html" class="btn btn-warning btn-sm mx-1" title="Editar Perfil">
+                            <i class="bi bi-pencil-fill"></i> Editar
+                        </a>
+                        <!-- Botão Excluir -->
+                        <a href="excluir_perfil.html" class="btn btn-danger btn-sm mx-1" title="Excluir Perfil" onclick="return confirm('Tem certeza de que deseja excluir este perfil?');">
+                            <i class="bi bi-trash-fill"></i> Excluir
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    
 </div>
 
 <!-- Modal para Editar Perfil -->

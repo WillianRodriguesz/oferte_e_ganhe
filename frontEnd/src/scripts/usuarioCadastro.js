@@ -57,18 +57,33 @@ function obterDadosFormulario() {
     
     // Verifica se os e-mails e senhas coincidem
     if (email !== confirmarEmail) {
-        alert('Os e-mails não coincidem.');
+        // Usando SweetAlert2 para alerta de erro de e-mails não coincidentes
+        Swal.fire({
+            icon: 'error',
+            title: 'Erro',
+            text: 'Os e-mails não coincidem.'
+        });
         return null;
     }
 
     if (senha !== confirmarSenha) {
-        alert('As senhas não coincidem.');
+        // Usando SweetAlert2 para alerta de erro de senhas não coincidentes
+        Swal.fire({
+            icon: 'error',
+            title: 'Erro',
+            text: 'As senhas não coincidem.'
+        });
         return null;
     }
 
     // Verifica se todos os campos obrigatórios foram preenchidos
     if (!nivelAcesso || !lojaColaborador || !matricula || !nome || !email || !senha) {
-        alert('Por favor, preencha todos os campos.');
+        // Usando SweetAlert2 para alerta de campos obrigatórios não preenchidos
+        Swal.fire({
+            icon: 'warning',
+            title: 'Atenção',
+            text: 'Por favor, preencha todos os campos.'
+        });
         return null;
     }
 
@@ -88,22 +103,39 @@ function obterDadosFormulario() {
     return usuarioData;
 }
 
+
 // Função para registrar o usuário
 async function registrarUsuario(usuarioData) {
     try {
         const result = await cadastrarUsuario(usuarioData);  // Chama o serviço para cadastrar o usuário
 
         if (result.success) {
-            alert('Usuário cadastrado com sucesso!');
+            // Usando SweetAlert2 para sucesso
+            Swal.fire({
+                icon: 'success',
+                title: 'Sucesso',
+                text: 'Usuário cadastrado com sucesso!'
+            });
             limparCamposFormulario();  // Limpa os campos do formulário
         } else {
-            alert('Erro ao cadastrar o usuário: ' + (result.message || 'Erro desconhecido'));
+            // Usando SweetAlert2 para erro no cadastro
+            Swal.fire({
+                icon: 'error',
+                title: 'Erro',
+                text: 'Erro ao cadastrar o usuário: ' + (result.message || 'Erro desconhecido')
+            });
         }
     } catch (error) {
         console.error('Erro ao cadastrar usuário:', error);
-        alert('Erro ao tentar cadastrar o usuário.');
+        // Usando SweetAlert2 para erro de sistema
+        Swal.fire({
+            icon: 'error',
+            title: 'Erro',
+            text: 'Erro ao tentar cadastrar o usuário.'
+        });
     }
 }
+
 
 // Função para limpar os campos do formulário
 function limparCamposFormulario() {

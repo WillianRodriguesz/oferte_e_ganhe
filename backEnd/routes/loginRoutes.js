@@ -2,15 +2,20 @@ const express = require('express');
 const path = require('path');
 const router = express.Router();
 const loginController = require('../controllers/loginController');
+const multipleLoginsMiddleware = require('../middlewares/multipleLoginsMiddleware');
 
 // Rota para autenticação
 router.post('/login', loginController.autenticarUsuario);
 
 router.post('/logout', loginController.logoutUsuario);
 
+//router.get('/login', multipleLoginsMiddleware, (req, res) => {
+    //res.sendFile(path.join(__dirname, '../../frontEnd/src/pages/login/login.html'));
+//});
+
 router.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname, '../../frontEnd/src/pages/login/login.html'));
-}); 
+});
 
 router.get('/login/cadastro', (req, res) => {
     res.sendFile(path.join(__dirname, '../../frontEnd/src/pages/login/access-request.html'));

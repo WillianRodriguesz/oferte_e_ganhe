@@ -31,3 +31,28 @@ export async function enviarLogin(email, senha) {
         return { success: false, message: 'Erro ao tentar fazer login. Tente novamente.' };
     }
 }
+
+export async function logout() {
+    try {
+        const response = await fetch('http://localhost:3000/logout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include', 
+        });
+
+        if (response.ok) {
+            localStorage.clear();
+            sessionStorage.clear();
+            document.cookie = 'auth_token=; max-age=0'; 
+
+            // Redirecionar para a página de login
+            window.location.href = '/pages/login/login.html'; // Ajuste o caminho se necessário
+        } else {
+            console.error('Erro ao tentar fazer logout');
+        }
+    } catch (error) {
+        console.error('Erro ao fazer logout:', error);
+    }
+}
