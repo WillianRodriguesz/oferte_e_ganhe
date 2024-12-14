@@ -6,7 +6,7 @@ const {
     excluirRegistro
 } = require('../services/sendingServices');
 
-// Controlador para cadastrar um novo registro
+// cadastrar um novo registro
 const criarRegistroEnvio = async (req, res) => {
     const { data_envio, data_prevista, talao, observacao } = req.body;
     try {
@@ -17,7 +17,7 @@ const criarRegistroEnvio = async (req, res) => {
     }
 };
 
-// Controlador para obter todos os registros
+// obter todos os registros
 const listarRegistrosEnvio = async (req, res) => {
     try {
         const registros = await obterTodosRegistros();
@@ -27,7 +27,7 @@ const listarRegistrosEnvio = async (req, res) => {
     }
 };
 
-// Controlador para obter um registro por ID
+// obter um registro por ID
 const obterRegistroEnvio = async (req, res) => {
     const { id } = req.params;
     try {
@@ -41,7 +41,7 @@ const obterRegistroEnvio = async (req, res) => {
     }
 };
 
-// Controlador para atualizar um registro pelo ID
+// atualizar um registro pelo ID
 const atualizarRegistroEnvio = async (req, res) => {
     const { id } = req.params;
     const { data_envio, data_prevista, talao, observacao } = req.body;
@@ -56,7 +56,7 @@ const atualizarRegistroEnvio = async (req, res) => {
     }
 };
 
-// Controlador para excluir um registro pelo ID
+// excluir um registro pelo ID
 const excluirRegistroEnvio = async (req, res) => {
     const { id } = req.params;
     try {

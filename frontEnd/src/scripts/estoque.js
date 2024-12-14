@@ -212,7 +212,6 @@ async function preencherTabelaTaloes(id) {
             taloes.data.forEach(talao => {
                 const linha = document.createElement('tr');
                 
-                // Preenche as células da linha com os dados dos talões
                 linha.innerHTML = `
                     <td class="text-center">${talao.numero_remessa || '-'}</td>
                     <td class="text-center">${talao.qtd_talao}</td>
@@ -220,14 +219,12 @@ async function preencherTabelaTaloes(id) {
                     <td class="text-center">${talao.data_recebimento || '-'}</td>
                 `;
                 
-                // Adiciona a linha à tabela
                 tabelaCorpo.appendChild(linha);
             });
 
             // Chama a função para adicionar a pesquisa dinâmica
             adicionarFiltroTabela();
         } else {
-            // Caso não existam talões para o destinatário
             const tabelaCorpo = document.querySelector('#status-table-body');
             tabelaCorpo.innerHTML = '<tr><td colspan="4" class="text-center">Nenhum talão encontrado para este destinatário.</td></tr>';
         }
@@ -247,7 +244,7 @@ function adicionarFiltroTabela() {
 
         linhasTabela.forEach(linha => {
             const colunas = linha.getElementsByTagName('td');
-            const numeroRemessa = colunas[0].textContent.toLowerCase(); // Coluna com o número da remessa
+            const numeroRemessa = colunas[0].textContent.toLowerCase(); 
 
             // Verifica se o número da remessa contém o texto do filtro
             if (numeroRemessa.includes(filtroTexto)) {

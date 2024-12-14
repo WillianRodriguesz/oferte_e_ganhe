@@ -1,7 +1,7 @@
 const { inserirTalao, obterTodosTaloes, obterTalaoPorId, atualizarTalao, excluirTalao, obterTalaoDestinario,
         atualizarStatusTalao, obterTalaoPorNumeroRemessa, editarRecebimento } = require('../services/talaoServices');
 
-// Controlador para cadastrar um novo talão
+// cadastrar um novo talão
 const cadastrarTalao = async (req, res) => {
     const { numero_remessa, qtd_talao, destinatario, remetente, status, data_envio, data_prevista, data_recebimento, observacao } = req.body;
     try {
@@ -12,7 +12,7 @@ const cadastrarTalao = async (req, res) => {
     }
 };
 
-// Controlador para obter todos os talões
+// obter todos os talões
 const listarTaloes = async (req, res) => {
     try {
         const taloes = await obterTodosTaloes();
@@ -22,7 +22,7 @@ const listarTaloes = async (req, res) => {
     }
 };
 
-// Controlador para obter um talão por ID
+// obter um talão por ID
 const obterTalao = async (req, res) => {
     const { id } = req.params;
     try {
@@ -61,7 +61,7 @@ const atualizarTalaoInfo = async (req, res) => {
     }
 };
 
-// Controlador para excluir um talão pelo ID
+// excluir um talão pelo ID
 const excluirTalaoInfo = async (req, res) => {
     const { id } = req.params;
     try {
@@ -75,7 +75,7 @@ const excluirTalaoInfo = async (req, res) => {
     }
 };
 
-// Controlador para atualizar o status de um talão pelo ID
+// atualizar o status de um talão pelo ID
 const atualizarStatus = async (req, res) => {
     const { id } = req.params; // ID do talão na URL
     const { status } = req.body; // Novo status no corpo da requisição

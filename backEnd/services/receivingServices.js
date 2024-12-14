@@ -47,7 +47,7 @@ async function atualizarLogRecebimento(id, data_recebimento, talao, observacao) 
         logRecebimento.data_recebimento = data_recebimento;
         logRecebimento.talao = talao;
         logRecebimento.observacao = observacao;
-        await logRecebimento.save(); // Salva as alterações no banco
+        await logRecebimento.save(); 
 
         return logRecebimento;
     } catch (erro) {
@@ -65,7 +65,7 @@ async function excluirLogRecebimento(id) {
 
         if (!logRecebimento) return null;
 
-        await logRecebimento.destroy(); // Remove o registro do banco
+        await logRecebimento.destroy(); 
 
         return logRecebimento;
     } catch (erro) {

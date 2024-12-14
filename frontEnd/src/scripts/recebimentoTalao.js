@@ -167,5 +167,4 @@ document.getElementById('btn-receber').addEventListener('click', async function 
 
 
 
-// Carregar os status de recebimento quando a página for carregada
 carregarStatusRecebimento();

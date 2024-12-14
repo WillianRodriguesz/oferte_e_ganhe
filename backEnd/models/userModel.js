@@ -31,20 +31,20 @@ const Usuario = sequelize.define('Usuario', {
     perfil: {
         type: DataTypes.INTEGER,
         references: {
-            model: Perfil, // Referência para a tabela 'perfil'
+            model: Perfil, 
             key: 'id',
         },
     },
     id_loja: {
         type: DataTypes.INTEGER,
         references: {
-            model: Loja, // Referência para a tabela 'loja'
+            model: Loja, 
             key: 'cod_unidade',
         },
     }
 }, {
     tableName: 'usuarios',
-    timestamps: false, // Defina como true se você estiver usando campos createdAt/updatedAt
+    timestamps: false, 
 });
 
 // Relacionamentos

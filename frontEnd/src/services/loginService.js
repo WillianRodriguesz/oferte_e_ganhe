@@ -16,10 +16,8 @@ export async function enviarLogin(email, senha) {
             sessionStorage.setItem('user_data', JSON.stringify(data.usuario));
             return { success: true, data };
         } else {
-            // Se o retorno da API for um objeto, extraímos a mensagem do erro
             let message = 'E-mail ou senha incorretos.';
 
-            // Verifica se o erro contém uma mensagem personalizada da API
             if (data && data.message) {
                 message = data.message;
             }
@@ -45,10 +43,7 @@ export async function logout() {
         if (response.ok) {
             localStorage.clear();
             sessionStorage.clear();
-            document.cookie = 'auth_token=; max-age=0'; 
-
-            // Redirecionar para a página de login
-            window.location.href = '/pages/login/login.html'; // Ajuste o caminho se necessário
+            document.cookie = 'auth_token=; max-age=0';  
         } else {
             console.error('Erro ao tentar fazer logout');
         }

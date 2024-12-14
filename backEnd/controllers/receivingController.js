@@ -73,7 +73,7 @@ const excluirLogRecebimentoPorId = async (req, res) => {
 
 async function buscarTalaosPorDestinario(req, res) {
     try {
-        const { destinatarioId } = req.params; // Pegando o ID do destinatário da requisição
+        const { destinatarioId } = req.params; 
         const talaos = await obterTalaosPorDestinatario(destinatarioId);
 
         res.status(200).json(talaos);

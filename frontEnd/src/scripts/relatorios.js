@@ -50,9 +50,8 @@ function configurarBotaoRelatorio(btnId, tipoRelatorio) {
         btn.addEventListener('click', async function() {
             console.log(`Botão de ${tipoRelatorio} clicado`);
             try {
-                // Chama a função de exportação do relatório
                 const resultado = await exportarRelatorio(tipoRelatorio);
-                console.log(resultado); // Exibe o resultado no console
+                console.log(resultado); 
             } catch (error) {
                 console.error(`Erro ao exportar relatório de ${tipoRelatorio}:`, error.message);
             }
@@ -60,7 +59,6 @@ function configurarBotaoRelatorio(btnId, tipoRelatorio) {
     }
 }
 
-// Configura os eventos para os botões de relatórios
 configurarBotaoRelatorio('btn-estoque', 'estoque');
 configurarBotaoRelatorio('btn-recebimento', 'recebimento');
 configurarBotaoRelatorio('btn-talao', 'talao');

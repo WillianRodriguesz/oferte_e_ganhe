@@ -1,4 +1,4 @@
-const Usuario = require('../models/userModel'); // Certifique-se de que o caminho está correto
+const Usuario = require('../models/userModel'); 
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 
@@ -16,12 +16,10 @@ async function validarUsuario(email, senha) {
         
         const senhaValida = await bcrypt.compare(senha, usuario.senha);
 
-        // Se a senha for inválida, retorna null
         if (!senhaValida) {
             return null;
         }
 
-        // Retorna os dados do usuário
         return usuario;
     } catch (erro) {
         console.error('Erro ao validar usuário:', erro);
@@ -81,7 +79,6 @@ async function atualizarSenhaPorEmail(email, senhaHash) {
             { where: { email } }
         );
 
-        // Retorna se a atualização foi bem-sucedida
         return resultado[0] > 0;
     } catch (erro) {
         console.error('Erro ao atualizar senha no banco:', erro);

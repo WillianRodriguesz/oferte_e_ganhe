@@ -9,7 +9,6 @@ function obterDadosFormulario() {
     const nome = document.getElementById('nome').value;
     const confirmarSenha = document.getElementById('confirmarSenha').value;
 
-    // Verifica se as senhas coincidem
     if (senha !== confirmarSenha) {
         Swal.fire({
             icon: 'warning',
@@ -19,7 +18,6 @@ function obterDadosFormulario() {
         return null;
     }
 
-    // Verifica se todos os campos obrigatórios foram preenchidos
     if (!matricula || !id_loja || !email || !senha) {
         Swal.fire({
             icon: 'error',
@@ -29,7 +27,6 @@ function obterDadosFormulario() {
         return null;
     }
 
-    // Monta o objeto de dados da solicitação de acesso
     const solicitacaoData = {
         matricula,
         nome,
@@ -80,7 +77,6 @@ function limparCamposFormulario() {
     });
 }
 
-// Função que será chamada quando o formulário for enviado
 async function handleSolicitacaoAcesso(event) {
     event.preventDefault(); // Evita o envio do formulário padrão
     const solicitacaoData = obterDadosFormulario();

@@ -45,7 +45,6 @@ async function carregarPerfis() {
                     if (respAssociacoes.success) {
                         const respPerfil = await excluirPerfil(idPerfil);
                         if (respPerfil.success) {
-                            // Usando SweetAlert2 para sucesso na exclusão
                             await Swal.fire({
                                 icon: 'success',
                                 title: 'Perfil excluído!',
@@ -53,7 +52,6 @@ async function carregarPerfis() {
                             });
                             carregarPerfis();
                         } else {
-                            // Usando SweetAlert2 para erro na exclusão do perfil
                             await Swal.fire({
                                 icon: 'error',
                                 title: 'Erro!',
@@ -61,7 +59,6 @@ async function carregarPerfis() {
                             });
                         }
                     } else {
-                        // Usando SweetAlert2 para erro ao excluir associações
                         await Swal.fire({
                             icon: 'error',
                             title: 'Erro!',
@@ -70,7 +67,6 @@ async function carregarPerfis() {
                     }
                 } catch (error) {
                     console.error(error);
-                    // Usando SweetAlert2 para erro no processamento da exclusão
                     await Swal.fire({
                         icon: 'error',
                         title: 'Erro!',
@@ -89,7 +85,6 @@ async function carregarPerfis() {
         });
 
     } else {
-        // Usando SweetAlert2 para erro ao carregar perfis
         await Swal.fire({
             icon: 'error',
             title: 'Erro!',
@@ -122,11 +117,9 @@ async function abrirModalEditar(idPerfil) {
             }
         });
 
-        // Exibir o modal
         const modal = new bootstrap.Modal(document.getElementById('modalEditarPerfil'));
         modal.show();
 
-        // Adicionando o evento de clique no botão de salvar alterações
         const btnSalvarAlteracoes = document.querySelector('#formEditarPerfil button[type="submit"]');
         btnSalvarAlteracoes.onclick = async (event) => {
             event.preventDefault();
@@ -192,7 +185,6 @@ async function cadastrarNovoPerfil() {
                 }
             }
 
-            // Usando SweetAlert2 para sucesso no cadastro do perfil
             await Swal.fire({
                 icon: 'success',
                 title: 'Sucesso!',
@@ -201,7 +193,6 @@ async function cadastrarNovoPerfil() {
             carregarPerfis();
             document.getElementById("nome-perfil").value = "";
         } else {
-            // Usando SweetAlert2 para erro no cadastro do perfil
             await Swal.fire({
                 icon: 'error',
                 title: 'Erro!',
@@ -209,7 +200,6 @@ async function cadastrarNovoPerfil() {
             });
         }
     } catch (error) {
-        // Usando SweetAlert2 para erro no processo
         await Swal.fire({
             icon: 'error',
             title: 'Erro!',
@@ -241,7 +231,6 @@ async function salvarAlteracoes(idPerfil) {
             return;
         }
 
-        // Excluir associações antigas
         const respAssociacoesExcluir = await excluirAssociacaoPerfilModulo(idPerfil);
         if (!respAssociacoesExcluir.success) {
             await Swal.fire({
@@ -251,7 +240,6 @@ async function salvarAlteracoes(idPerfil) {
             });
         }
 
-        // Obter os módulos selecionados com base na lógica de regras
         const modulosSelecionados = Array.from(
             document.querySelectorAll('#modalEditarPerfil input[name="modulos[]"]:checked')
         ).map((checkbox) => parseInt(checkbox.value));

@@ -48,7 +48,7 @@ async function atualizarRegistro(id, data_envio, data_prevista, talao, observaca
         logEnvio.data_prevista = data_prevista;
         logEnvio.talao = talao;
         logEnvio.observacao = observacao;
-        await logEnvio.save(); // Salva as alterações no banco
+        await logEnvio.save(); 
 
         return logEnvio;
     } catch (erro) {
@@ -66,7 +66,7 @@ async function excluirRegistro(id) {
 
         if (!logEnvio) return null;
 
-        await logEnvio.destroy(); // Remove o registro do banco
+        await logEnvio.destroy(); 
 
         return logEnvio;
     } catch (erro) {

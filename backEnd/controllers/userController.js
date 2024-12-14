@@ -5,7 +5,7 @@ const {
     atualizarUsuario, 
     excluirUsuario } = require('../services/userServices');
 
-// Controlador para buscar todos os usuários
+// buscar todos os usuários
 const listarUsuarios = async (req, res) => {
     try {
         const usuarios = await obterUsuarios();
@@ -16,7 +16,7 @@ const listarUsuarios = async (req, res) => {
     }
 };
 
-// Controlador para buscar um usuário por ID
+// buscar um usuário por ID
 const buscarUsuarioId = async (req, res) => {
     const { id } = req.params;
     try {
@@ -32,7 +32,7 @@ const buscarUsuarioId = async (req, res) => {
     }
 };
 
-// Controlador para cadastrar um novo usuário
+// cadastrar um novo usuário
 const cadastrarUsuario = async (req, res) => {
     const { nome, matricula, email, senha, perfil, status, id_loja } = req.body;
     try {
@@ -43,7 +43,7 @@ const cadastrarUsuario = async (req, res) => {
     }
 };
 
-// Controlador para atualizar um usuário
+// atualizar um usuário
 const atualizarUsuarioInfo = async (req, res) => {
     const { id } = req.params;
     const { nome, matricula, email, senha, perfil, status, id_loja } = req.body;
@@ -58,7 +58,7 @@ const atualizarUsuarioInfo = async (req, res) => {
     }
 };
 
-// Controlador para excluir um usuário
+// excluir um usuário
 const excluirUsuarioInfo = async (req, res) => {
     const { id } = req.params;
     try {

@@ -15,7 +15,7 @@ async function verificarPermissao(req, res, next) {
         // Extrai o nome do módulo solicitado da URL
         const moduloSolicitado = req.originalUrl.split('/')[1];
 
-        // Verifica se o módulo solicitado está na lista de módulos do perfil (proveniente do token)
+        // Verifica se o módulo solicitado está na lista de módulos do perfil 
         if (!modulos.includes(moduloSolicitado)) {
             return res.status(403).json({ erro: `Acesso negado ao módulo '${moduloSolicitado}'.` });
         }

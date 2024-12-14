@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database'); // Configuração do banco
+const sequelize = require('../config/database'); 
 
 const Estoque = sequelize.define('Estoque', {
   id: {

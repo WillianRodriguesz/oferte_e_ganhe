@@ -7,12 +7,12 @@ const {
     excluirLoja
 } = require('../services/storesServices');
 
-// Controlador para servir a página de lojas
+// servir a página de lojas
 const exibirPaginaLojas = (req, res) => {
     res.sendFile(path.join(__dirname, '../../frontend/public/lojas.html'));
 };
 
-// Controlador para obter todas as lojas
+// obter todas as lojas
 const listarLojas = async (req, res) => {
     try {
         const lojas = await obterTodasLojas();
@@ -22,7 +22,7 @@ const listarLojas = async (req, res) => {
     }
 };
 
-// Controlador para obter uma loja por ID
+// obter uma loja por ID
 const obterLoja = async (req, res) => {
     const { id } = req.params;
     try {
@@ -36,7 +36,7 @@ const obterLoja = async (req, res) => {
     }
 };
 
-// Controlador para cadastrar uma nova loja
+// cadastrar uma nova loja
 const criarLoja = async (req, res) => {
     const { cod_unidade, id_estoque, logradouro, matriz } = req.body;
     try {
@@ -47,7 +47,7 @@ const criarLoja = async (req, res) => {
     }
 };
 
-// Controlador para atualizar uma loja pelo ID
+// atualizar uma loja pelo ID
 const atualizarLojaInfo = async (req, res) => {
     const { id } = req.params;
     const { cod_unidade, id_estoque, logradouro, matriz } = req.body;
@@ -62,7 +62,7 @@ const atualizarLojaInfo = async (req, res) => {
     }
 };
 
-// Controlador para excluir uma loja pelo ID
+// excluir uma loja pelo ID
 const excluirLojaInfo = async (req, res) => {
     const { id } = req.params;
     try {

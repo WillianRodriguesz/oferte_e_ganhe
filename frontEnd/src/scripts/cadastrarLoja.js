@@ -47,7 +47,7 @@ async function handleCadastroLoja(e) {
                 icon: 'success',
                 confirmButtonText: 'OK'
             }).then(() => {
-                clearFormFields(); // Limpa os campos após o sucesso
+                clearFormFields(); // Limpa os campos 
             });
         } else {
             Swal.fire({
@@ -71,17 +71,15 @@ async function handleCadastroLoja(e) {
 
 
 function clearFormFields() {
-    // Lista de IDs dos campos do formulário que precisam ser limpos
     const formFields = [
         'estoque-minimo', 'estoque-maximo', 'bairro', 'cidade', 'estado', 
         'cep', 'endereco', 'numero', 'codigo-unidade'
     ];
 
-    // Limpa o valor de cada campo
     formFields.forEach(fieldId => {
         const field = document.getElementById(fieldId);
         if (field) {
-            field.value = '';  // Limpa o campo de texto
+            field.value = '';  
         }
     });
 }

@@ -49,7 +49,7 @@ async function atualizarEstoque(id, qtd_atual, qtd_minima, qtd_maxima, status) {
         estoque.qtd_maxima = qtd_maxima;
         estoque.status = status;
 
-        await estoque.save(); // Salva as alterações no banco
+        await estoque.save(); 
 
         return estoque;
     } catch (erro) {
@@ -67,7 +67,7 @@ async function excluirEstoque(id) {
 
         if (!estoque) return null;
 
-        await estoque.destroy(); // Remove o item do estoque
+        await estoque.destroy(); 
 
         return estoque;
     } catch (erro) {
@@ -85,7 +85,7 @@ async function atualizarEstoquePorId(id, qtd_atual) {
         if (!estoque) return null;
 
         estoque.qtd_atual = qtd_atual;
-        await estoque.save(); // Salva as alterações no banco
+        await estoque.save(); 
 
         return estoque;
     } catch (erro) {

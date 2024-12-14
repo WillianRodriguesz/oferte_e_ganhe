@@ -10,7 +10,7 @@ export async function cadastrarLoja(lojaData) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`, // Adiciona o token aqui
+                'Authorization': `Bearer ${token}`, 
             },
             body: JSON.stringify(lojaData),
         });
@@ -57,7 +57,7 @@ export async function buscarLojas() {
             if (data && data.message) {
                 message = data.message;
             }
-            return { success: false, message }; // Retorna a mensagem de erro se não for bem-sucedido
+            return { success: false, message }; 
         }
     } catch (error) {
         console.error('Erro ao buscar as lojas:', error);
@@ -117,13 +117,13 @@ export async function buscarLojaPorId(id) {
         const data = await response.json();
 
         if (response.ok) {
-            return { success: true, data }; // Retorna os dados da loja
+            return { success: true, data }; 
         } else {
             let message = 'Erro ao buscar a loja.';
             if (data && data.message) {
                 message = data.message;
             }
-            return { success: false, message }; // Retorna a mensagem de erro
+            return { success: false, message }; 
         }
     } catch (error) {
         console.error(`Erro ao buscar a loja com ID ${id}:`, error);
@@ -140,7 +140,7 @@ export async function atualizarLoja(id, lojaData) {
         }
 
         const response = await fetch(`http://localhost:3000/lojas/${id}`, {
-            method: 'PUT', // Alterado para PUT para update
+            method: 'PUT', 
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,

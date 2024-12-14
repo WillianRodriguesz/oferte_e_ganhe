@@ -107,18 +107,16 @@ function obterDadosFormulario() {
 // Função para registrar o usuário
 async function registrarUsuario(usuarioData) {
     try {
-        const result = await cadastrarUsuario(usuarioData);  // Chama o serviço para cadastrar o usuário
+        const result = await cadastrarUsuario(usuarioData);  
 
         if (result.success) {
-            // Usando SweetAlert2 para sucesso
             Swal.fire({
                 icon: 'success',
                 title: 'Sucesso',
                 text: 'Usuário cadastrado com sucesso!'
             });
-            limparCamposFormulario();  // Limpa os campos do formulário
+            limparCamposFormulario();  
         } else {
-            // Usando SweetAlert2 para erro no cadastro
             Swal.fire({
                 icon: 'error',
                 title: 'Erro',
@@ -127,7 +125,6 @@ async function registrarUsuario(usuarioData) {
         }
     } catch (error) {
         console.error('Erro ao cadastrar usuário:', error);
-        // Usando SweetAlert2 para erro de sistema
         Swal.fire({
             icon: 'error',
             title: 'Erro',
@@ -137,7 +134,6 @@ async function registrarUsuario(usuarioData) {
 }
 
 
-// Função para limpar os campos do formulário
 function limparCamposFormulario() {
     const campos = [
         'nivel-acesso', 'loja-colaborador', 'matricula', 'nome', 
@@ -149,19 +145,18 @@ function limparCamposFormulario() {
     });
 }
 
-// Função que será chamada quando o formulário for enviado
 async function handleCadastroUsuario(event) {
-    event.preventDefault();  // Evita o envio do formulário padrão
+    event.preventDefault();  
     const usuarioData = obterDadosFormulario();
 
     if (usuarioData) {
-        await registrarUsuario(usuarioData);  // Registra o usuário
+        await registrarUsuario(usuarioData);  
     }
 }
 
 
-carregarLojas();  // Carrega as lojas
-carregarPerfis();  // Carrega os perfis
+carregarLojas();  
+carregarPerfis();  
 
 const formulario = document.querySelector('form');
-formulario.addEventListener('submit', handleCadastroUsuario);  // Registra o evento de submit
+formulario.addEventListener('submit', handleCadastroUsuario);  

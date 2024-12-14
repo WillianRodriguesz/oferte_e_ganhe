@@ -17,7 +17,7 @@ export async function listarUsuarios() {
         const data = await response.json();
 
         if (response.ok) {
-            return { success: true, data }; // Retorna os dados dos usuários
+            return { success: true, data }; 
         } else {
             let message = 'Erro ao buscar os usuários.';
             if (data && data.message) {
@@ -50,7 +50,7 @@ export async function buscarUsuarioPorId(id) {
         const data = await response.json();
 
         if (response.ok) {
-            return { success: true, data }; // Retorna os dados do usuário
+            return { success: true, data }; 
         } else {
             let message = 'Erro ao buscar o usuário.';
             if (data && data.message) {
@@ -84,7 +84,7 @@ export async function cadastrarUsuario(usuarioData) {
         const data = await response.json();
 
         if (response.ok) {
-            return { success: true, data }; // Retorna os dados do usuário cadastrado
+            return { success: true, data }; 
         } else {
             let message = 'Erro ao cadastrar o usuário.';
             if (data && data.message) {
@@ -111,7 +111,7 @@ export async function cadastrarUsuarioLogin(usuarioData) {
         const data = await response.json();
 
         if (response.ok) {
-            return { success: true, data }; // Retorna os dados do usuário cadastrado
+            return { success: true, data }; 
         } else {
             let message = 'Erro ao cadastrar o usuário.';
             if (data && data.message) {
@@ -146,7 +146,7 @@ export async function atualizarUsuario(id, usuarioData) {
         const data = await response.json();
 
         if (response.ok) {
-            return { success: true, data }; // Retorna o usuário atualizado
+            return { success: true, data }; 
         } else {
             let message = 'Erro ao atualizar o usuário.';
             if (data && data.message) {

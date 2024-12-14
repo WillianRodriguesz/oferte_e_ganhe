@@ -61,11 +61,9 @@ function configureSidebarNavigation() {
 
             button.addEventListener('click', async () => {
                 try {
-                    // Chamar a função de logout do loginService
-                    await logout();  // Aqui estamos chamando a função de logout
+                    await logout();  
         
-                    // Após o logout, redireciona para a página de login
-                    window.location.assign('/login'); // Ou use 'window.location.href' para redirecionar para a página de login
+                    window.location.assign('/login'); 
                 } catch (error) {
                     console.error('Erro ao tentar fazer logout:', error);
                 }
@@ -105,17 +103,15 @@ function configureSidebarNavigation() {
                     navButton.style.display = 'block';  
                     navButton.disabled = false;
 
-                    // Ativar o primeiro botão da lista visível
                     if (!firstButtonActivated) {
                         navButton.classList.add('selected');  
                         firstButtonActivated = true;  
-                        // Carregar o conteúdo relacionado ao primeiro botão
                         const pageToLoad = navButton.getAttribute('onclick').match(/'([^']+)'/)[1];  
                         loadContent(pageToLoad);
                     }
                 } else {
-                    navButton.style.display = 'none';   // Oculta outros botões
-                    navButton.disabled = true;          // Desabilita botões não correspondentes
+                    navButton.style.display = 'none';   
+                    navButton.disabled = true;          
                 }
             });
         });

@@ -1,26 +1,22 @@
 import { listarUsuarios, excluirUsuario, buscarUsuarioPorId, atualizarUsuario } from '../services/usuarioService.js';
 import { listarPerfis } from '../services/perfilService.js';
 
-// Função para carregar os usuários e preencher a tabela HTML
 async function carregarUsuarios() {
     try {
         const resultado = await listarUsuarios();
         if (resultado.success) {
             const usuarios = resultado.data;
-            const tabelaCorpo = document.querySelector('#usuarios-table tbody'); // Seleciona o corpo da tabela
+            const tabelaCorpo = document.querySelector('#usuarios-table tbody');
 
             console.log(usuarios);
 
-            tabelaCorpo.innerHTML = ''; // Limpa a tabela antes de adicionar novos dados
+            tabelaCorpo.innerHTML = '';
 
-            // Itera sobre os usuários e cria uma linha para cada um
             usuarios.forEach(usuario => {
                 const linha = document.createElement('tr');
 
-                // Verifica o status e exibe o texto correspondente
                 const statusUsuario = usuario.status ? 'Cadastrado' : 'Aguardando';
 
-                // Adiciona as células da linha com os dados do usuário
                 linha.innerHTML = `
                     <td>${usuario.nome}</td>
                     <td class="text-center">${usuario.email}</td>
@@ -36,11 +32,9 @@ async function carregarUsuarios() {
                     </td>
                 `;
 
-                // Adiciona a linha na tabela
                 tabelaCorpo.appendChild(linha);
             });
 
-            // Adiciona eventos aos botões de exclusão
             const botoesExcluir = document.querySelectorAll('.excluir-usuario');
             botoesExcluir.forEach(botao => {
                 botao.addEventListener('click', async (e) => {
@@ -60,7 +54,6 @@ async function carregarUsuarios() {
                 });
             });
 
-            // Adiciona eventos aos botões de edição
             const botoesEditar = document.querySelectorAll('.editar-usuario');
             botoesEditar.forEach(botao => {
                 botao.addEventListener('click', async (e) => {
@@ -69,7 +62,6 @@ async function carregarUsuarios() {
                 });
             });
         } else {
-            // Usando SweetAlert2 para erro de carregamento
             Swal.fire({
                 icon: 'error',
                 title: 'Erro!',
@@ -78,7 +70,6 @@ async function carregarUsuarios() {
         }
     } catch (error) {
         console.error('Erro ao carregar os usuários:', error);
-        // Usando SweetAlert2 para erro de sistema
         Swal.fire({
             icon: 'error',
             title: 'Erro!',
@@ -88,20 +79,17 @@ async function carregarUsuarios() {
 }
 
 
-// Função para excluir um usuário
 async function excluirUsuarioHandler(id) {
     try {
         const resultado = await excluirUsuario(id);
         if (resultado.success) {
-            // Usando SweetAlert2 para sucesso
             await Swal.fire({
                 icon: 'success',
                 title: 'Usuário excluído!',
                 text: resultado.message,
             });
-            carregarUsuarios(); // Recarrega a tabela após a exclusão
+            carregarUsuarios(); 
         } else {
-            // Usando SweetAlert2 para erro de exclusão
             await Swal.fire({
                 icon: 'error',
                 title: 'Erro!',
@@ -110,7 +98,6 @@ async function excluirUsuarioHandler(id) {
         }
     } catch (error) {
         console.error('Erro ao excluir o usuário:', error);
-        // Usando SweetAlert2 para erro de sistema
         await Swal.fire({
             icon: 'error',
             title: 'Erro!',
@@ -119,7 +106,6 @@ async function excluirUsuarioHandler(id) {
     }
 }
 
-// Função para abrir o modal de edição e preencher os dados do usuário
 async function abrirModalEdicao(id) {
   try {
     const resultado = await buscarUsuarioPorId(id);
@@ -138,12 +124,12 @@ async function abrirModalEdicao(id) {
       const perfisResultado = await listarPerfis();
       if (perfisResultado.success) {
         const selectPerfil = document.getElementById('editar-perfil');
-        selectPerfil.innerHTML = ''; // Limpa o conteúdo anterior
+        selectPerfil.innerHTML = ''; 
 
         perfisResultado.data.forEach(perfil => {
           const option = document.createElement('option');
-          option.value = perfil.id; // Define o ID como valor
-          option.textContent = perfil.funcao; // Nome visível no select
+          option.value = perfil.id; 
+          option.textContent = perfil.funcao; 
           
           // Define o perfil atual como selecionado se corresponder ao do usuário
           if (usuario.Perfil && usuario.Perfil.id === perfil.id) {
@@ -185,7 +171,6 @@ async function salvarEdicaoUsuario(event) {
     try {
         const resultado = await atualizarUsuario(id, { nome, email, id_loja: idLoja, status, perfil });
         if (resultado.success) {
-            // Usando SweetAlert2 para sucesso
             await Swal.fire({
                 icon: 'success',
                 title: 'Usuário atualizado!',
@@ -196,7 +181,6 @@ async function salvarEdicaoUsuario(event) {
             const modal = bootstrap.Modal.getInstance(document.getElementById('modalEditarUsuario'));
             modal.hide();
         } else {
-            // Usando SweetAlert2 para erro
             await Swal.fire({
                 icon: 'error',
                 title: 'Erro!',
@@ -205,7 +189,6 @@ async function salvarEdicaoUsuario(event) {
         }
     } catch (error) {
         console.error('Erro ao atualizar o usuário:', error);
-        // Usando SweetAlert2 para erro de sistema
         await Swal.fire({
             icon: 'error',
             title: 'Erro!',
@@ -235,5 +218,4 @@ document.getElementById('filtro-nome').addEventListener('input', filtrarUsuarios
 // Adiciona o evento ao formulário de edição
 document.getElementById('form-editar-usuario').addEventListener('submit', salvarEdicaoUsuario);
 
-// Inicializa o carregamento dos usuários
 carregarUsuarios();

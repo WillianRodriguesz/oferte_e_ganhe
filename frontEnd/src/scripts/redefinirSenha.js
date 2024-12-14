@@ -7,28 +7,22 @@ function setupRedefinirSenhaHandler() {
         return;
     }
 
-    // Seleciona os campos de senha no formulário
     const senhaInput = form.querySelector('input[type="password"]:first-of-type');
     const confirmarSenhaInput = form.querySelector('input[type="password"]:last-of-type');
 
-    // Verifica se os campos existem
     if (!senhaInput || !confirmarSenhaInput) {
         console.error('Campos de senha não encontrados');
         return;
     }
 
-    // Evento de envio do formulário
     form.addEventListener('submit', async function (e) {
         e.preventDefault();
 
-        // Obtem os valores das senhas
         const senha = senhaInput.value.trim();
         const confirmarSenha = confirmarSenhaInput.value.trim();
 
-        // Captura o token da URL
         const token = new URLSearchParams(window.location.search).get('token');
 
-        // Verifica se o token foi encontrado na URL
         if (!token) {
             Swal.fire({
                 icon: 'error',
@@ -38,7 +32,6 @@ function setupRedefinirSenhaHandler() {
             return;
         }
 
-        // Verifica se as senhas digitadas são iguais
         if (senha !== confirmarSenha) {
             Swal.fire({
                 icon: 'warning',
@@ -49,7 +42,6 @@ function setupRedefinirSenhaHandler() {
         }
 
         try {
-            // Envia a requisição para o backend
             const response = await fetch('/login/redefinir-senha', {
                 method: 'POST',
                 headers: {
@@ -58,10 +50,8 @@ function setupRedefinirSenhaHandler() {
                 body: JSON.stringify({ token, novaSenha: senha }),
             });
 
-            // Converte a resposta para JSON
             const result = await response.json();
 
-            // Verifica se a resposta foi bem-sucedida
             if (response.ok) {
                 Swal.fire({
                     icon: 'success',
@@ -92,5 +82,4 @@ function setupRedefinirSenhaHandler() {
     });
 }
 
-// Chama a função diretamente
 setupRedefinirSenhaHandler();
