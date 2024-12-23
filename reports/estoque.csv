@@ -1,8 +1,8 @@
 Relatório de Estoque - Exportação de Dados
 
 id_loja,id_estoque,qtd_atual,qtd_minima,qtd_maxima,status
-1001,1,251,10,100,baixo
-1002,1,251,10,100,baixo
+1001,1,105,10,100,baixo
+1002,1,105,10,100,baixo
 2020,29,50,10,50,cheio
 1520,31,2,10,50,baixo
-1370,30,0,10,100,medio
+1370,30,20,10,100,medio
