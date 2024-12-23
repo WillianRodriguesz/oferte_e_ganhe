@@ -73,8 +73,8 @@ Abaixo estão algumas imagens do projeto em funcionamento:
    ```bash
    npm start
 
-**Desenvolvedor: [Willian Rodrigues]**
-**E-mail: [willianrdriguesz@gmail.com]**
+**Desenvolvedor: Willian Rodrigues**
+**E-mail: willianrdriguesz@gmail.com**
 
 
 
