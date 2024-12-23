@@ -74,6 +74,8 @@ Abaixo estão algumas imagens do projeto em funcionamento:
    npm start
 
 **Desenvolvedor: Willian Rodrigues**
+
+
 **E-mail: willianrdriguesz@gmail.com**
 
 
