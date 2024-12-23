@@ -2,7 +2,6 @@ import { buscarLojas, buscarLojaPorId, excluirLoja, atualizarLoja } from '../ser
 import { atualizarLogradouro, excluirLogradouro } from '../services/enderecoService.js';
 import { atualizarEstoque, excluirEstoque } from '../services/estoqueService.js';
 
-// Função para carregar as lojas e preencher a tabela HTML
 async function carregarLojas(filtro = '') {
     const resultado = await buscarLojas(); 
     if (resultado.success) {
@@ -12,13 +11,11 @@ async function carregarLojas(filtro = '') {
         // Limpa a tabela antes de adicionar os dados
         tabelaCorpo.innerHTML = '';
 
-        // Filtra as lojas conforme o filtro (por nome da unidade)
         const lojasFiltradas = lojas.filter(loja => {
             return String(loja.cod_unidade).includes(filtro) || 
                    (loja.Address && loja.Address.cidade && loja.Address.cidade.toLowerCase().includes(filtro.toLowerCase()));
         });
 
-        // Itera sobre as lojas filtradas e cria uma linha para cada uma
         lojasFiltradas.forEach(loja => {
             const cidade = loja.Address?.cidade || 'Não informado'; 
             const enderecoCompleto = loja.Address
@@ -27,7 +24,6 @@ async function carregarLojas(filtro = '') {
 
             const linha = document.createElement('tr'); 
 
-            // Adiciona as células da linha com os dados da loja
             linha.innerHTML = `
                 <td>${loja.cod_unidade}</td>
                 <td>${cidade}</td>
@@ -42,11 +38,9 @@ async function carregarLojas(filtro = '') {
                 </td>
             `;
 
-            // Adiciona a linha na tabela
             tabelaCorpo.appendChild(linha);
         });
 
-        // Adiciona o evento de exclusão após a renderização
         document.querySelectorAll('.excluir-btn').forEach(button => {
             button.addEventListener('click', (event) => {
                 const codUnidade = event.target.closest('button').getAttribute('data-id');
@@ -54,7 +48,6 @@ async function carregarLojas(filtro = '') {
             });
         });
 
-        // Adiciona o evento de edição após a renderização
         document.querySelectorAll('.editar-btn').forEach(button => {
             button.addEventListener('click', (event) => {
                 const codUnidade = event.target.closest('button').getAttribute('data-id');
@@ -67,7 +60,6 @@ async function carregarLojas(filtro = '') {
     }
 }
 
-// Função de busca ao digitar no campo de filtro
 document.getElementById('filtro-unidade').addEventListener('input', (event) => {
     const filtro = event.target.value; 
     carregarLojas(filtro); 
@@ -79,7 +71,6 @@ async function abrirModalEditarLoja(codUnidade) {
     const resultado = await buscarLojaPorId(codUnidade); 
     if (resultado.success) {
         loja = resultado.data;
-        // Verificar se os elementos do modal existem antes de tentar preenchê-los
         const unidadeInput = document.getElementById('editar-unidade');
         const enderecoInput = document.getElementById('editar-endereco');
         const cidadeInput = document.getElementById('editar-cidade');
@@ -91,7 +82,6 @@ async function abrirModalEditarLoja(codUnidade) {
         const numeroInput = document.getElementById('editar-numero');
 
         if (unidadeInput && enderecoInput && cidadeInput) {
-            // Preenche os campos do modal com os dados da loja
             unidadeInput.value = loja.cod_unidade;
             enderecoInput.value = loja.Address.endereco || '';
             cidadeInput.value = loja.Address.cidade || '';
@@ -102,7 +92,6 @@ async function abrirModalEditarLoja(codUnidade) {
             cepInput.value = loja.Address.cep || '';
             numeroInput.value = loja.Address.numero || '';
 
-            // Usando Vanilla JS para abrir o modal (sem jQuery)
             const modalElement = document.getElementById('modalEditarLoja');
             const modal = new bootstrap.Modal(modalElement);
             modal.show();
@@ -115,9 +104,8 @@ async function abrirModalEditarLoja(codUnidade) {
     }
 }
 
-// Função para salvar as alterações da loja
 async function salvarAlteracoesLoja(event) {
-    event.preventDefault(); // Impede o envio do formulário padrão
+    event.preventDefault(); 
 
     const codUnidade = document.getElementById('editar-unidade').value;
     const endereco = document.getElementById('editar-endereco').value;
@@ -145,7 +133,6 @@ async function salvarAlteracoesLoja(event) {
     };
     
     try {
-        // Usando SweetAlert2 para informar sobre a atualização
         Swal.fire({
             title: 'Aguarde...',
             text: 'Atualizando a loja...',
@@ -225,11 +212,10 @@ async function excluirLojaComConfirmacao(codUnidade) {
                 return;
             }
 
-            const loja = resultado.data; // Dados da loja recém recuperados
+            const loja = resultado.data; 
             const idEstoque = loja.id_estoque; 
             const logradouro = loja.logradouro; 
             
-            // Excluir a loja
             const resultLoja = await excluirLoja(codUnidade);
             if (!resultLoja.success) {
                 Swal.fire({
@@ -241,7 +227,6 @@ async function excluirLojaComConfirmacao(codUnidade) {
                 return;  
             }
 
-            // Excluir o estoque
             const resultEstoque = await excluirEstoque(idEstoque);
             if (!resultEstoque.success) {
                 Swal.fire({
@@ -253,7 +238,6 @@ async function excluirLojaComConfirmacao(codUnidade) {
                 return; 
             }
 
-            // Excluir o endereço
             const resultEndereco = await excluirLogradouro(logradouro);
             if (!resultEndereco.success) {
                 console.log(resultEndereco.message);

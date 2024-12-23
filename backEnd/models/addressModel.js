@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database'); // Certifique-se de que `sequelize` está configurado corretamente
+const sequelize = require('../config/database'); 
 
 const Address = sequelize.define('Address', {
     id: {

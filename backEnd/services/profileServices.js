@@ -45,7 +45,7 @@ async function atualizarPerfil(id, funcao) {
         if (!perfil) return null;
 
         perfil.funcao = funcao;
-        await perfil.save(); // Salva as alterações no banco
+        await perfil.save(); 
 
         return perfil;
     } catch (erro) {
@@ -63,7 +63,7 @@ async function excluirPerfil(id) {
 
         if (!perfil) return null;
 
-        await perfil.destroy(); // Remove o registro do banco
+        await perfil.destroy(); 
 
         return perfil;
     } catch (erro) {
@@ -74,7 +74,6 @@ async function excluirPerfil(id) {
 
 async function editarFuncaoPerfil(id, novaFuncao) {
     try {
-        // Atualizando o perfil no banco de dados
         const resultado = await atualizarPerfil(id, novaFuncao);
 
         if (resultado) {

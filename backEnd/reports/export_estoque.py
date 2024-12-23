@@ -35,14 +35,12 @@ def export_estoque():
         reports_dir = os.path.join(project_root, 'reports')
         os.makedirs(reports_dir, exist_ok=True)
 
-        # Define o caminho para o arquivo CSV
         csv_path = os.path.join(reports_dir, 'estoque.csv')
 
         # Adicionando título à primeira linha para melhorar a visualização no Excel
         with open(csv_path, 'w', encoding='utf-8') as file:
-            # Escrever um título na primeira linha
             file.write("Relatório de Estoque - Exportação de Dados\n")
-            file.write("\n")  # Linha em branco para separar o título dos dados
+            file.write("\n") 
 
         # Exportando para CSV com vírgula como separador
         df.to_csv(csv_path, index=False, sep=',', encoding='utf-8', mode='a')

@@ -17,7 +17,7 @@ export async function listarPerfis() {
         const data = await response.json();
 
         if (response.ok) {
-            return { success: true, data }; // Retorna os dados dos perfis
+            return { success: true, data }; 
         } else {
             let message = 'Erro ao buscar os perfis.';
             if (data && data.message) {
@@ -50,7 +50,7 @@ export async function buscarPerfilPorId(id) {
         const data = await response.json();
 
         if (response.ok) {
-            return { success: true, data }; // Retorna o perfil encontrado
+            return { success: true, data }; 
         } else {
             let message = 'Erro ao buscar o perfil.';
             if (data && data.message) {
@@ -84,7 +84,7 @@ export async function cadastrarPerfil(perfilData) {
         const data = await response.json();
 
         if (response.ok) {
-            return { success: true, data }; // Retorna os dados do perfil criado
+            return { success: true, data }; 
         } else {
             let message = 'Erro ao cadastrar o perfil.';
             if (data && data.message) {
@@ -118,7 +118,7 @@ export async function atualizarPerfil(id, perfilData) {
         const data = await response.json();
 
         if (response.ok) {
-            return { success: true, data }; // Retorna o perfil atualizado
+            return { success: true, data }; 
         } else {
             let message = 'Erro ao atualizar o perfil.';
             if (data && data.message) {
@@ -185,7 +185,7 @@ export async function editarFuncaoPerfil(id, dadosPerfil) {
         const data = await response.json();
 
         if (response.ok) {
-            return { success: true, data }; // Retorna o perfil editado com sucesso
+            return { success: true, data }; 
         } else {
             let message = 'Erro ao editar a função do perfil.';
             if (data && data.message) {

@@ -38,12 +38,10 @@ async function gerarRelatorio(scriptNome, arquivoSaida) {
             stderr.push(stderrMessage);
         });
 
-        // Quando o processo Python terminar
         pythonProcess.on('close', () => {
             console.log("Processo Python finalizado.");
         });
 
-        // Finaliza o processo Python e trata o retorno
         pythonProcess.end((err, code, signal) => {
             if (err) {
                 console.error(`Erro no processo Python: ${err.message}`);

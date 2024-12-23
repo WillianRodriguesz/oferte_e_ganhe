@@ -1,5 +1,8 @@
 Relatório de Talões - Exportação de Dados (Status: Recebido)
 
 id,numero_remessa,qtd_talao,destinatario,status,data_envio,data_prevista,data_recebimento,observacao
-14,6888,150,1001,Recebido,2024-12-12,2024-12-16,2024-12-11,Sem observações
 9,6222,50,2020,Recebido,2024-12-05,2024-12-07,2024-12-07,Sem observações
+28,9699,50,1002,Recebido,2024-12-13,2024-12-16,2024-12-13,Sem observações
+21,9654,96,1001,Recebido,2024-12-13,2024-12-13,2024-12-13,Sem observações
+14,6888,30,1001,Recebido,2024-12-25,2024-12-06,2024-12-13,Sem observações
+20,9875,96,1001,Recebido,2024-12-12,2024-12-13,2024-12-16,Sem observações

@@ -17,7 +17,6 @@ const autenticarUsuario = async (req, res) => {
             return res.status(401).json({ erro: 'Credenciais inválidas' });
         }
 
-        // Busca o perfil do usuário
         const perfilUsuario = await Perfil.findOne({
             where: { id: usuario.perfil }
         });
@@ -72,7 +71,6 @@ const autenticarUsuario = async (req, res) => {
 
 const logoutUsuario = (req, res) => {
     try {
-        // Remove o cookie auth_token
         res.clearCookie('auth_token');
         res.status(200).json({ mensagem: 'Logout realizado com sucesso!' });
     } catch (erro) {
@@ -104,7 +102,6 @@ const enviarEmailRedefinicao = async (req, res) => {
             ${link}
         `;
 
-        // Chamando a função 'enviarEmail' do loginService
         await enviarEmail(email, 'Redefinição de Senha', mensagem);
 
         res.status(200).json({ mensagem: 'E-mail de redefinição enviado com sucesso!' });
@@ -119,8 +116,6 @@ const redefinirSenha = async (req, res) => {
 
     try {
         console.log('Token recebido:', token);
-
-        // Verifique se o token existe no body
         if (!token) {
             return res.status(400).json({ erro: 'Token não informado.' });
         }

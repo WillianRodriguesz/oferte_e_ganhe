@@ -45,7 +45,7 @@ async function atualizarModulo(id, nome) {
         if (!modulo) return null;
 
         modulo.nome = nome;
-        await modulo.save(); // Salva as alterações no banco
+        await modulo.save(); 
 
         return modulo;
     } catch (erro) {
@@ -63,7 +63,7 @@ async function excluirModulo(id) {
 
         if (!modulo) return null;
 
-        await modulo.destroy(); // Remove o registro do banco
+        await modulo.destroy(); 
 
         return modulo;
     } catch (erro) {

@@ -37,13 +37,11 @@ async function validacaoLogin(e) {
     const senha = senhaInput.value;
 
     if (email && senha) {
-        // Chama a função de enviar o login para a API
         const result = await enviarLogin(email, senha);
 
         if (result.success) {
             window.location.assign('/home');
         } else {
-            // Exibe o alerta de erro com SweetAlert2
             console.error('Erro no login:', result.message);
             Swal.fire({
                 icon: 'error',
@@ -56,7 +54,6 @@ async function validacaoLogin(e) {
                 }
             });
 
-            // Incrementa o contador de tentativas erradas
             tentativasErradas++;
 
             if (tentativasErradas >= 3) {
@@ -79,5 +76,4 @@ async function validacaoLogin(e) {
     }
 }
 
-// Adiciona o evento de clique no botão de login
 btnLogin.addEventListener('click', validacaoLogin);

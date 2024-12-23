@@ -7,10 +7,9 @@ const {
     gerarRelatorioTalao
 } = require('../services/reportingService');
 
-// Caminho relativo para o diretório onde o CSV será gerado
 const DIRETORIO_CSV = path.join(__dirname, '../../reports'); 
 
-// Função do controlador para exportar e enviar o CSV de usuários
+// exportar e enviar o CSV de usuários
 const exportarRelatorioUsuarios = async (req, res) => {
     try {
         const csvFilePath = await gerarRelatorioUsuario();
@@ -27,7 +26,7 @@ const exportarRelatorioUsuarios = async (req, res) => {
     }
 };
 
-// Função do controlador para exportar e enviar o CSV de estoque
+// exportar e enviar o CSV de estoque
 const exportarRelatorioEstoque = async (req, res) => {
     try {
         const csvFilePath = await gerarRelatorioEstoque();
@@ -44,7 +43,7 @@ const exportarRelatorioEstoque = async (req, res) => {
     }
 };
 
-// Função do controlador para exportar e enviar o CSV de perfis
+// enviar o CSV de perfis
 const exportarRelatorioPerfis = async (req, res) => {
     try {
         const csvFilePath = await gerarRelatorioPerfis();
@@ -61,7 +60,7 @@ const exportarRelatorioPerfis = async (req, res) => {
     }
 };
 
-// Função do controlador para exportar e enviar o CSV de recebimentos
+//exportar e enviar o CSV de recebimentos
 const exportarRelatorioRecebimento = async (req, res) => {
     try {
         const csvFilePath = await gerarRelatorioRecebimento();
@@ -78,7 +77,7 @@ const exportarRelatorioRecebimento = async (req, res) => {
     }
 };
 
-// Função do controlador para exportar e enviar o CSV de talões
+//exportar e enviar o CSV de talões
 const exportarRelatorioTalao = async (req, res) => {
     try {
         const csvFilePath = await gerarRelatorioTalao();

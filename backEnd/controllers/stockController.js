@@ -8,12 +8,12 @@ const {
 } = require('../services/stockServices');
 const path = require('path');
 
-// Controlador para servir a página de estoque
+//  servir a página de estoque
 const exibirPaginaEstoque = (req, res) => {
     res.sendFile(path.join(__dirname, '../../frontend/public/estoque.html'));
 };
 
-// Controlador para cadastrar um novo item no estoque
+//  cadastrar um novo item no estoque
 const criarEstoque = async (req, res) => {
     const { qtd_atual, qtd_minima, qtd_maxima, status } = req.body;
     try {
@@ -29,7 +29,7 @@ const criarEstoque = async (req, res) => {
     }
 };
 
-// Controlador para obter todos os itens do estoque
+//  obter todos os itens do estoque
 const listarItensEstoque = async (req, res) => {
     try {
         const estoques = await obterTodosEstoques();
@@ -39,7 +39,7 @@ const listarItensEstoque = async (req, res) => {
     }
 };
 
-// Controlador para obter um item de estoque por ID
+//  obter um item de estoque por ID
 const obterItemEstoque = async (req, res) => {
     const { id } = req.params;
     try {
@@ -53,7 +53,7 @@ const obterItemEstoque = async (req, res) => {
     }
 };
 
-// Controlador para atualizar um item de estoque pelo ID
+//  atualizar um item de estoque pelo ID
 const atualizarItemEstoque = async (req, res) => {
     const { id } = req.params;
     const { qtd_atual, qtd_minima, qtd_maxima, status } = req.body;
@@ -68,7 +68,7 @@ const atualizarItemEstoque = async (req, res) => {
     }
 };
 
-// Controlador para excluir um item de estoque pelo ID
+//  excluir um item de estoque pelo ID
 const excluirItemEstoque = async (req, res) => {
     const { id } = req.params;
     try {

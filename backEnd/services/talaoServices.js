@@ -83,12 +83,12 @@ async function atualizarStatusTalao(id, novoStatus) {
             where: { id: id }
         });
 
-        if (!talao) return null; // Retorna null se o talão não for encontrado
+        if (!talao) return null; 
 
-        talao.status = novoStatus; // Atualiza apenas o status
-        await talao.save(); // Salva a alteração no banco
+        talao.status = novoStatus; 
+        await talao.save(); 
 
-        return talao; // Retorna o talão atualizado
+        return talao; 
     } catch (erro) {
         console.error('Erro ao atualizar status do talão:', erro);
         throw erro;
@@ -113,15 +113,14 @@ async function editarRecebimento(id, data_recebimento, status) {
             where: { id: id }
         });
 
-        if (!talao) return null; // Retorna null caso o talão não seja encontrado
+        if (!talao) return null; 
 
-        // Atualiza apenas os campos necessários
         talao.data_recebimento = data_recebimento;
         talao.status = status;
 
-        await talao.save(); // Salva as alterações no banco de dados
+        await talao.save(); 
 
-        return talao; // Retorna o talão atualizado
+        return talao; 
     } catch (erro) {
         console.error('Erro ao editar data_recebimento e status:', erro);
         throw erro;

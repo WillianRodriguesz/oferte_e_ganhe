@@ -89,7 +89,6 @@ const editarFuncaoPerfilController = async (req, res) => {
     }
 };
 
-// Controlador para servir o arquivo HTML
 const exibirPaginaPerfis = (req, res) => {
     res.sendFile(path.join(__dirname, '../../frontend/public/perfis.html'));
 };

@@ -15,7 +15,7 @@ export async function obterTodosPerfisModulos() {
             throw new Error(data.message || 'Erro ao buscar perfis de módulos.');
         }
 
-        return data; // Retorna todos os perfis de módulos
+        return data; 
     } catch (error) {
         console.error('Erro ao buscar perfis de módulos:', error.message);
         throw new Error(error.message);
@@ -39,7 +39,7 @@ export async function obterPerfilModuloPorId(id) {
             throw new Error(data.message || 'Erro ao buscar o perfil do módulo.');
         }
 
-        return data; // Retorna os dados do perfil do módulo
+        return data; 
     } catch (error) {
         console.error('Erro ao buscar o perfil do módulo:', error.message);
         throw new Error(error.message);
@@ -64,7 +64,7 @@ export async function criarAssociacaoPerfilModulo(perfilModuloData) {
             throw new Error(data.message || 'Erro ao criar associação de perfil ao módulo.');
         }
 
-        return data; // Retorna o resultado da criação
+        return data; 
     } catch (error) {
         console.error('Erro ao criar associação de perfil ao módulo:', error.message);
         throw new Error(error.message);
@@ -88,14 +88,13 @@ export async function excluirAssociacaoPerfilModulo(id) {
             throw new Error(data.message || 'Erro ao excluir associação de perfil ao módulo.');
         }
 
-        return { success: true }; // Indica que a exclusão foi bem-sucedida
+        return { success: true }; 
     } catch (error) {
         console.error('Erro ao excluir associação de perfil ao módulo:', error.message);
         throw new Error(error.message);
     }
 }
 
-// Busca todos os módulos associados a um perfil específico pelo ID
 export async function obterModulosPorPerfilId(id) {
     const token = localStorage.getItem('auth_token');
     
@@ -113,7 +112,7 @@ export async function obterModulosPorPerfilId(id) {
             throw new Error(data.message || 'Erro ao buscar os módulos associados ao perfil.');
         }
 
-        return data.modulosIds; // Retorna os IDs dos módulos associados
+        return data.modulosIds; 
     } catch (error) {
         console.error('Erro ao buscar os módulos associados:', error.message);
         throw new Error(error.message);

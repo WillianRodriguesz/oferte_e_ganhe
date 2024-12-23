@@ -10,7 +10,7 @@ export async function enviarTalao(talaoData) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`, // Adiciona o token aqui
+                'Authorization': `Bearer ${token}`, 
             },
             body: JSON.stringify(talaoData),
         });
@@ -51,7 +51,7 @@ export async function buscarTaloes() {
         const data = await response.json();
 
         if (response.ok) {
-            return { success: true, data }; // Retorna os dados dos talões
+            return { success: true, data }; 
         } else {
             let message = 'Erro ao buscar os talões.';
             if (data && data.message) {
@@ -117,7 +117,7 @@ export async function buscarTalaoPorId(id) {
         const data = await response.json();
 
         if (response.ok) {
-            return { success: true, data }; // Retorna os dados do talão
+            return { success: true, data }; 
         } else {
             let message = 'Erro ao buscar o talão.';
             if (data && data.message) {
@@ -179,13 +179,13 @@ export async function atualizarStatusTalao(id, status) {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,
             },
-            body: JSON.stringify({ status }), // Apenas o status será enviado
+            body: JSON.stringify({ status }), 
         });
 
         const data = await response.json();
 
         if (response.ok) {
-            return { success: true, data }; // Retorna o talão atualizado
+            return { success: true, data }; 
         } else {
             let message = 'Erro ao atualizar o status do talão.';
             if (data && data.message) {
@@ -218,7 +218,7 @@ export async function obterTalaoPorNumeroRemessa(numeroRemessa) {
         const data = await response.json();
 
         if (response.ok) {
-            return { success: true, data }; // Retorna os dados do talão
+            return { success: true, data }; 
         } else {
             let message = 'Erro ao buscar o talão pelo número da remessa.';
             if (data && data.message) {
@@ -288,7 +288,7 @@ export async function buscarTalaoPorDestinatario(destinatario) {
         const data = await response.json();
 
         if (response.ok) {
-            return { success: true, data }; // Retorna os talões encontrados
+            return { success: true, data }; 
         } else {
             let message = 'Erro ao buscar os talões pelo destinatário.';
             if (data && data.message) {

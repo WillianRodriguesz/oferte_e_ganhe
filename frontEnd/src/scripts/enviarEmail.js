@@ -64,5 +64,4 @@ function setupFormHandler() {
     });
 }
 
-// Chama a função diretamente
 setupFormHandler();

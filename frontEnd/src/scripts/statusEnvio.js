@@ -15,7 +15,6 @@ async function carregarStatusEnvio() {
 
         const tabelaCorpo = document.querySelector('#status-table-body'); 
 
-        // Limpa a tabela antes de adicionar os dados
         tabelaCorpo.innerHTML = '';
         statusEnvio.forEach(envio => {
             const linha = document.createElement('tr');
@@ -57,14 +56,13 @@ async function carregarStatusEnvio() {
 
             tabelaCorpo.appendChild(linha);
 
-            // Adiciona o evento de clique para exibir os detalhes após a renderização
             const btnDetalhes = document.querySelector(`#btn-detalhes-${envio.id}`);
             btnDetalhes.addEventListener('click', () => {
                 exibirDetalhesEnvio(envio.id); 
             });
         });
     } else {
-        alert(resultado.message); // Exibe a mensagem de erro se a busca falhar
+        alert(resultado.message); 
     }
 }
 
@@ -105,17 +103,14 @@ async function exibirDetalhesEnvio(id) {
             </form>
         `;
 
-        // Exibe o modal
         const modal = new bootstrap.Modal(document.getElementById('modalDetalhes'));
         modal.show();
 
-        // Adiciona o botão salvar ao rodapé somente se o status for "Aguardando"
         const modalFooter = document.querySelector('.modal-footer');
         modalFooter.innerHTML = editavel 
             ? `<button type="button" class="btn btn-primary" id="btn-salvar-detalhes">Salvar</button>` 
             : '';
 
-        // Evento para salvar as alterações
         if (editavel) {
             document.getElementById('btn-salvar-detalhes').addEventListener('click', async () => {
                 const dataTalao = {
@@ -132,16 +127,14 @@ async function exibirDetalhesEnvio(id) {
 
                 const resultadoAtualizacao = await atualizarTalao(id, dataTalao);
                 if (resultadoAtualizacao.success) {
-                    // Usando SweetAlert2 para sucesso
                     await Swal.fire({
                         icon: 'success',
                         title: 'Sucesso!',
                         text: 'Talão atualizado com sucesso!',
                     });
                     modal.hide();
-                    carregarStatusEnvio(); // Atualiza a tabela
+                    carregarStatusEnvio(); 
                 } else {
-                    // Usando SweetAlert2 para erro
                     await Swal.fire({
                         icon: 'error',
                         title: 'Erro',
@@ -151,7 +144,6 @@ async function exibirDetalhesEnvio(id) {
             });
         }
     } else {
-        // Usando SweetAlert2 para erro ao carregar os detalhes
         await Swal.fire({
             icon: 'error',
             title: 'Erro',
@@ -214,7 +206,6 @@ document.getElementById('btn-enviar').addEventListener('click', async function (
         }
 
         if (sucessoTotal) {
-            // Usando SweetAlert2 para sucesso
             await Swal.fire({
                 icon: 'success',
                 title: 'Sucesso!',
@@ -222,7 +213,6 @@ document.getElementById('btn-enviar').addEventListener('click', async function (
             });
             carregarStatusEnvio(); 
         } else {
-            // Usando SweetAlert2 para erro
             await Swal.fire({
                 icon: 'error',
                 title: 'Erro',
@@ -230,7 +220,6 @@ document.getElementById('btn-enviar').addEventListener('click', async function (
             });
         }
     } else {
-        // Usando SweetAlert2 para aviso caso nenhum envio seja selecionado
         await Swal.fire({
             icon: 'warning',
             title: 'Atenção',
@@ -239,8 +228,6 @@ document.getElementById('btn-enviar').addEventListener('click', async function (
     }
 });
 
-
-// Função para excluir talões
 document.getElementById('btn-excluir').addEventListener('click', async function () {
     const selectedCheckboxes = document.querySelectorAll('.form-check-input:checked:not(:disabled)');
     const ids = [];
@@ -253,7 +240,7 @@ document.getElementById('btn-excluir').addEventListener('click', async function 
         let sucessoTotal = true;
 
         for (const id of ids) {
-            const resultado = await excluirTalao(id); // Chama o método de exclusão do seu talaoService
+            const resultado = await excluirTalao(id); 
             if (!resultado.success) {
                 sucessoTotal = false;
                 console.error(`Erro ao excluir talão com ID ${id}:`, resultado.message);
@@ -261,15 +248,13 @@ document.getElementById('btn-excluir').addEventListener('click', async function 
         }
 
         if (sucessoTotal) {
-            // Usando SweetAlert2 para sucesso
             await Swal.fire({
                 icon: 'success',
                 title: 'Sucesso!',
                 text: 'Talões excluídos com sucesso!',
             });
-            carregarStatusEnvio(); // Recarrega a tabela após a exclusão
+            carregarStatusEnvio(); 
         } else {
-            // Usando SweetAlert2 para erro
             await Swal.fire({
                 icon: 'error',
                 title: 'Erro',
@@ -277,7 +262,6 @@ document.getElementById('btn-excluir').addEventListener('click', async function 
             });
         }
     } else {
-        // Usando SweetAlert2 para alerta de erro caso não selecione talões
         await Swal.fire({
             icon: 'warning',
             title: 'Atenção',
@@ -287,5 +271,4 @@ document.getElementById('btn-excluir').addEventListener('click', async function 
 });
 
 
-// Carregar os status de envio quando a página for carregada
 carregarStatusEnvio();
