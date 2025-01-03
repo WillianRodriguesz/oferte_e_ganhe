@@ -51,13 +51,13 @@ async function enviarEmail(email, subject, message) {
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: 'redefinirsenhaemail24@gmail.com', 
-                pass: 'lhud hdmw uyzp clnr', 
+                user: 'ADICIONAR SEU EMAIL AQUI', 
+                pass: 'ADICIONAR SEU TOKEN AQUI', 
             },
         });
 
         const mailOptions = {
-            from: 'redefinirsenhaemail24@gmail.com',
+            from: 'ADICIONAR SEU EMAIL AQUI',
             to: email,
             subject: subject,
             text: message,
