@@ -55,7 +55,7 @@ O sistema é composto por um backend robusto e um frontend responsivo, proporcio
 Abaixo estão algumas imagens do projeto em funcionamento:
 
 
-### Página inicial
+### Página de login
 ![Estoque](./frontEnd/src/styles/img/login.png)
 
 ### Página inicial
